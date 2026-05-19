@@ -135,14 +135,20 @@ const uiText = {
     dashboardNoSession: String(t("dashboard.no_session")),
     dashboardNoExpiry: String(t("dashboard.no_expiry")),
     dashboardHistoryError: String(t("dashboard.load_error")),
+    dashboardEmpty: String(t("pages:dashboard.empty")),
     adminAccessRequired: String(t("admin.access_required")),
     adminStatusUsers: String(t("common.user_unit")),
+    adminRefreshing: String(t("pages:admin.refreshing")),
+    adminLoadFailed: String(t("pages:admin.load_failed")),
+    adminNoUsers: String(t("pages:admin.no_users")),
     adminCreditsLabel: String(t("pages:admin.credits_btn")),
+    adminCreditsButton: String(t("pages:admin.credits_btn")),
     adminImageUnit: String(t("common.image_unit")),
     adminPlanFree: String(t("plan.free")),
     adminPlanStarter: String(t("plan.starter")),
     adminPlanStandard: String(t("plan.standard")),
     adminPlanValue: String(t("plan.value")),
+    adminPlanButton: String(t("pages:admin.plan_btn")),
     adminUnnamed: String(t("pages:admin.unnamed")),
     paymentLoadingCheckout: String(t("payment.loading_checkout")),
     paymentCheckoutFailed: String(t("payment.checkout_failed")),
@@ -237,7 +243,7 @@ const metaDescription = render404
             <section class="section"><Shell><SectionHeading badge={t("pages:blog.title")} title={t("pages:blog.title")} description={t("pages:blog.subtitle")} /><div class="blog-grid" style="margin-top:24px;">{posts.map((post) => <Card class="blog-card"><img src={post.cover} alt={post.title} /><div class="meta-row"><span>{post.publishedAt}</span><span>{post.readMinutes} {uiText.readMinutesUnit}</span></div><h3>{post.title}</h3><p>{post.excerpt}</p><Button href={getPathForRoute(lang, "blog", [post.slug])} variant="ghost">{t("pages:blog.back_to_list")}</Button></Card>)}</div></Shell></section>
         ) : page.routeKey === "dashboard" ? (
             <section class="section"><Shell><SectionHeading badge={t("pages:dashboard.label")} title={t("pages:dashboard.title")} description={t("pages:dashboard.subtitle")} /><div class="dashboard-grid" style="margin-top:24px;"><StatCard class="dashboard-card" title={t("pages:dashboard.current_plan")} value={t("common.loading")} meta={t("common.loading")} data-plan-card><span class="sr-only" data-plan-value>{t("common.loading")}</span><span class="sr-only" data-status-value>{t("common.loading")}</span></StatCard><StatCard class="dashboard-card" title={t("pages:dashboard.monthly_usage")} value="0" meta={t("common.loading")} data-credits-card><span class="sr-only" data-credit-value>0</span><span class="sr-only" data-expiry-value>{t("common.loading")}</span></StatCard><Card class="dashboard-card" tone="highlight"><h3>{t("nav.login")}</h3><div class="action-row"><Button type="button" data-checkout-plan="starter">{t("pages:dashboard.upgrade")}</Button><Button type="button" variant="ghost" data-open-portal>{t("pages:dashboard.manage")}</Button></div></Card></div><Card class="dashboard-card" style="margin-top:24px;"><div class="toolbar"><h2 style="margin-bottom:0;">{t("pages:dashboard.recent_title")}</h2><Button type="button" variant="ghost" data-dashboard-refresh>{t("pages:dashboard.refresh")}</Button></div><p class="muted">{t("pages:dashboard.recent_desc")}</p><div class="examples-grid" data-history-grid></div><EmptyState title={t("pages:dashboard.login_title")} description={t("pages:dashboard.login_desc")} data-login-callout style="margin-top:18px;" hidden><Button href="/api/auth/google">{t("nav.login")}</Button></EmptyState></Card></Shell></section>
-            <script is:inline>
+            <script is:inline define:vars={{ uiText }}>
                 (() => {
                     const historyGrid = document.querySelector("[data-history-grid]");
                     const planCard = document.querySelector("[data-plan-card]");
@@ -253,7 +259,7 @@ const metaDescription = render404
                         if (!historyGrid) return;
                         historyGrid.innerHTML = "";
                         if (!items.length) {
-                            historyGrid.innerHTML = `<article class="empty-card ui-card"><h3>${JSON.stringify(String(t("pages:dashboard.empty"))).slice(1, -1)}</h3></article>`;
+                            historyGrid.innerHTML = `<article class="empty-card ui-card"><h3>${uiText.dashboardEmpty}</h3></article>`;
                             return;
                         }
                         for (const item of items) {
@@ -266,14 +272,14 @@ const metaDescription = render404
                     const load = async () => {
                         try {
                             const authResponse = await fetch("/api/auth/me", { credentials: "include" });
-                            if (authResponse.status === 401) {
+                            const auth = await authResponse.json();
+                            if (!authResponse.ok || !auth.authenticated) {
                                 loginCallout?.removeAttribute("hidden");
                                 renderHistory([]);
                                 setCard(planCard, uiText.anonymousPlan, uiText.dashboardAnonymous);
                                 setCard(creditsCard, "0", uiText.dashboardNoSession);
                                 return;
                             }
-                            const auth = await authResponse.json();
                             loginCallout?.setAttribute("hidden", "hidden");
                             const plan = auth.subscription?.plan ? (uiText[`plan${auth.subscription.plan.charAt(0).toUpperCase()}${auth.subscription.plan.slice(1)}`] || auth.subscription.plan) : uiText.defaultPlan;
                             const status = auth.subscription?.status ? (uiText[`status${auth.subscription.status.charAt(0).toUpperCase()}${auth.subscription.status.slice(1)}`] || auth.subscription.status) : uiText.defaultStatus;
@@ -292,7 +298,7 @@ const metaDescription = render404
             </script>
         ) : page.routeKey === "admin" ? (
             <section class="section"><Shell><SectionHeading badge={t("pages:admin.label")} title={t("pages:admin.title")} description={t("pages:admin.subtitle")} /><Card class="admin-panel" tone="soft" style="margin-top:24px;"><div class="toolbar"><Button type="button" variant="ghost" data-admin-refresh>{t("pages:admin.refresh")}</Button><span class="muted" data-admin-status>{t("pages:admin.loading")}</span></div><div class="table-wrap" style="margin-top:18px;"><table><thead><tr><th>{t("pages:admin.col_user")}</th><th>{t("pages:admin.col_plan")}</th><th>{t("pages:admin.col_usage")}</th><th>{t("pages:admin.col_registered")}</th><th>{t("pages:admin.col_actions")}</th></tr></thead><tbody data-admin-body></tbody></table></div></Card></Shell></section>
-            <script is:inline>
+            <script is:inline define:vars={{ uiText }}>
                 (() => {
                     const body = document.querySelector("[data-admin-body]");
                     const status = document.querySelector("[data-admin-status]");
@@ -301,12 +307,12 @@ const metaDescription = render404
                         if (!body) return;
                         body.innerHTML = "";
                         if (!items.length) {
-                            body.innerHTML = `<tr><td colspan="5">${JSON.stringify(String(t("pages:admin.no_users"))).slice(1, -1)}</td></tr>`;
+                            body.innerHTML = `<tr><td colspan="5">${uiText.adminNoUsers}</td></tr>`;
                             return;
                         }
                         for (const item of items) {
                             const tr = document.createElement("tr");
-                            tr.innerHTML = `<td>${item.name || item.email || uiText.adminUnnamed}</td><td><select class="ui-select" data-plan-select><option value="free" ${item.plan === "free" ? "selected" : ""}>${uiText.adminPlanFree}</option><option value="starter" ${item.plan === "starter" ? "selected" : ""}>${uiText.adminPlanStarter}</option><option value="standard" ${item.plan === "standard" ? "selected" : ""}>${uiText.adminPlanStandard}</option><option value="value" ${item.plan === "value" ? "selected" : ""}>${uiText.adminPlanValue}</option></select></td><td>${item.credits} ${uiText.adminCreditsLabel} / ${item.total_images} ${uiText.adminImageUnit}</td><td>${item.created_at}</td><td><div class="action-row"><input class="ui-input" type="number" value="10" step="1" style="max-width:100px;" /><button class="ui-button ui-button--ghost" data-fill>${JSON.stringify(String(t("pages:admin.credits_btn"))).slice(1, -1)}</button><button class="ui-button ui-button--primary" data-set-plan>${JSON.stringify(String(t("pages:admin.plan_btn"))).slice(1, -1)}</button></div></td>`;
+                            tr.innerHTML = `<td>${item.name || item.email || uiText.adminUnnamed}</td><td><select class="ui-select" data-plan-select><option value="free" ${item.plan === "free" ? "selected" : ""}>${uiText.adminPlanFree}</option><option value="starter" ${item.plan === "starter" ? "selected" : ""}>${uiText.adminPlanStarter}</option><option value="standard" ${item.plan === "standard" ? "selected" : ""}>${uiText.adminPlanStandard}</option><option value="value" ${item.plan === "value" ? "selected" : ""}>${uiText.adminPlanValue}</option></select></td><td>${item.credits} ${uiText.adminCreditsLabel} / ${item.total_images} ${uiText.adminImageUnit}</td><td>${item.created_at}</td><td><div class="action-row"><input class="ui-input" type="number" value="10" step="1" style="max-width:100px;" /><button class="ui-button ui-button--ghost" data-fill>${uiText.adminCreditsButton}</button><button class="ui-button ui-button--primary" data-set-plan>${uiText.adminPlanButton}</button></div></td>`;
                             const amountInput = tr.querySelector("input");
                             const planSelect = tr.querySelector("select");
                             tr.querySelector("[data-fill]")?.addEventListener("click", async () => {
@@ -321,10 +327,17 @@ const metaDescription = render404
                         }
                     };
                     const load = async () => {
-                        if (status) status.textContent = ${JSON.stringify(String(t("pages:admin.refreshing")))};
+                        if (status) status.textContent = uiText.adminRefreshing;
+                        const authResponse = await fetch("/api/auth/me", { credentials: "include" });
+                        const auth = await authResponse.json().catch(() => null);
+                        if (!authResponse.ok || !auth?.authenticated || auth.user?.role !== "admin") {
+                            if (status) status.textContent = uiText.adminAccessRequired;
+                            render([]);
+                            return;
+                        }
                         const response = await fetch("/api/admin/users", { credentials: "include" });
                         if (!response.ok) {
-                            if (status) status.textContent = response.status === 403 ? uiText.adminAccessRequired : ${JSON.stringify(String(t("pages:admin.load_failed")))};
+                            if (status) status.textContent = response.status === 403 ? uiText.adminAccessRequired : uiText.adminLoadFailed;
                             render([]);
                             return;
                         }
@@ -339,7 +352,7 @@ const metaDescription = render404
         ) : null
     }
 
-    <script is:inline>
+    <script is:inline define:vars={{ uiText }}>
         (() => {
             const message = document.querySelector("[data-payment-message]");
             const setMessage = (value) => {

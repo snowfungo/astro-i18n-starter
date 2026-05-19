@@ -14,7 +14,7 @@ export const GET: APIRoute = async (context) => {
         session = await refreshSession(context);
     }
     if (!session) {
-        return json({ authenticated: false }, { status: 401 });
+        return json({ authenticated: false, user: null, session: null, subscription: null, credits: null });
     }
 
     const userId = Number(session.sub);
