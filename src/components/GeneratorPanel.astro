@@ -53,49 +53,53 @@ const styles: Array<{ value: ChibiStyle; label: string }> = [
 ];
 const clientText = {
     submit: labels.submit,
+    generating: labels.generating,
     generationFailed: String(t("common.generation_failed")),
     completedIn: String(t("common.completed_in")),
     resultAlt: String(t("common.generated_result_alt")),
+    download: labels.download,
 };
 ---
 
-<section class="generator-shell" data-generator-panel>
-    <Card class="generator-card" tone="soft">
-        <form id={formId} class="generator-form">
-            <Field label={labels.prompt}>
-                <Textarea name="prompt" rows="5" placeholder={labels.promptPlaceholder} value={defaults?.prompt ?? ""} />
-            </Field>
-            <div class="generator-grid">
-                <Field label={labels.photo} hint={labels.photoHelp}>
-                    <Input type="file" name="image" accept="image/*" />
+<div data-generator-panel>
+    <section class="generator-shell">
+        <Card class="generator-card" tone="soft">
+            <form id={formId} class="generator-form">
+                <Field label={labels.prompt}>
+                    <Textarea name="prompt" rows="5" placeholder={labels.promptPlaceholder} value={defaults?.prompt ?? ""} />
                 </Field>
-                <Field label={labels.style} hint={labels.styleHelp}>
-                    <Select name="style">
-                        {
-                            styles.map((style) => (
-                                <option value={style.value} selected={style.value === (defaults?.style ?? "classic")}>
-                                    {style.label}
-                                </option>
-                            ))
-                        }
-                    </Select>
-                </Field>
+                <div class="generator-grid">
+                    <Field label={labels.photo} hint={labels.photoHelp}>
+                        <Input type="file" name="image" accept="image/*" />
+                    </Field>
+                    <Field label={labels.style} hint={labels.styleHelp}>
+                        <Select name="style">
+                            {
+                                styles.map((style) => (
+                                    <option value={style.value} selected={style.value === (defaults?.style ?? "classic")}>
+                                        {style.label}
+                                    </option>
+                                ))
+                            }
+                        </Select>
+                    </Field>
+                </div>
+                <Button type="submit" data-submit-button>{labels.submit}</Button>
+            </form>
+        </Card>
+        <Card class="result-card" tone="highlight" data-result-card>
+            <Badge>{labels.resultTitle}</Badge>
+            <h3>{labels.resultDesc}</h3>
+            <p class="result-status" data-result-status></p>
+            <div class="result-preview" data-result-preview>
+                <span>1024 × 1024</span>
             </div>
-            <Button type="submit">{labels.submit}</Button>
-        </form>
-    </Card>
-    <Card class="result-card" tone="highlight" data-result-card>
-        <Badge>{labels.resultTitle}</Badge>
-        <h3>{labels.resultDesc}</h3>
-        <p class="result-status" data-result-status>{labels.generating}</p>
-        <div class="result-preview" data-result-preview>
-            <span>1024 × 1024</span>
-        </div>
-        <div class="result-actions" data-result-actions hidden>
-            <Button href="#" data-download-link>{labels.download}</Button>
-            <Button type="button" variant="ghost" data-reset-button>{labels.tryAgain}</Button>
-        </div>
-    </Card>
+            <div class="result-actions" data-result-actions hidden>
+                <Button type="button" data-download-button>{labels.download}</Button>
+                <Button type="button" variant="ghost" data-reset-button>{labels.tryAgain}</Button>
+            </div>
+        </Card>
+    </section>
     {
         examples.length > 0 && (
             <div class="examples-grid">
@@ -110,7 +114,7 @@ const clientText = {
             </div>
         )
     }
-</section>
+</div>
 
 <script is:inline define:vars={{ clientText }}>
     (() => {
@@ -123,25 +127,76 @@ const clientText = {
         const status = root.querySelector("[data-result-status]");
         const preview = root.querySelector("[data-result-preview]");
         const actions = root.querySelector("[data-result-actions]");
-        const downloadLink = root.querySelector("[data-download-link]");
+        const submitButton = root.querySelector("[data-submit-button]");
+        const downloadButton = root.querySelector("[data-download-button]");
         const resetButton = root.querySelector("[data-reset-button]");
-        if (!(form instanceof HTMLFormElement) || !status || !preview || !actions || !(downloadLink instanceof HTMLAnchorElement)) {
+        if (!(form instanceof HTMLFormElement) || !status || !preview || !actions || !(submitButton instanceof HTMLButtonElement) || !(downloadButton instanceof HTMLButtonElement)) {
             return;
         }
+
+        let latestOutputUrl = "";
+        let latestFileName = "chibi-image.png";
+
+        const setSubmitting = (submitting) => {
+            submitButton.disabled = submitting;
+            submitButton.textContent = submitting ? clientText.generating : clientText.submit;
+        };
 
         const reset = () => {
             preview.innerHTML = "<span>1024 × 1024</span>";
             status.textContent = "";
             actions.hidden = true;
+            latestOutputUrl = "";
+            latestFileName = "chibi-image.png";
+            setSubmitting(false);
+        };
+
+        const inferExtension = (url) => {
+            if (url.startsWith("data:image/svg+xml")) return "svg";
+            if (url.startsWith("data:image/png")) return "png";
+            if (url.startsWith("data:image/jpeg")) return "jpg";
+            const match = url.match(/\.([a-zA-Z0-9]+)(?:\?|$)/);
+            return match?.[1] || "png";
+        };
+
+        const downloadCurrent = async () => {
+            if (!latestOutputUrl) {
+                return;
+            }
+            try {
+                let href = latestOutputUrl;
+                if (!latestOutputUrl.startsWith("data:")) {
+                    const response = await fetch(latestOutputUrl);
+                    if (!response.ok) {
+                        throw new Error(clientText.generationFailed);
+                    }
+                    const blob = await response.blob();
+                    href = URL.createObjectURL(blob);
+                }
+                const link = document.createElement("a");
+                link.href = href;
+                link.download = latestFileName;
+                document.body.appendChild(link);
+                link.click();
+                link.remove();
+                if (href.startsWith("blob:")) {
+                    setTimeout(() => URL.revokeObjectURL(href), 1000);
+                }
+            } catch (error) {
+                status.textContent = error instanceof Error ? error.message : clientText.generationFailed;
+            }
         };
 
         resetButton?.addEventListener("click", reset);
+        downloadButton.addEventListener("click", downloadCurrent);
+        reset();
 
         form.addEventListener("submit", async (event) => {
             event.preventDefault();
             const payload = new FormData(form);
-            status.textContent = form.querySelector("button[type='submit']")?.textContent || clientText.submit;
+            status.textContent = clientText.generating;
             actions.hidden = true;
+            setSubmitting(true);
             try {
                 const response = await fetch("/api/images/generate", {
                     method: "POST",
@@ -151,14 +206,16 @@ const clientText = {
                 if (!response.ok) {
                     throw new Error(data.error || clientText.generationFailed);
                 }
+                latestOutputUrl = data.output_url;
+                latestFileName = `chibi-image.${inferExtension(data.output_url)}`;
                 status.textContent = `${clientText.completedIn} ${data.latency_ms || 0} ms`;
                 preview.innerHTML = `<img src="${data.output_url}" alt="${clientText.resultAlt}" loading="eager" />`;
-                downloadLink.href = data.output_url;
-                downloadLink.setAttribute("download", "chibi-image");
                 actions.hidden = false;
                 window.dispatchEvent(new CustomEvent("chibi-generated", { detail: data }));
             } catch (error) {
                 status.textContent = error instanceof Error ? error.message : clientText.generationFailed;
+            } finally {
+                setSubmitting(false);
             }
         });
     })();

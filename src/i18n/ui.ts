@@ -16,6 +16,12 @@ export const showDefaultLang = false;
 
 type TranslationTree = Record<string, unknown>;
 
+const pageKeyPrefixes: Record<string, string> = {
+    "photo-to-chibi": "photo",
+    "chibi-avatar-maker": "avatar",
+    "chibi-couple-generator": "couple",
+};
+
 function setNestedValue(target: TranslationTree, path: string[], value: unknown) {
     let cursor = target;
     for (const segment of path.slice(0, -1)) {
@@ -51,7 +57,7 @@ function normalizePageTranslations(pageName: string, input: unknown) {
     }
 
     const result: TranslationTree = {};
-    const prefix = `${pageName}.`;
+    const prefix = `${pageKeyPrefixes[pageName] ?? pageName}.`;
     for (const [key, value] of Object.entries(input as Record<string, unknown>)) {
         const nextKey = key.startsWith(prefix) ? key.slice(prefix.length) : key;
         if (nextKey.includes(".")) {
