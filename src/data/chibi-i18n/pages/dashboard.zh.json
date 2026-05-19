@@ -1,0 +1,16 @@
+{
+  "dashboard.current_plan": "当前方案",
+  "dashboard.monthly_usage": "本月图像使用",
+  "dashboard.upgrade": "升级",
+  "dashboard.manage": "管理",
+  "dashboard.label": "账户",
+  "dashboard.login_title": "登录以保存你的Q版历史",
+  "dashboard.recent_title": "最近Q版图像",
+  "dashboard.subtitle": "管理你的每月图像额度，查看最近生成的作品，继续创作Q版头像、贴纸和角色艺术。",
+  "dashboard.title": "Q版仪表板",
+  "dashboard.create_btn": "创作Q版",
+  "dashboard.login_desc": "匿名生成仍然可以从首页使用。登录可获得每月计划额度和私人历史。",
+  "dashboard.refresh": "刷新",
+  "dashboard.recent_desc": "你最新生成的图像在创建后出现在这里。",
+  "dashboard.empty": "还没有Q版图像。"
+}

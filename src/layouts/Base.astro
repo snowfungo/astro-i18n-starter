@@ -1,96 +1,55 @@
 ---
-// Imports
-import { getLangFromUrl } from "@i18n/utils";
-import Header from "@components/Header.astro";
-import Footer from "@components/Footer.astro";
-import "@styles/global.css";
-import { ClientRouter } from "astro:transitions";
+import Footer from "@/components/Footer.astro";
+import Header from "@/components/Header.astro";
+import { getLangFromUrl } from "@/i18n/utils";
+import "@/styles/global.css";
 
-
-// Get current language from URL
-const lang = getLangFromUrl(Astro.url);
-
-// Props interface
 interface Props {
-    /** Page title displayed in browser tab and SEO */
     title: string;
-    /** SEO and meta tag configuration */
-    meta: {
-        /** Page description for SEO and social sharing (required) */
-        description: string;
-        /** Open Graph image URL (defaults to /og-image.jpg) */
+    meta?: {
+        description?: string;
         image?: string;
-        /** Open Graph page type (defaults to "website") */
         type?: string;
-        /** Canonical URL (defaults to current page URL) */
         url?: string;
-        /** Meta keywords for SEO (optional) */
         keywords?: string;
-        /** Canonical link href (defaults to current URL) */
         canonical?: string;
-        /** Robots meta directive (defaults to "index, follow") */
         robots?: string;
     };
 }
 
-//Props
-const { meta, title } = Astro.props as Props;
+const { title, meta = {} } = Astro.props as Props;
+const lang = getLangFromUrl(Astro.url);
+const pageTitle = `${title} | AI Chibi Generator`;
+const canonical = meta.canonical ?? Astro.url.href;
+const description = meta.description ?? "AI Chibi Generator";
+const image = meta.image ?? "/og-image.jpg";
 ---
+
 <html lang={lang}>
     <head>
         <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width" />
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta name="theme-color" content="#FFFFFF" />
-        
-        <!-- Favicon -->
-        <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png" sizes="96x96" />
-        <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
-        <link rel="shortcut icon" href="/favicon/favicon.ico" />
-        <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
-        <meta name="apple-mobile-web-app-title" content="Astro i18n Starter" />
-        <link rel="manifest" href="/favicon/site.webmanifest" />
-
-        <!-- Basic -->
-        <title>{title} // Astro i18n Starter</title>
-        <meta name="description" content={meta.description} />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="theme-color" content="#fff6e8" />
+        <link rel="icon" type="image/png" href="/chibi-assets/favicon-32x32.png" />
+        <link rel="shortcut icon" href="/chibi-assets/favicon.ico" />
+        <title>{pageTitle}</title>
+        <meta name="description" content={description} />
         {meta.keywords && <meta name="keywords" content={meta.keywords} />}
-        <link rel="canonical" href={meta.canonical || Astro.url.href} />
-        
-        <!-- OG Tags -->
-        <meta property="og:title" content={title} />
-        <meta property="og:description" content={meta.description} />
-        <meta property="og:type" content={meta.type || "website"} />
-        <meta property="og:image" content={meta.image || "/og-image.jpg"} />
-        <meta property="og:url" content={meta.url || Astro.url.href} />
-        
-        <!-- Twitter Tags -->
-        <meta name="twitter:title" content={title} />
-        <meta name="twitter:description" content={meta.description} />
+        <meta name="robots" content={meta.robots ?? "index,follow"} />
+        <link rel="canonical" href={canonical} />
+        <meta property="og:title" content={pageTitle} />
+        <meta property="og:description" content={description} />
+        <meta property="og:type" content={meta.type ?? "website"} />
+        <meta property="og:image" content={image} />
+        <meta property="og:url" content={meta.url ?? Astro.url.href} />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:image" content={meta.image || "/og-image.jpg"} />
-        
-        <!-- Sitemap & Robots -->
-        <link rel="sitemap" href="/sitemap-index.xml" />
-        <meta name="robots" content={meta.robots || "index, follow"} />
-        
-        <!-- JSON-LD -->
-        <script type="application/ld+json">
-            {JSON.stringify({
-                "@context": "https://schema.org",
-                "@type": "WebPage",
-                "name": title,
-                "description": meta.description,
-                "url": meta.url || Astro.url.href,
-                "image": meta.image || "/og-image.jpg"
-            })}
-        </script>
+        <meta name="twitter:title" content={pageTitle} />
+        <meta name="twitter:description" content={description} />
+        <meta name="twitter:image" content={image} />
     </head>
     <body>
-        <ClientRouter />
         <Header />
-        <main id="main-content" role="main">
+        <main>
             <slot />
         </main>
         <Footer />

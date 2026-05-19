@@ -1,0 +1,71 @@
+{
+  "avatar_faq_title": "常见问题",
+  "avatar_faq_items": [
+    {
+      "q": "头像应该用什么尺寸？",
+      "a": "生成的图像可以适应任何尺寸。大多数平台接受方形图像，建议使用 400×400 像素或更大的尺寸以获得清晰显示效果。"
+    },
+    {
+      "q": "可以获得透明背景吗？",
+      "a": "可以。在生成前选择\"透明背景\"选项，即可获得无背景的 PNG 图像，非常适合叠加在自定义个人主页横幅上。"
+    },
+    {
+      "q": "可以为朋友制作配套头像吗？",
+      "a": "当然可以。生成多个风格相似、服装搭配或色彩互补的 Q 版头像，用于群组资料展示。"
+    },
+    {
+      "q": "这与普通头像生成器有何不同？",
+      "a": "普通头像生成器使用预设模板，可定制性有限。我们的 AI Q 版生成器根据您的具体描述或照片创建独特的完全自定义角色，每次结果都不相同。"
+    }
+  ],
+  "avatar.generating": "正在生成你的Q版头像...",
+  "avatar.result_title": "你的Q版头像",
+  "avatar.step4_title": "4. 下载",
+  "avatar.label_prompt": "描述你的Q版头像",
+  "avatar.label_style": "选择风格",
+  "avatar.step4_body": "保存为带透明或彩色背景的PNG。可调整为任何平台尺寸。",
+  "avatar.step2_body": "选择经典Q版获得大胆动漫风格，或选择可爱软萌获得柔和粉彩色调。",
+  "avatar.result_desc": "下载你可爱的动漫头像并在任何地方使用。",
+  "avatar.step2_title": "2. 选择风格",
+  "avatar.inspiration_desc": "头像创意入门",
+  "avatar.style_help": "可爱软萌风格非常适合个人头像和社交头像。",
+  "avatar.hero_subtitle": "为你的社交媒体资料、游戏账户或通讯应用创建一个可爱的Q版头像。描述你理想的角色或上传照片，获得一个可爱的动漫风格头像，可随时随地使用。",
+  "avatar.result_alt": "AI生成的Q版头像",
+  "avatar.photo_help": "可选。上传自拍让头像看起来像你。",
+  "avatar.generate_btn": "制作Q版头像",
+  "avatar.prompt_placeholder": "粉色短发、戴眼镜、猫连帽衫的女孩，可爱头像，简单粉彩背景",
+  "avatar.title": "Q版头像制作器",
+  "avatar.why_title": "为什么使用Q版头像",
+  "avatar.step1_body": "输入角色描述或上传参考照片。",
+  "avatar.why_body": "Q版头像在拥挤的信息流中脱颖而出。夸张的可爱风格——大眼睛、小身体、表情丰富的脸庞——能吸引注意力，让你的个人资料一眼就能被认出。与通用头像制作器不同，Q版风格增添了独特的个性和魅力。",
+  "avatar.how_title": "如何制作你的Q版头像",
+  "avatar.hero_badge": "可爱动漫头像制作器",
+  "avatar.step3_body": "你的头像几秒钟就准备好了。",
+  "avatar.example_alt": "Q版头像示例",
+  "avatar.prompt_default": "一个眼睛富有表现力的可爱Q版头像，居中构图干净，简单粉彩背景",
+  "avatar.step3_title": "3. 生成",
+  "avatar.step1_title": "1. 描述或上传",
+  "avatar_examples.title": "Q版头像示例",
+  "avatar_examples.description": "浏览我们AI创建的可爱Q版头像，获取灵感。",
+  "avatar_examples.alt": "Q版头像示例",
+  "avatar_perfect_for.title": "适用于",
+  "avatar_perfect_for.description": "在你喜欢的所有平台和社区中使用你的Q版头像。",
+  "avatar_perfect_for.item1_title": "Discord 和 Twitch",
+  "avatar_perfect_for.item1_body": "在聊天和直播中脱颖而出的可爱头像。",
+  "avatar_perfect_for.item2_title": "游戏资料",
+  "avatar_perfect_for.item2_body": "用萌系艺术个性化你的Steam、Xbox、PlayStation或任天堂资料。",
+  "avatar_perfect_for.item3_title": "社交网络",
+  "avatar_perfect_for.item3_body": "用全新的Q版风格更新你的X、Instagram或TikTok资料。",
+  "avatar_ideas.title": "头像创意",
+  "avatar_ideas.description": "从这些热门的Q版头像概念中获取灵感。",
+  "avatar_ideas.item1_title": "动物耳朵",
+  "avatar_ideas.item1_body": "猫耳、狐耳或兔耳增添一层额外的可爱感。",
+  "avatar_ideas.item2_title": "奇幻主题",
+  "avatar_ideas.item2_body": "精灵耳、魔法配饰或发光眼睛，营造神秘氛围。",
+  "avatar_ideas.item3_title": "季节服装",
+  "avatar_ideas.item3_body": "给你的Q版角色穿上舒适的冬季毛衣或清爽的夏季造型。",
+  "avatar_tools.title": "更多Q版工具",
+  "avatar_tools.label_home": "AI Q版生成器",
+  "avatar_tools.label_photo": "照片转Q版",
+  "avatar_tools.label_couple": "Q版情侣生成器"
+}

@@ -1,0 +1,18 @@
+{
+  "features.label": "Fonctionnalités",
+  "features.title": "Tout pour la création rapide de chibi",
+  "features.subtitle": "Génère de mignons personnages chibi à partir de prompts ou de photos de référence, choisis un style, prévisualise le résultat et télécharge-le instantanément.",
+  "features.card1_title": "Texte vers Chibi",
+  "features.card1_desc": "Décris les cheveux, la tenue, l'expression, la pose et le fond pour créer un personnage chibi d'anime original.",
+  "features.card2_title": "Photo vers Chibi",
+  "features.card2_desc": "Télécharge un selfie, une photo d'animal ou un portrait et conserve les détails reconnaissables tout en transformant l'image en art chibi.",
+  "features.card3_title": "Presets de style",
+  "features.card3_desc": "Choisis Chibi Classique, Kawaii Doux, Chibi Portrait ou Emoji Sticker selon où tu veux utiliser le résultat.",
+  "features.card4_title": "Historique privé",
+  "features.card4_desc": "Les utilisateurs connectés peuvent consulter les images récemment générées depuis le tableau de bord et suivre les crédits d'images mensuels.",
+  "features.card5_title": "Téléchargement instantané",
+  "features.card5_desc": "Télécharge les images terminées immédiatement pour des avatars, stickers, références de fan art, profils et cadeaux personnalisés.",
+  "features.card6_title": "Contrôles d'utilisation",
+  "features.card6_desc": "Les limites quotidiennes anonymes et les crédits mensuels du compte protègent le service tout en gardant l'outil facile à essayer.",
+  "features.cta": "Générer un Chibi"
+}

@@ -1,0 +1,52 @@
+{
+  "photo_faq_title": "Preguntas Frecuentes",
+  "photo_faq_items": [
+    {
+      "q": "¿El chibi conservará mis rasgos faciales?",
+      "a": "Sí. La AI conserva rasgos clave como el color del cabello, el estilo, el color de ojos y los accesorios mientras aplica el estilo artístico chibi."
+    },
+    {
+      "q": "¿Qué formato de foto debo subir?",
+      "a": "Se aceptan formatos JPG, PNG y WebP. Se recomienda un tamaño de archivo de menos de 5MB para el procesamiento más rápido."
+    },
+    {
+      "q": "¿Puedo subir fotos grupales?",
+      "a": "Para obtener los mejores resultados, se recomienda subir fotos de una persona a la vez. La AI se enfoca en el rostro principal detectado en la imagen."
+    },
+    {
+      "q": "¿Se guardan mis fotos?",
+      "a": "No. Las fotos que subes se eliminan inmediatamente después del procesamiento. No almacenamos ni compartimos tus imágenes."
+    }
+  ],
+  "photo.hero_badge": "IA Foto a Chibi · Sube un retrato o selfie",
+  "photo.title": "Foto a Chibi",
+  "photo.hero_subtitle": "Convierte cualquier foto en un adorable personaje chibi en segundos. Sube una selfie, retrato o foto de cuerpo completo y observa cómo la IA la transforma en arte chibi de estilo anime, conservando tus rasgos únicos mientras añade esa cabeza grande, ojos enormes y cuerpo pequeño característicos.",
+  "photo.label_photo": "Sube tu foto",
+  "photo.photo_help": "JPG, PNG o WebP. Se recomienda un retrato claro de menos de 5MB para el procesamiento más rápido.",
+  "photo.label_notes": "Notas opcionales",
+  "photo.notes_placeholder": "Mantén mi peinado, añade un fondo pastel, haz la expresión alegre",
+  "photo.style_help": "Chibi Retrato funciona mejor cuando quieres conservar el parecido facial.",
+  "photo.generate_btn": "Generar Foto a Chibi",
+  "photo.result_title": "Tu resultado de foto a chibi",
+  "photo.result_alt": "Personaje chibi generado por IA a partir de foto",
+  "photo.inspiration_desc": "Mira lo que otros crearon a partir de fotos",
+  "photo.example_alt": "Ejemplo de foto a chibi",
+  "photo.how_it_works_title": "Cómo funciona Foto a Chibi",
+  "photo.step1_title": "1. Sube tu foto",
+  "photo.step1_body": "Funciona mejor con un retrato claro. Los retratos de frente con buena iluminación dan los resultados más precisos.",
+  "photo.step2_title": "2. Elige un estilo chibi",
+  "photo.step2_body": "Elige entre Chibi Clásico, Kawaii Suave o Chibi Retrato según qué tan estilizado quieras el resultado.",
+  "photo.step3_title": "3. Añade notas opcionales",
+  "photo.step3_body": "¿Quieres un atuendo específico, color de fondo o expresión? Añade una breve descripción para guiar a la IA.",
+  "photo.step4_title": "4. Genera y descarga",
+  "photo.step4_body": "Tu versión chibi está lista en segundos. Descárgala para usar como avatar, sticker o regalo.",
+  "photo.tips_title": "Qué hace una buena foto de origen",
+  "photo.tip1_title": "Visibilidad clara del rostro",
+  "photo.tip1_body": "La IA necesita ver los rasgos faciales para crear una versión chibi precisa.",
+  "photo.tip2_title": "Fondo simple",
+  "photo.tip2_body": "Un fondo desordenado no afectará el resultado chibi, pero uno limpio ayuda a la IA a concentrarse en tu parecido.",
+  "photo.tip3_title": "Buena iluminación",
+  "photo.tip3_body": "La luz natural o las tomas interiores bien iluminadas producen las mejores transformaciones chibi.",
+  "photo.tip4_title": "Cualquier ángulo funciona",
+  "photo.tip4_body": "De frente es ideal, pero ángulos ligeros también producen excelentes resultados."
+}

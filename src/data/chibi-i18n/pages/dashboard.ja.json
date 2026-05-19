@@ -1,0 +1,16 @@
+{
+  "dashboard.current_plan": "現在のプラン",
+  "dashboard.monthly_usage": "月間使用量",
+  "dashboard.upgrade": "アップグレード",
+  "dashboard.manage": "管理",
+  "dashboard.label": "アカウント",
+  "dashboard.title": "ちびダッシュボード",
+  "dashboard.subtitle": "月間画像クレジットを管理し、最近の生成を確認し、ちびアバター、ステッカー、キャラクターアートを作り続けましょう。",
+  "dashboard.create_btn": "ちびを作成",
+  "dashboard.login_title": "ちび履歴を保存するにはログイン",
+  "dashboard.login_desc": "匿名の生成はホームページから引き続き利用可能。ログインすると月間プランクレジットとプライベート履歴が得られます。",
+  "dashboard.recent_title": "最近のちび画像",
+  "dashboard.recent_desc": "最新の生成画像は作成後ここに表示されます。",
+  "dashboard.refresh": "更新",
+  "dashboard.empty": "まだちび画像はありません。"
+}

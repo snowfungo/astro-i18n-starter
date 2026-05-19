@@ -1,0 +1,53 @@
+{
+  "couple_faq_title": "Questions Fréquentes",
+  "couple_faq_items": [
+    {
+      "q": "Puis-je télécharger deux photos séparées ?",
+      "a": "Oui. Téléchargez des photos séparées des deux personnes et ajoutez une description de comment vous souhaitez qu'elles posent ensemble. L'IA fusionnera les caractéristiques des deux dans une scène de couple chibi."
+    },
+    {
+      "q": "Le style des deux personnages sera-t-il cohérent ?",
+      "a": "Oui. Les deux personnages sont générés ensemble dans la même image, assurant la cohérence du style artistique, des proportions et de l'harmonie des couleurs."
+    },
+    {
+      "q": "Peut-on faire des couples de même sexe ?",
+      "a": "Bien sûr. Décrivez n'importe quelle combinaison de personnages et l'IA créera de magnifiques œuvres de couple sans restriction de genre."
+    },
+    {
+      "q": "Peut-on l'utiliser pour des invitations de mariage ?",
+      "a": "Absolument. De nombreux utilisateurs utilisent l'art de couple chibi pour la papeterie de mariage. Choisissez le style Chibi Portrait pour un effet plus détaillé, idéal pour l'impression."
+    }
+  ],
+  "couple.hero_badge": "Couple Chibi d'Anime · Avatars assortis et art de couple mignon",
+  "couple.title": "Générateur de Couples Chibi",
+  "couple.hero_subtitle": "Crée de l'adorable art de couple chibi à partir de descriptions textuelles ou de photos de référence. Génère des avatars de couple assortis de style anime, des illustrations de couple mignonnes et des scènes romantiques chibi — parfait pour les anniversaires, les réseaux sociaux ou juste comme ça.",
+  "couple.label_prompt": "Décris ton couple chibi",
+  "couple.prompt_placeholder": "Garçon : cheveux noirs, veste bleue. Fille : cheveux blonds, robe rouge. Se tenant la main sous les cerisiers en fleurs.",
+  "couple.prompt_default": "Un mignon couple chibi portant des tenues assorties, se tenant la main, fond pastel romantique, expressions chaleureuses et heureuses",
+  "couple.label_photo": "Photo de référence optionnelle",
+  "couple.photo_help": "Télécharge une photo de couple ou décris les deux personnages clairement.",
+  "couple.style_help": "Kawaii Doux fonctionne bien pour les scènes romantiques de couple.",
+  "couple.generate_btn": "Générer un Couple Chibi",
+  "couple.generating": "Génération de ton couple chibi...",
+  "couple.result_title": "Ton art de couple chibi",
+  "couple.result_desc": "Télécharge ton image romantique de couple chibi et partage-la n'importe où.",
+  "couple.result_alt": "Art de couple chibi généré par IA",
+  "couple.inspiration_desc": "Idées romantiques de couple chibi",
+  "couple.example_alt": "Exemple de couple chibi",
+  "couple.how_title": "Comment ça marche",
+  "couple.step1_title": "1. Décris ton couple",
+  "couple.step1_body": "Dis à l'IA tout sur les deux personnages : apparence, tenues, poses et l'ambiance que tu veux.",
+  "couple.step2_title": "2. Ou télécharge des photos de référence",
+  "couple.step2_body": "Télécharge des photos de toi et ton partenaire pour une transformation chibi qui conserve les deux ressemblances.",
+  "couple.step3_title": "3. Choisis un style",
+  "couple.step3_body": "Chibi Classique pour un look anime audacieux, Kawaii Doux pour un romance pastel douce, ou Chibi Portrait pour des visages plus détaillés.",
+  "couple.step4_title": "4. Génère et partage",
+  "couple.step4_body": "Télécharge ton art de couple chibi et partage-le partout.",
+  "couple.tips_title": "Conseils pour les meilleurs résultats de couple",
+  "couple.tip1_title": "Décris les deux personnages clairement",
+  "couple.tip1_body": "Donne des détails pour chaque personne séparément.",
+  "couple.tip2_title": "Mentionne l'interaction",
+  "couple.tip2_body": "\"Se tenant la main\", \"dos à dos\" ou \"partageant un parapluie\" donne à l'IA une composition claire.",
+  "couple.tip3_title": "Garde les poses simples",
+  "couple.tip3_body": "L'art chibi fonctionne mieux avec des poses simples et mignonnes plutôt que des scènes d'action complexes."
+}

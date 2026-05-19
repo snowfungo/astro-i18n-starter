@@ -4,8 +4,7 @@ import mdx from "@astrojs/mdx";
 import tailwindcss from "@tailwindcss/vite";
 import sitemap from "@astrojs/sitemap";
 import svelte from "@astrojs/svelte";
-
-import cloudflare from "@astrojs/cloudflare";
+import node from "@astrojs/node";
 
 // https://astro.build/config
 export default defineConfig({
@@ -31,5 +30,12 @@ export default defineConfig({
       plugins: [tailwindcss()],
   },
 
-  adapter: cloudflare(),
+  security: {
+      checkOrigin: false,
+  },
+
+  output: "server",
+  adapter: node({
+      mode: "standalone",
+  }),
 });

@@ -1,0 +1,163 @@
+---
+import type { ChibiStyle } from "@/lib/server/config/app";
+import { useTranslations } from "@/i18n/utils";
+
+type LocalizedText = string | Record<string, string>;
+
+type ExampleItem = {
+    title: LocalizedText;
+    image: string;
+    alt: LocalizedText;
+};
+
+interface Props {
+    lang?: string;
+    formId: string;
+    labels: {
+        prompt: string;
+        promptPlaceholder: string;
+        photo: string;
+        photoHelp: string;
+        style: string;
+        styleHelp: string;
+        submit: string;
+        generating: string;
+        resultTitle: string;
+        resultDesc: string;
+        recentTitle?: string;
+        recentEmpty?: string;
+        download: string;
+        tryAgain: string;
+    };
+    defaults?: {
+        prompt?: string;
+        style?: ChibiStyle;
+    };
+    examples?: ExampleItem[];
+}
+
+const { formId, labels, defaults, examples = [], lang = "en" } = Astro.props as Props;
+const t = useTranslations(lang as never);
+const styles: Array<{ value: ChibiStyle; label: string }> = [
+    { value: "classic", label: String(t("style.classic")) },
+    { value: "kawaii", label: String(t("style.kawaii")) },
+    { value: "avatar", label: String(t("style.avatar")) },
+    { value: "emoji", label: String(t("style.emoji")) },
+];
+const clientText = {
+    submit: labels.submit,
+    generationFailed: String(t("common.generation_failed")),
+    completedIn: String(t("common.completed_in")),
+    resultAlt: String(t("common.generated_result_alt")),
+};
+---
+
+<section class="generator-shell" data-generator-panel>
+    <div class="generator-card">
+        <form id={formId} class="generator-form">
+            <label>
+                <span>{labels.prompt}</span>
+                <textarea name="prompt" rows="5" placeholder={labels.promptPlaceholder}>{defaults?.prompt ?? ""}</textarea>
+            </label>
+            <div class="generator-grid">
+                <label>
+                    <span>{labels.photo}</span>
+                    <input type="file" name="image" accept="image/*" />
+                    <small>{labels.photoHelp}</small>
+                </label>
+                <label>
+                    <span>{labels.style}</span>
+                    <select name="style">
+                        {
+                            styles.map((style) => (
+                                <option value={style.value} selected={style.value === (defaults?.style ?? "classic")}>
+                                    {style.label}
+                                </option>
+                            ))
+                        }
+                    </select>
+                    <small>{labels.styleHelp}</small>
+                </label>
+            </div>
+            <button class="primary-button" type="submit">{labels.submit}</button>
+        </form>
+    </div>
+    <div class="result-card" data-result-card>
+        <p class="eyebrow">{labels.resultTitle}</p>
+        <h3>{labels.resultDesc}</h3>
+        <p class="result-status" data-result-status>{labels.generating}</p>
+        <div class="result-preview" data-result-preview>
+            <span>1024 × 1024</span>
+        </div>
+        <div class="result-actions" data-result-actions hidden>
+            <a class="primary-button" data-download-link href="#">{labels.download}</a>
+            <button class="ghost-button" type="button" data-reset-button>{labels.tryAgain}</button>
+        </div>
+    </div>
+    {
+        examples.length > 0 && (
+            <div class="examples-grid">
+                {
+                    examples.map((example) => (
+                        <figure class="example-card">
+                            <img src={example.image} alt={typeof example.alt === "string" ? example.alt : example.alt[lang] ?? example.alt.en} loading="lazy" />
+                            <figcaption>{typeof example.title === "string" ? example.title : example.title[lang] ?? example.title.en}</figcaption>
+                        </figure>
+                    ))
+                }
+            </div>
+        )
+    }
+</section>
+
+<script is:inline define:vars={{ clientText }}>
+    (() => {
+        const root = document.currentScript?.previousElementSibling;
+        if (!root || root.dataset.generatorBound === "true") {
+            return;
+        }
+        root.dataset.generatorBound = "true";
+        const form = root.querySelector("form");
+        const status = root.querySelector("[data-result-status]");
+        const preview = root.querySelector("[data-result-preview]");
+        const actions = root.querySelector("[data-result-actions]");
+        const downloadLink = root.querySelector("[data-download-link]");
+        const resetButton = root.querySelector("[data-reset-button]");
+        if (!(form instanceof HTMLFormElement) || !status || !preview || !actions || !(downloadLink instanceof HTMLAnchorElement)) {
+            return;
+        }
+
+        const reset = () => {
+            preview.innerHTML = "<span>1024 × 1024</span>";
+            status.textContent = "";
+            actions.hidden = true;
+        };
+
+        resetButton?.addEventListener("click", reset);
+
+        form.addEventListener("submit", async (event) => {
+            event.preventDefault();
+            const payload = new FormData(form);
+            status.textContent = form.querySelector("button[type='submit']")?.textContent || clientText.submit;
+            actions.hidden = true;
+            try {
+                const response = await fetch("/api/images/generate", {
+                    method: "POST",
+                    body: payload,
+                });
+                const data = await response.json();
+                if (!response.ok) {
+                    throw new Error(data.error || clientText.generationFailed);
+                }
+                status.textContent = `${clientText.completedIn} ${data.latency_ms || 0} ms`;
+                preview.innerHTML = `<img src="${data.output_url}" alt="${clientText.resultAlt}" loading="eager" />`;
+                downloadLink.href = data.output_url;
+                downloadLink.setAttribute("download", "chibi-image");
+                actions.hidden = false;
+                window.dispatchEvent(new CustomEvent("chibi-generated", { detail: data }));
+            } catch (error) {
+                status.textContent = error instanceof Error ? error.message : clientText.generationFailed;
+            }
+        });
+    })();
+</script>

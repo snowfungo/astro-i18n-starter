@@ -1,56 +1,101 @@
-/**
- * Dynamically import all locale JSON files
- * Loads files from /src/locales/[lang]/[namespace].json
- */
-const localeModules = import.meta.glob("/src/locales/**/*.json", {
+const localeModules = import.meta.glob("/src/data/chibi-i18n/**/*.json", {
     eager: true,
 });
 
-/**
- * Available languages with display names
- */
 export const languages = {
     en: "English",
-    sl: "Slovenian",
-};
+    zh: "中文",
+    ja: "日本語",
+    es: "Español",
+    fr: "Français",
+} as const;
 
-/**
- * Default language for fallback translations
- */
-export const defaultLang = "en";
-
-/**
- * Whether to show default language in URLs (/en/about vs /about)
- */
+export type AppLanguage = keyof typeof languages;
+export const defaultLang: AppLanguage = "en";
 export const showDefaultLang = false;
 
-/**
- * UI translations object with nested structure: lang.namespace.key
- * Built from locale files automatically
- * Example: ui.en.common.nav_home -> "Home"
- */
+type TranslationTree = Record<string, unknown>;
+
+function setNestedValue(target: TranslationTree, path: string[], value: unknown) {
+    let cursor = target;
+    for (const segment of path.slice(0, -1)) {
+        if (!cursor[segment] || typeof cursor[segment] !== "object") {
+            cursor[segment] = {};
+        }
+        cursor = cursor[segment] as TranslationTree;
+    }
+    cursor[path[path.length - 1]] = value;
+}
+
+function expandFlatKeys(input: unknown) {
+    if (!input || typeof input !== "object" || Array.isArray(input)) {
+        return input;
+    }
+
+    const result: TranslationTree = {};
+    for (const [key, value] of Object.entries(input as Record<string, unknown>)) {
+        if (key.includes(".")) {
+            setNestedValue(result, key.split("."), expandFlatKeys(value));
+        } else if (value && typeof value === "object" && !Array.isArray(value)) {
+            result[key] = expandFlatKeys(value);
+        } else {
+            result[key] = value;
+        }
+    }
+    return result;
+}
+
+function normalizePageTranslations(pageName: string, input: unknown) {
+    if (!input || typeof input !== "object" || Array.isArray(input)) {
+        return input;
+    }
+
+    const result: TranslationTree = {};
+    const prefix = `${pageName}.`;
+    for (const [key, value] of Object.entries(input as Record<string, unknown>)) {
+        const nextKey = key.startsWith(prefix) ? key.slice(prefix.length) : key;
+        if (nextKey.includes(".")) {
+            setNestedValue(result, nextKey.split("."), expandFlatKeys(value));
+        } else if (value && typeof value === "object" && !Array.isArray(value)) {
+            result[nextKey] = expandFlatKeys(value);
+        } else {
+            result[nextKey] = value;
+        }
+    }
+    return result;
+}
+
 export const ui = Object.entries(localeModules).reduce(
     (acc, [path, module]) => {
-        const pathParts = path.split("/");
-        const lang = pathParts[3]; // Extract language from path
-        const namespace = pathParts[4].replace(".json", ""); // Extract filename as namespace
-        const translations = (module as any).default || module;
+        const loaded = (module as { default?: unknown }).default ?? module;
+        const normalized = path.replace("/src/data/chibi-i18n/", "");
 
-        if (!acc[lang]) {
-            acc[lang] = {};
+        if (normalized.startsWith("common.")) {
+            const lang = normalized.split(".")[1] as AppLanguage;
+            acc[lang] ??= {};
+            acc[lang].common = expandFlatKeys(loaded) as TranslationTree;
+            return acc;
         }
 
-        // Create nested structure: lang.namespace.key
-        acc[lang][namespace] = translations;
+        if (normalized.startsWith("pages/")) {
+            const fileName = normalized.replace("pages/", "");
+            const match = fileName.match(/^(.*)\.([a-z]{2})\.json$/);
+            if (!match) {
+                return acc;
+            }
+            const [, pageName, lang] = match;
+            acc[lang as AppLanguage] ??= {};
+            acc[lang as AppLanguage].pages ??= {};
+            setNestedValue(
+                acc[lang as AppLanguage].pages as TranslationTree,
+                [pageName],
+                normalizePageTranslations(pageName, loaded),
+            );
+        }
+
         return acc;
     },
-    {} as Record<string, Record<string, Record<string, string>>>
+    {} as Record<AppLanguage, Record<string, unknown>>,
 );
 
-/**
- * Type for translation keys
- * Supports both formats:
- * - "namespace:key" → t("common:menu.list.home")
- * - Direct keys → t("menu.list.home") (assumes "common" namespace)
- */
 export type TranslationKey = string;

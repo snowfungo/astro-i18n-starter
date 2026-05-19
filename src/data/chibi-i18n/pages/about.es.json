@@ -1,0 +1,13 @@
+{
+  "about.label": "Acerca de",
+  "about.title": "Un creador de chibi con IA enfocado",
+  "about.para1": "AI Chibi Generator está construido alrededor de un simple ciclo creativo: describe o sube una referencia, elige un estilo chibi, genera y descarga. El producto es intencionalmente ligero para que las personas puedan hacer lindos avatares, stickers, arte de parejas, imágenes de mascotas chibi y conceptos de personajes sin aprender una herramienta de diseño compleja.",
+  "about.para2": "El servicio usa un backend de generación de imágenes dedicado cuando está configurado, mientras que el desarrollo local puede recurrir a vistas previas simuladas. Esto mantiene la app testeable para desarrollo y confiable para operaciones de producción.",
+  "about.value1_title": "Rápido",
+  "about.value1_desc": "La interfaz se mantiene cerca de la acción creativa y evita pasos de flujo innecesarios.",
+  "about.value2_title": "Lindo",
+  "about.value2_desc": "Los prompts y presets están ajustados para proporciones chibi expresivas, detalles suaves y resultados listos para avatar.",
+  "about.value3_title": "Práctico",
+  "about.value3_desc": "Las descargas, historial de cuenta, cuotas y páginas de herramientas SEO están diseñadas alrededor del uso real.",
+  "about.cta": "Generar Chibi"
+}

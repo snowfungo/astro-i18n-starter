@@ -1,0 +1,53 @@
+{
+  "couple_faq_title": "FAQ",
+  "couple_faq_items": [
+    {
+      "q": "Can I upload two separate photos?",
+      "a": "Yes. Upload a photo of each person and add a note describing how you want them posed together. The AI will combine both likenesses into one couple chibi scene."
+    },
+    {
+      "q": "Will both characters look consistent in style?",
+      "a": "Yes. Both characters are generated together in the same image, ensuring consistent art style, proportions, and color harmony."
+    },
+    {
+      "q": "Can I make same-sex couple art?",
+      "a": "Of course. Describe any combination of characters and the AI will create beautiful couple art regardless of gender."
+    },
+    {
+      "q": "Can I use this for a wedding invitation?",
+      "a": "Absolutely. Many users create chibi couple art for wedding stationery. Select Portrait Chibi style for a slightly more detailed look that works great in print."
+    }
+  ],
+  "couple.hero_badge": "Anime Couple Chibi · Matching Avatars & Cute Pair Art",
+  "couple.title": "Chibi Couple Generator",
+  "couple.hero_subtitle": "Create adorable chibi couple art from text descriptions or reference photos. Generate matching anime-style couple avatars, cute pair illustrations, and romantic chibi scenes — perfect for anniversaries, social media, or just because.",
+  "couple.label_prompt": "Describe your couple chibi",
+  "couple.prompt_placeholder": "Boy: black hair, blue jacket. Girl: blonde hair, red dress. Holding hands under cherry blossoms.",
+  "couple.prompt_default": "A cute chibi couple wearing matching outfits, holding hands, romantic pastel background, warm happy expressions",
+  "couple.label_photo": "Optional reference photo",
+  "couple.photo_help": "Upload a couple photo or describe both characters clearly.",
+  "couple.style_help": "Kawaii Soft works well for romantic couple scenes.",
+  "couple.generate_btn": "Generate Couple Chibi",
+  "couple.generating": "Generating your couple chibi...",
+  "couple.result_title": "Your couple chibi art",
+  "couple.result_desc": "Download your romantic chibi couple image and share it anywhere.",
+  "couple.result_alt": "AI generated chibi couple art",
+  "couple.inspiration_desc": "Romantic couple chibi ideas",
+  "couple.example_alt": "Couple chibi example",
+  "couple.how_title": "How It Works",
+  "couple.step1_title": "1. Describe your couple",
+  "couple.step1_body": "Tell the AI about both characters: appearance, outfits, poses, and the vibe you want.",
+  "couple.step2_title": "2. Or upload reference photos",
+  "couple.step2_body": "Upload photos of you and your partner for a chibi transformation that keeps both likenesses.",
+  "couple.step3_title": "3. Choose a style",
+  "couple.step3_body": "Classic Chibi for bold anime look, Kawaii Soft for gentle pastel romance, or Portrait Chibi for more detailed faces.",
+  "couple.step4_title": "4. Generate and share",
+  "couple.step4_body": "Download your couple chibi art and share it everywhere.",
+  "couple.tips_title": "Tips for Best Couple Results",
+  "couple.tip1_title": "Describe both characters clearly",
+  "couple.tip1_body": "Give details for each person separately.",
+  "couple.tip2_title": "Mention the interaction",
+  "couple.tip2_body": "\"Holding hands,\" \"back to back,\" or \"sharing an umbrella\" gives the AI a clear composition.",
+  "couple.tip3_title": "Keep poses simple",
+  "couple.tip3_body": "Chibi art works best with straightforward, cute poses rather than complex action scenes."
+}

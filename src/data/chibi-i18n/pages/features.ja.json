@@ -1,0 +1,18 @@
+{
+  "features.label": "機能",
+  "features.title": "高速ちび作成のすべて",
+  "features.subtitle": "プロンプトや参考写真から可愛いちびキャラクターを生成し、スタイルを選んで、結果をプレビューして、即座にダウンロード。",
+  "features.card1_title": "テキストからちび",
+  "features.card1_desc": "髪、服装、表情、ポーズ、背景を説明して、オリジナルのちびアニメキャラクターを作成。",
+  "features.card2_title": "写真からちび",
+  "features.card2_desc": "自撮り、ペット写真、ポートレートをアップロードして、認識可能な詳細を残しながらちびアートに変換。",
+  "features.card3_title": "スタイルプリセット",
+  "features.card3_desc": "使用目的に応じてクラシックちび、かわいいソフト、ポートレートちび、絵文字ステッカーから選択。",
+  "features.card4_title": "プライベート履歴",
+  "features.card4_desc": "ログインユーザーはダッシュボードから最近の生成画像を確認し、月間画像クレジットを管理できます。",
+  "features.card5_title": "即座ダウンロード",
+  "features.card5_desc": "アバター、ステッカー、ファンアート参考、プロフィール、パーソナライズドギフト用に完成した画像を即座にダウンロード。",
+  "features.card6_title": "利用制御",
+  "features.card6_desc": "匿名の日次制限とアカウントの月間クレジットがサービスを保護し、コアツールを試しやすく保ちます。",
+  "features.cta": "ちびを生成"
+}

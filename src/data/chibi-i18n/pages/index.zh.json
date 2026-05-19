@@ -1,0 +1,82 @@
+{
+  "faq_title": "常见问题",
+  "faq_items": [
+    {
+      "q": "可以把照片转成 Q 版吗？",
+      "a": "可以。上传参考照片并添加简短说明，AI Q 版生成器会创建一个可爱的动漫风格结果，您可以预览并下载。"
+    },
+    {
+      "q": "可以用作什么？",
+      "a": "您可以将 Q 版图像用作个人头像、贴纸创意、角色概念、同人艺术参考，或者发布到社交媒体上。"
+    },
+    {
+      "q": "真的免费吗？",
+      "a": "是的。您可以免费生成 Q 版角色，无需注册或信用卡。只需输入提示词或上传照片，然后点击生成。"
+    },
+    {
+      "q": "生成需要多长时间？",
+      "a": "大多数 Q 版图像在 5 到 15 秒内完成。包含详细描述的复杂提示词可能需要多几秒钟。"
+    },
+    {
+      "q": "有哪些风格可用？",
+      "a": "我们提供经典 Q 版、可爱软萌、表情包与贴纸、肖像 Q 版等风格。每种风格呈现不同的外观，您可以选择最适合自己需求的风格。"
+    },
+    {
+      "q": "可以将生成结果用于商业用途吗？",
+      "a": "生成的图像可用于个人项目、社交媒体和非商业用途。如需用于商品或付费产品等商业用途，请参阅我们的条款页面了解详情。"
+    },
+    {
+      "q": "需要创建账户吗？",
+      "a": "不需要。您无需创建账户或登录即可生成和下载 Q 版图像。"
+    }
+  ],
+  "index.hero_badge": "免费AI Q版制作器 · 文字和照片转Q版",
+  "index.hero_title": "AI Q版生成器",
+  "index.hero_subtitle": "将文字提示或照片转换为可爱的Q版动漫角色。选择风格，生成可爱的结果，然后立即下载。",
+  "index.label_prompt": "描述你的Q版角色",
+  "index.prompt_placeholder": "例如：一个粉色头发、猫耳、粉彩背景的可爱Q版女孩",
+  "index.label_photo": "或上传照片",
+  "index.photo_help": "可选：上传自拍照或肖像照，转换为Q版风格",
+  "index.label_style": "选择风格",
+  "index.style_help": "为你的Q版角色选择艺术风格",
+  "index.result_title": "你的Q版角色",
+  "index.result_desc": "下载或用不同的提示词重试",
+  "index.inspiration_desc": "看看其他人在创作什么",
+  "index.tools_title": "探索更多Q版工具",
+  "index.tools_desc": "针对不同Q版使用场景的专用生成器",
+  "index.tool_photo_desc": "将你的照片变成可爱的Q版角色",
+  "index.tool_avatar_desc": "为你的个人资料创建可爱的Q版头像",
+  "index.tool_couple_desc": "生成浪漫的Q版情侣画作",
+  "index.recent_title": "最新创作",
+  "index.recent_desc": "看看社区现在正在创作什么",
+  "index.recent_empty": "还没有最新创作。成为第一个吧！",
+  "index.social_proof": "已生成数千个Q版角色，持续增长中。",
+  "index.result_alt": "AI生成的Q版角色",
+  "index.example_alt": "Q版示例",
+  "index_styles.title": "Q版风格",
+  "index_styles.description": "探索使用AI Q版生成器可以创造的不同外观。",
+  "index_styles.item1_title": "经典Q版",
+  "index_styles.item1_body": "大头、小身体、超大眼睛——每个人都喜欢的永恒动漫造型。",
+  "index_styles.item2_title": "可爱软萌",
+  "index_styles.item2_body": "柔和的粉彩色调、圆润的形状和温柔的表情，营造出额外的可爱氛围。",
+  "index_styles.item3_title": "表情与贴纸",
+  "index_styles.item3_body": "极简细节、粗线条和透明友好设计，非常适合用作聊天表情和贴纸。",
+  "index_styles.item4_title": "肖像Q版",
+  "index_styles.item4_body": "精致的Q版脸部，带有详细的发型和服装，适合用作个人头像。",
+  "index_tips.title": "获取最佳效果的技巧",
+  "index_tips.description": "遵循这些简单的指南，每次都能获得最可爱的Q版角色。",
+  "index_tips.item1_title": "详细描述",
+  "index_tips.item1_body": "提及发色、服装、配饰和表情，以获得更准确的结果。",
+  "index_tips.item2_title": "使用清晰的照片",
+  "index_tips.item2_body": "对于照片转Q版，请上传光线充足、正面且面部特征清晰可见的照片。",
+  "index_tips.item3_title": "选择合适的风格",
+  "index_tips.item3_body": "动漫迷选择经典风格，喜欢柔和美学的选择可爱风格，需要表情和贴纸的选择表情风格。",
+  "index_tips.item4_title": "自由尝试",
+  "index_tips.item4_body": "尝试不同的提示词和风格——你可以生成无限次的预览。",
+  "index_info.item1_title": "免费开始",
+  "index_info.item1_body": "无需任何费用即可生成你的第一张Q版图像。无需信用卡。",
+  "index_info.item2_title": "快速生成",
+  "index_info.item2_body": "大多数Q版角色在30秒内即可准备就绪。",
+  "index_info.item3_title": "高品质",
+  "index_info.item3_body": "下载清晰、可打印的PNG图像，适用于头像、贴纸和印刷品。"
+}

@@ -1,0 +1,52 @@
+{
+  "photo_faq_title": "常见问题",
+  "photo_faq_items": [
+    {
+      "q": "Q 版形象会保留我的外貌特征吗？",
+      "a": "会的。AI 会保留发色、发型、瞳色和配饰等关键特征，同时应用 Q 版艺术风格。"
+    },
+    {
+      "q": "应该上传什么格式的照片？",
+      "a": "JPG、PNG 或 WebP 格式均可。建议文件大小不超过 5MB，以获得最快的处理速度。"
+    },
+    {
+      "q": "可以上传多人合照吗？",
+      "a": "为获得最佳效果，建议每次上传单人照片。AI 会聚焦于图像中检测到的主要面部。"
+    },
+    {
+      "q": "我的照片会被保存吗？",
+      "a": "不会。您上传的照片在处理完成后会立即删除，我们不会存储或分享您的图像。"
+    }
+  ],
+  "photo.step2_body": "根据你想要的风格化程度，从经典Q版、可爱软萌或肖像Q版中选择。",
+  "photo.tip1_body": "AI需要看到面部特征才能创建准确的Q版版本。",
+  "photo.tip3_title": "良好光线",
+  "photo.tip1_title": "面部清晰可见",
+  "photo.example_alt": "照片转Q版示例",
+  "photo.step3_body": "想要特定的服装、背景颜色或表情？添加简短描述来引导AI。",
+  "photo.photo_help": "JPG、PNG或WebP格式。建议使用5MB以下的清晰面部照片以获得最快处理速度。",
+  "photo.how_it_works_title": "照片转Q版如何工作",
+  "photo.label_photo": "上传你的照片",
+  "photo.result_title": "你的照片转Q版结果",
+  "photo.result_alt": "AI生成的照片转Q版角色",
+  "photo.tip2_title": "简单背景",
+  "photo.step1_title": "1. 上传你的照片",
+  "photo.style_help": "肖像Q版最适合保留面部相似度。",
+  "photo.step2_title": "2. 选择Q版风格",
+  "photo.tip4_title": "任何角度都可以",
+  "photo.step1_body": "清晰的面部照片效果最好。正面肖像配合良好光线可获得最准确的结果。",
+  "photo.step3_title": "3. 添加可选备注",
+  "photo.tip3_body": "自然光或光线充足的室内照片能产生最佳的Q版转换效果。",
+  "photo.notes_placeholder": "保留我的发型，添加粉彩背景，让表情开心",
+  "photo.title": "照片转Q版",
+  "photo.tip2_body": "杂乱的背景不会影响Q版输出，但干净的背景有助于AI专注于你的相似度。",
+  "photo.step4_body": "你的Q版版本几秒钟就准备好了。下载后可用作头像、贴纸或礼物。",
+  "photo.generate_btn": "生成照片转Q版",
+  "photo.label_notes": "可选备注",
+  "photo.tips_title": "什么是一张好的源照片",
+  "photo.inspiration_desc": "看看别人从照片创作了什么",
+  "photo.hero_subtitle": "在几秒钟内将任何照片转换为可爱的Q版角色。上传自拍、肖像或全身照，观看AI将其转换为可爱的动漫风格Q版艺术——在保留你独特特征的同时，添加标志性的大头、大眼睛和小身体。",
+  "photo.tip4_body": "正面照最理想，但轻微角度仍然能产生很好的效果。",
+  "photo.hero_badge": "AI照片转Q版 · 上传肖像或自拍",
+  "photo.step4_title": "4. 生成并下载"
+}

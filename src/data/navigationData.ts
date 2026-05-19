@@ -1,47 +1,12 @@
 const navigationData = [
-    {
-        label: "menu.list.home",
-        href: "/",
-        children: [],
-    },
-    {
-        label: "menu.list.about",
-        href: "/about",
-        children: [],
-    },
-    {
-        label: "menu.list.pages",
-        href: "/pages",
-        children: [],
-    },
-    {
-        label: "menu.list.dynamicRouting",
-        href: "/dynamic-routing",
-        children: [
-            {
-                label: "menu.list.subpage-1",
-                href: "/dynamic-routing/subpage-1",
-            },
-            {
-                label: "menu.list.subpage-2",
-                href: "/dynamic-routing/subpage-2",
-            },
-        ],
-    },
-    {
-        label: "menu.list.blog",
-        href: "/blog",
-        children: [],
-    },
-    {
-        label: "menu.list.pagination",
-        href: "/blog-pagination",
-        children: [],
-    },
-    {
-        label: "menu.list.contact",
-        href: "/contact",
-        children: [],
-    },
+    { label: "nav.home", href: "/" },
+    { label: "nav.photo", href: "/photo-to-chibi" },
+    { label: "nav.avatar", href: "/chibi-avatar-maker" },
+    { label: "nav.couple", href: "/chibi-couple-generator" },
+    { label: "nav.pricing", href: "/pricing" },
+    { label: "nav.features", href: "/features" },
+    { label: "nav.blog", href: "/blog" },
+    { label: "nav.about", href: "/about" },
 ];
+
 export default navigationData;

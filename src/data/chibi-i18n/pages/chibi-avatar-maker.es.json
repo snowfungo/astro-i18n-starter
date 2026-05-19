@@ -1,0 +1,71 @@
+{
+  "avatar_faq_title": "Preguntas Frecuentes",
+  "avatar_faq_items": [
+    {
+      "q": "¿Qué tamaño debería usar para el avatar?",
+      "a": "Las imágenes generadas se adaptan a cualquier tamaño. La mayoría de las plataformas aceptan imágenes cuadradas; se recomienda 400×400 píxeles o más para una visualización nítida."
+    },
+    {
+      "q": "¿Puedo obtener fondo transparente?",
+      "a": "Sí. Selecciona la opción de 'fondo transparente' antes de generar para obtener una imagen PNG sin fondo, perfecta para superponer en banners personalizados."
+    },
+    {
+      "q": "¿Puedo crear avatares a juego para amigos?",
+      "a": "Por supuesto. Genera múltiples avatares chibi con estilos similares, ropa a juego o colores complementarios para mostrar en perfiles grupales."
+    },
+    {
+      "q": "¿En qué se diferencia de un creador de avatares común?",
+      "a": "Los creadores de avatares comunes usan plantillas predefinidas con personalización limitada. Nuestro generador de chibi AI crea personajes completamente únicos y personalizados basados en tu descripción o foto específica."
+    }
+  ],
+  "avatar.hero_badge": "Creador de fotos de perfil de anime lindas",
+  "avatar.title": "Creador de Avatares Chibi",
+  "avatar.hero_subtitle": "Crea un lindo avatar chibi para tus perfiles de redes sociales, cuentas de juegos o apps de mensajería. Describe tu personaje ideal o sube una foto y obtén una imagen de perfil de estilo anime kawaii lista para usar en cualquier lugar.",
+  "avatar.label_prompt": "Describe tu avatar chibi",
+  "avatar.prompt_placeholder": "Chica con cabello rosa corto, gafas, sudadera de gato, linda foto de perfil, fondo pastel simple",
+  "avatar.prompt_default": "Un lindo avatar de perfil chibi con ojos expresivos, composición centrada limpia, fondo pastel simple",
+  "avatar.photo_help": "Opcional. Sube una selfie para que el avatar se parezca a ti.",
+  "avatar.label_style": "Elige tu estilo",
+  "avatar.style_help": "Kawaii Suave es ideal para fotos de perfil y avatares sociales.",
+  "avatar.generate_btn": "Crear Avatar Chibi",
+  "avatar.generating": "Generando tu avatar chibi...",
+  "avatar.result_title": "Tu avatar chibi",
+  "avatar.result_desc": "Descarga tu linda imagen de perfil de anime y úsala en cualquier lugar.",
+  "avatar.result_alt": "Avatar chibi generado por IA",
+  "avatar.inspiration_desc": "Ideas de avatar para empezar",
+  "avatar.example_alt": "Ejemplo de avatar chibi",
+  "avatar.why_title": "Por qué usar un avatar chibi",
+  "avatar.why_body": "Los avatares chibi destacan en feeds abarrotados. La ternura exagerada — ojos grandes, cuerpo pequeño, cara expresiva — atrae la atención y hace que tu perfil sea instantáneamente reconocible. A diferencia de los creadores de avatares genéricos, el estilo chibi añade personalidad y encanto que se siente únicamente tuyo.",
+  "avatar.how_title": "Cómo hacer tu avatar chibi",
+  "avatar.step1_title": "1. Describe o sube",
+  "avatar.step1_body": "Escribe una descripción del personaje o sube una foto de referencia.",
+  "avatar.step2_title": "2. Elige tu estilo",
+  "avatar.step2_body": "Elige Chibi Clásico para un estilo anime audaz, o Kawaii Suave para tonos pastel más suaves.",
+  "avatar.step3_title": "3. Genera",
+  "avatar.step3_body": "Tu avatar está listo en segundos.",
+  "avatar.step4_title": "4. Descarga",
+  "avatar.step4_body": "Guarda como PNG con fondo transparente o de color. Redimensiona para cualquier plataforma.",
+  "avatar_examples.title": "Ejemplos de Avatares Chibi",
+  "avatar_examples.description": "Explora lindos avatares chibi creados por nuestra IA para inspirarte.",
+  "avatar_examples.alt": "Ejemplo de avatar chibi",
+  "avatar_perfect_for.title": "Perfecto Para",
+  "avatar_perfect_for.description": "Usa tu avatar chibi en todas tus plataformas y comunidades favoritas.",
+  "avatar_perfect_for.item1_title": "Discord y Twitch",
+  "avatar_perfect_for.item1_body": "Un avatar lindo y reconocible que destaca en el chat y las transmisiones.",
+  "avatar_perfect_for.item2_title": "Perfiles de Juegos",
+  "avatar_perfect_for.item2_body": "Personaliza tu perfil de Steam, Xbox, PlayStation o Nintendo con arte kawaii.",
+  "avatar_perfect_for.item3_title": "Redes Sociales",
+  "avatar_perfect_for.item3_body": "Actualiza tu perfil de X, Instagram o TikTok con un look chibi fresco.",
+  "avatar_ideas.title": "Ideas de Avatar",
+  "avatar_ideas.description": "Inspírate con estos conceptos populares de avatares chibi.",
+  "avatar_ideas.item1_title": "Orejas de Animal",
+  "avatar_ideas.item1_body": "Orejas de gato, zorro o conejo añaden una capa extra de ternura.",
+  "avatar_ideas.item2_title": "Temas de Fantasía",
+  "avatar_ideas.item2_body": "Orejas de elfo, accesorios mágicos o ojos brillantes para una vibra mística.",
+  "avatar_ideas.item3_title": "Atuendos de Temporada",
+  "avatar_ideas.item3_body": "Viste a tu chibi con acogedores suéteres de invierno o looks veraniegos frescos.",
+  "avatar_tools.title": "Más Herramientas Chibi",
+  "avatar_tools.label_home": "Generador de Chibi IA",
+  "avatar_tools.label_photo": "Foto a Chibi",
+  "avatar_tools.label_couple": "Generador de Parejas Chibi"
+}

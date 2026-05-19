@@ -1,256 +1,114 @@
-import { ui, defaultLang, showDefaultLang, type TranslationKey } from "./ui";
-import { routes } from "./routes";
 import { getCollection } from "astro:content";
 
-//---------------------------------- EXPORTS ----------------------------------//
-/**
- * Extracts language code from URL path
- * Example: "/sl/about" -> "sl", "/about" -> "en" (defaultLang)
- */
-export function getLangFromUrl(url: URL) {
-    const [, lang] = url.pathname.split("/");
-    if (lang in ui) return lang as keyof typeof ui;
+import {
+    defaultLang,
+    localizedPathToRoute,
+    routes,
+    type AppLang,
+} from "@i18n/routes";
+import { type TranslationKey, ui } from "@i18n/ui";
+
+function getNestedValue(obj: unknown, path: string): any {
+    return path.split(".").reduce((current: any, key) => current?.[key], obj as any);
+}
+
+export function getLangFromUrl(url: URL): AppLang {
+    const [, maybeLang] = url.pathname.split("/");
+    if (maybeLang && maybeLang in routes && maybeLang !== defaultLang) {
+        return maybeLang as AppLang;
+    }
+
+    const normalized = url.pathname.replace(/^\//, "").replace(/\/$/, "");
+    const matched = localizedPathToRoute[normalized];
+    if (matched) {
+        return matched.lang;
+    }
+
     return defaultLang;
 }
 
-/**
- * Returns translation function for specific language
- * Supports namespace:key format (e.g., "common:nav.home")
- * Falls back to defaultLang if translation not found
- */
-export function useTranslations(lang: keyof typeof ui) {
-    return function t(
-        key: TranslationKey,
-        params?: Record<string, string | number>
-    ) {
-        let namespace: string;
-        let translationKey: string;
+export function getRouteKeyFromUrl(url: URL): string {
+    const lang = getLangFromUrl(url);
+    const pathname = url.pathname.replace(/^\//, "").replace(/\/$/, "");
 
-        // If no colon, assume "common" namespace
-        if (!key.includes(":")) {
-            namespace = "common";
-            translationKey = key;
-        } else {
-            [namespace, translationKey] = key.split(":");
-            if (!namespace || !translationKey) {
-                return key;
-            }
-        }
+    if (!pathname || pathname === lang) {
+        return "home";
+    }
 
-        // Support nested object access with dot notation (e.g., "languages.en")
-        const getNestedValue = (obj: any, path: string): any => {
-            return path
-                .split(".")
-                .reduce((current, key) => current?.[key], obj);
-        };
+    const matched = localizedPathToRoute[pathname];
+    if (matched) {
+        return matched.routeKey;
+    }
+
+    if (lang === defaultLang) {
+        return pathname.split("/")[0];
+    }
+
+    const withoutLang = pathname.startsWith(`${lang}/`)
+        ? pathname.slice(lang.length + 1)
+        : pathname;
+    return withoutLang.split("/")[0] || "home";
+}
+
+export function useTranslations(lang: AppLang) {
+    return function t(key: TranslationKey, params?: Record<string, string | number>) {
+        const [namespace, translationKey] = key.includes(":")
+            ? key.split(":")
+            : ["common", key];
 
         const translation =
-            getNestedValue(ui[lang]?.[namespace], translationKey) ||
-            getNestedValue(ui[defaultLang]?.[namespace], translationKey) ||
+            getNestedValue(ui[lang]?.[namespace], translationKey) ??
+            getNestedValue(ui[defaultLang]?.[namespace], translationKey) ??
             key;
 
-        return params && typeof translation === "string"
-            ? interpolateParams(translation, params)
-            : translation;
+        if (params && typeof translation === "string") {
+            return Object.entries(params).reduce(
+                (result, [paramKey, value]) =>
+                    result.replace(new RegExp(`\\{${paramKey}\\}`, "g"), String(value)),
+                translation,
+            );
+        }
+
+        return translation;
     };
 }
 
-/**
- * Returns path translation function for specific language
- * Translates routes like "about" -> "o-projektu" for Slovenian
- */
-export function useTranslatedPath(lang: keyof typeof ui) {
-    return function translatePath(path: string, l: string = lang) {
-        // Split path into segments
-        const segments = path.split("/").filter((segment) => segment);
-
-        // Translate each segment individually
-        const translatedSegments = segments.map((segment) => {
-            const hasTranslation =
-                defaultLang !== l &&
-                routes[l] !== undefined &&
-                routes[l][segment] !== undefined;
-            return hasTranslation ? routes[l][segment] : segment;
-        });
-
-        const translatedPath = "/" + translatedSegments.join("/");
-
-        return !showDefaultLang && l === defaultLang
-            ? translatedPath
-            : `/${l}${translatedPath}`;
+export function useTranslatedPath(lang: AppLang) {
+    return function translatePath(path: string, targetLang: AppLang = lang) {
+        const normalized = path.replace(/^\//, "").replace(/\/$/, "");
+        const routeKey = normalized || "home";
+        const localized = routes[targetLang][routeKey] ?? routeKey;
+        return localized ? `/${localized}` : "/";
     };
 }
 
-/**
- * Switches current URL to target language while preserving content linking
- * Handles blog posts with different slugs per language
- */
-export async function switchLanguageUrl(
-    currentUrl: URL,
-    targetLang: string
-): Promise<string> {
-    const pathname = currentUrl.pathname;
-    const pathParts = pathname.split("/").filter((p) => p);
+export async function switchLanguageUrl(currentUrl: URL, targetLang: AppLang) {
+    const routeKey = getRouteKeyFromUrl(currentUrl);
+    const translated = routes[targetLang][routeKey] ?? routeKey;
 
-    // Remove current language prefix if exists
-    const currentLang = getLangFromUrl(currentUrl);
-    if (pathParts[0] === currentLang && currentLang !== defaultLang) {
-        pathParts.shift();
+    if (routeKey === "blog") {
+        const slug = currentUrl.pathname.split("/").filter(Boolean).at(-1);
+        if (slug && slug !== translated) {
+            return translated ? `/${translated}/${slug}` : `/${slug}`;
+        }
     }
 
-    // Handle root page
-    if (pathParts.length === 0) {
-        return targetLang === defaultLang ? "/" : `/${targetLang}/`;
-    }
-
-    const baseRoute = pathParts[0];
-    const slug = pathParts[1];
-
-    // Handle blog post with content linking
-    if (slug && isBlogRoute(baseRoute)) {
-        return await handleBlogPostTranslation(
-            currentLang,
-            targetLang,
-            baseRoute,
-            slug,
-            currentUrl.pathname
-        );
-    }
-
-    // Handle other routes by translating all route segments
-    const translatedSegments = pathParts.map((segment) => {
-        return translateRouteName(segment, targetLang);
-    });
-
-    const newPath = translatedSegments.join("/");
-    return targetLang === defaultLang
-        ? `/${newPath}`
-        : `/${targetLang}/${newPath}`;
+    return translated ? `/${translated}` : "/";
 }
 
-//---------------------------------- FUNCTIONS ----------------------------------//
-/**
- * Replaces {{key}} placeholders in text with provided parameters
- */
-function interpolateParams(
-    text: string,
-    params: Record<string, string | number>
-): string {
-    return Object.entries(params).reduce(
-        (result, [key, value]) =>
-            result.replace(new RegExp(`{{${key}}}`, "g"), String(value)),
-        text
-    );
-}
-
-/**
- * Builds content links automatically from blog posts with linkedContent frontmatter
- * Returns mapping of linkedContent -> { lang: "lang/slug" }
- */
-export async function buildContentLinks(): Promise<
-    Record<string, Record<string, string>>
-> {
-    const allPosts = await getCollection(
-        "blog",
-        (entry) => !entry.data.isDraft
-    );
+export async function buildContentLinks(): Promise<Record<string, Record<string, string>>> {
+    const allPosts = await getCollection("blog", (entry) => !entry.data.isDraft);
     const links: Record<string, Record<string, string>> = {};
 
-    allPosts.forEach((post) => {
+    for (const post of allPosts) {
         const { linkedContent } = post.data;
-        if (linkedContent) {
-            const [lang] = post.id.split("/");
-
-            if (!links[linkedContent]) {
-                links[linkedContent] = {};
-            }
-            links[linkedContent][lang] = post.id;
+        if (!linkedContent) {
+            continue;
         }
-    });
+        const [lang] = post.id.split("/");
+        links[linkedContent] ??= {};
+        links[linkedContent][lang] = post.id;
+    }
 
     return links;
-}
-
-/**
- * Finds content group for given collection ID using dynamic content links
- */
-async function findContentGroup(collectionId: string): Promise<string | null> {
-    const dynamicLinks = await buildContentLinks();
-    return (
-        Object.entries(dynamicLinks).find(([, links]) =>
-            Object.values(links).includes(collectionId)
-        )?.[0] || null
-    );
-}
-
-/**
- * Checks if route is a blog route in any language
- */
-function isBlogRoute(route: string): boolean {
-    return route === "blog" || route === "spletni-dnevnik";
-}
-
-/**
- * Converts language to collection ID format (defaultLang -> "en")
- */
-function getLangCode(lang: string): string {
-    return lang === defaultLang ? "en" : lang;
-}
-
-/**
- * Handles language switching for blog posts using content links mapping
- * Maps between different slugs per language (e.g., security-trends <-> varnostni-trendi)
- */
-async function handleBlogPostTranslation(
-    currentLang: string,
-    targetLang: string,
-    baseRoute: string,
-    slug: string,
-    fallbackPath: string
-): Promise<string> {
-    const currentPostId = `${getLangCode(currentLang)}/${slug}`;
-    const contentGroup = await findContentGroup(currentPostId);
-
-    if (contentGroup) {
-        const dynamicLinks = await buildContentLinks();
-        const targetPostId =
-            dynamicLinks[contentGroup]?.[getLangCode(targetLang)];
-
-        if (targetPostId) {
-            const targetSlug = targetPostId.split("/")[1];
-            const targetRouteName = translateRouteName(baseRoute, targetLang);
-            const targetPath = `/${targetRouteName}/${targetSlug}`;
-
-            return targetLang === defaultLang
-                ? targetPath
-                : `/${targetLang}${targetPath}`;
-        }
-    }
-
-    return fallbackPath;
-}
-
-/**
- * Finds original route name from translated route
- * Example: "spletni-dnevnik" -> "blog"
- */
-function getOriginalRouteName(routeName: string): string {
-    for (const routeMap of Object.values(routes)) {
-        const original = Object.entries(routeMap).find(
-            ([, translated]) => translated === routeName
-        )?.[0];
-        if (original) return original;
-    }
-    return routeName;
-}
-
-/**
- * Translates route name to target language
- * Example: "blog" + "sl" -> "spletni-dnevnik"
- */
-function translateRouteName(routeName: string, targetLang: string): string {
-    const originalRoute = getOriginalRouteName(routeName);
-    return targetLang === defaultLang
-        ? originalRoute
-        : routes[targetLang]?.[originalRoute] || originalRoute;
 }

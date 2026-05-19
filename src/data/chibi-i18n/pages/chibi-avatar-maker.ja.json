@@ -1,0 +1,71 @@
+{
+  "avatar_faq_title": "よくある質問",
+  "avatar_faq_items": [
+    {
+      "q": "アバターに推奨されるサイズは何ですか？",
+      "a": "生成された画像はあらゆるサイズに対応できます。ほとんどのプラットフォームは正方形の画像を受け入れ、鮮明な表示のため400×400ピクセル以上を推奨します。"
+    },
+    {
+      "q": "透明な背景を取得できますか？",
+      "a": "はい。生成前に「透明背景」オプションを選択すると、背景なしのPNG画像を取得できます。カスタムプロフィールバナーに重ねるのに最適です。"
+    },
+    {
+      "q": "友達のためにペアアバターを作れますか？",
+      "a": "もちろんです。グループプロフィール表示用に、スタイルが似ていて服装や色が補完する複数のちびアバターを生成できます。"
+    },
+    {
+      "q": "通常のアバターメーカーと何が違いますか？",
+      "a": "通常のアバターメーカーはプリセットテンプレートを使用し、カスタマイズ性に限界があります。AIちびジェネレーターは、あなたの具体的な説明や写真に基づいてユニークで完全にカスタマイズされたキャラクターを作成します。"
+    }
+  ],
+  "avatar.hero_badge": "かわいいアニメプロフィール画像メーカー",
+  "avatar.title": "ちびアバターメーカー",
+  "avatar.hero_subtitle": "ソーシャルメディアやゲームアカウント、メッセージングアプリ用の可愛いちびアバターを作成。理想のキャラクターを説明するか写真をアップロードして、どこでも使えるかわいいアニメ風プロフィール画像を入手。",
+  "avatar.label_prompt": "ちびアバターを説明",
+  "avatar.prompt_placeholder": "ショートピンクヘア、メガネ、猫パーカー、かわいいプロフィール画像、シンプルなパステル背景",
+  "avatar.prompt_default": "表現力豊かな目、きれいな中央配置、シンプルなパステル背景の可愛いちびプロフィールアバター",
+  "avatar.photo_help": "オプション。自分に似せるには自撮りをアップロード。",
+  "avatar.label_style": "スタイルを選択",
+  "avatar.style_help": "かわいいソフトはプロフィール画像やソーシャルアバターに最適です。",
+  "avatar.generate_btn": "ちびアバターを作成",
+  "avatar.generating": "ちびアバターを生成中...",
+  "avatar.result_title": "あなたのちびアバター",
+  "avatar.result_desc": "可愛いアニメプロフィール画像をダウンロードしてどこでも使用。",
+  "avatar.result_alt": "AI生成のちびアバター",
+  "avatar.inspiration_desc": "アバターのアイデア",
+  "avatar.example_alt": "ちびアバターの例",
+  "avatar.why_title": "ちびアバターを使う理由",
+  "avatar.why_body": "ちびアバターは混雑したフィードで目立ちます。大きな目、小さな体、表現豊かな顔という誇張された可愛さが注目を集め、プロフィールを即座に認識可能にします。",
+  "avatar.how_title": "ちびアバターの作り方",
+  "avatar.step1_title": "1. 説明するかアップロード",
+  "avatar.step1_body": "キャラクターの説明を入力するか、参考写真をアップロード。",
+  "avatar.step2_title": "2. スタイルを選択",
+  "avatar.step2_body": "大胆なアニメスタイルにはクラシックちび、優しいパステルトーンにはかわいいソフト。",
+  "avatar.step3_title": "3. 生成",
+  "avatar.step3_body": "数秒でアバターが完成。",
+  "avatar.step4_title": "4. ダウンロード",
+  "avatar.step4_body": "透明またはカラー背景のPNGとして保存。任意のプラットフォームにリサイズ。",
+  "avatar_examples.title": "ちびアバター例",
+  "avatar_examples.description": "AIが作成した可愛いちびアバターを閲覧して、インスピレーションを得よう。",
+  "avatar_examples.alt": "ちびアバターの例",
+  "avatar_perfect_for.title": "こんな場面に",
+  "avatar_perfect_for.description": "お気に入りのプラットフォームやコミュニティでちびアバターを使おう。",
+  "avatar_perfect_for.item1_title": "Discord & Twitch",
+  "avatar_perfect_for.item1_body": "チャットや配信で目立つ、かわいくて印象的なアバター。",
+  "avatar_perfect_for.item2_title": "ゲームプロフィール",
+  "avatar_perfect_for.item2_body": "Steam、Xbox、PlayStation、Nintendoのプロフィールをカワイイアートでカスタマイズ。",
+  "avatar_perfect_for.item3_title": "ソーシャルネットワーク",
+  "avatar_perfect_for.item3_body": "X、Instagram、TikTokのプロフィールを新しいちびルックでアップデート。",
+  "avatar_ideas.title": "アバターアイデア",
+  "avatar_ideas.description": "人気のちびアバターコンセプトでインスピレーションを得よう。",
+  "avatar_ideas.item1_title": "動物の耳",
+  "avatar_ideas.item1_body": "猫耳、狐耳、うさ耳が可愛さを一段と高める。",
+  "avatar_ideas.item2_title": "ファンタジーテーマ",
+  "avatar_ideas.item2_body": "エルフの耳、魔法のアクセサリー、光る目で神秘的な雰囲気を演出。",
+  "avatar_ideas.item3_title": "季節の服装",
+  "avatar_ideas.item3_body": "ちびキャラに暖かい冬のセーターや涼しい夏のルックを着せよう。",
+  "avatar_tools.title": "その他のちびツール",
+  "avatar_tools.label_home": "AIちびジェネレーター",
+  "avatar_tools.label_photo": "写真をちびに",
+  "avatar_tools.label_couple": "ちびカップルジェネレーター"
+}

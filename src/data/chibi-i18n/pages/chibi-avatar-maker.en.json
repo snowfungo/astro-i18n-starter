@@ -1,0 +1,71 @@
+{
+  "avatar_faq_title": "FAQ",
+  "avatar_faq_items": [
+    {
+      "q": "What size should my avatar be?",
+      "a": "The generated image works at any size. Most platforms accept square images — 400×400px or larger is recommended for sharp display."
+    },
+    {
+      "q": "Can I get a transparent background?",
+      "a": "Yes. Select \"transparent background\" before generating to get a PNG with no background, perfect for overlaying on custom profile banners."
+    },
+    {
+      "q": "Can I make matching avatars for friends?",
+      "a": "Absolutely. Generate multiple chibi avatars with similar styles, matching outfits, or complementary color schemes for group profiles."
+    },
+    {
+      "q": "How is this different from generic avatar makers?",
+      "a": "Generic avatar makers use preset templates with limited customization. Our AI chibi maker creates unique, fully custom characters based on your specific description or photo — no two results are the same."
+    }
+  ],
+  "avatar.hero_badge": "Cute Anime Profile Picture Maker",
+  "avatar.title": "Chibi Avatar Maker",
+  "avatar.hero_subtitle": "Create a cute chibi avatar for your social media profiles, gaming accounts, or messaging apps. Describe your ideal character or upload a photo, and get a kawaii anime-style profile picture ready to use anywhere.",
+  "avatar.label_prompt": "Describe your chibi avatar",
+  "avatar.prompt_placeholder": "Girl with short pink hair, glasses, cat hoodie, cute profile picture, simple pastel background",
+  "avatar.prompt_default": "A cute chibi profile avatar with expressive eyes, clean centered composition, simple pastel background",
+  "avatar.photo_help": "Optional. Upload a selfie to make the avatar look like you.",
+  "avatar.label_style": "Pick your style",
+  "avatar.style_help": "Kawaii Soft is ideal for profile pictures and social avatars.",
+  "avatar.generate_btn": "Make Chibi Avatar",
+  "avatar.generating": "Generating your chibi avatar...",
+  "avatar.result_title": "Your chibi avatar",
+  "avatar.result_desc": "Download your cute anime profile picture and use it anywhere.",
+  "avatar.result_alt": "AI generated chibi avatar",
+  "avatar.inspiration_desc": "Avatar ideas to get you started",
+  "avatar.example_alt": "Chibi avatar example",
+  "avatar.why_title": "Why Use a Chibi Avatar",
+  "avatar.why_body": "Chibi avatars stand out in crowded feeds. The exaggerated cuteness — big eyes, tiny body, expressive face — grabs attention and makes your profile instantly recognizable. Unlike generic avatar makers, chibi style adds personality and charm that feels uniquely yours.",
+  "avatar.how_title": "How to Make Your Chibi Avatar",
+  "avatar.step1_title": "1. Describe or upload",
+  "avatar.step1_body": "Type a character description or upload a reference photo.",
+  "avatar.step2_title": "2. Pick your style",
+  "avatar.step2_body": "Choose Classic Chibi for bold anime style, or Kawaii Soft for gentler pastel tones.",
+  "avatar.step3_title": "3. Generate",
+  "avatar.step3_body": "Your avatar is ready in seconds.",
+  "avatar.step4_title": "4. Download",
+  "avatar.step4_body": "Save as PNG with transparent or colored background. Resize for any platform.",
+  "avatar_examples.title": "Chibi Avatar Examples",
+  "avatar_examples.description": "Browse cute chibi avatars created by our AI for inspiration.",
+  "avatar_examples.alt": "Chibi avatar example",
+  "avatar_perfect_for.title": "Perfect For",
+  "avatar_perfect_for.description": "Use your chibi avatar across all your favorite platforms and communities.",
+  "avatar_perfect_for.item1_title": "Discord & Twitch",
+  "avatar_perfect_for.item1_body": "A recognizable, cute avatar that stands out in chat and streams.",
+  "avatar_perfect_for.item2_title": "Gaming Profiles",
+  "avatar_perfect_for.item2_body": "Personalize your Steam, Xbox, PlayStation, or Nintendo profile with kawaii art.",
+  "avatar_perfect_for.item3_title": "Social Networks",
+  "avatar_perfect_for.item3_body": "Update your X, Instagram, or TikTok profile with a fresh chibi look.",
+  "avatar_ideas.title": "Avatar Ideas",
+  "avatar_ideas.description": "Get inspired with these popular chibi avatar concepts.",
+  "avatar_ideas.item1_title": "Animal Ears",
+  "avatar_ideas.item1_body": "Cat ears, fox ears, or bunny ears add an extra layer of cuteness.",
+  "avatar_ideas.item2_title": "Fantasy Themes",
+  "avatar_ideas.item2_body": "Elven ears, magical accessories, or glowing eyes for a mystical vibe.",
+  "avatar_ideas.item3_title": "Seasonal Outfits",
+  "avatar_ideas.item3_body": "Dress your chibi in cozy winter sweaters or breezy summer looks.",
+  "avatar_tools.title": "More Chibi Tools",
+  "avatar_tools.label_home": "AI Chibi Generator",
+  "avatar_tools.label_photo": "Photo to Chibi",
+  "avatar_tools.label_couple": "Chibi Couple Generator"
+}

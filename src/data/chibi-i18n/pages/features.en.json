@@ -1,0 +1,18 @@
+{
+  "features.label": "Features",
+  "features.title": "Everything for Fast Chibi Creation",
+  "features.subtitle": "Generate cute chibi characters from prompts or reference photos, pick a style, preview the result, and download it instantly.",
+  "features.card1_title": "Text to Chibi",
+  "features.card1_desc": "Describe hair, outfit, expression, pose, and background to create an original chibi anime character.",
+  "features.card2_title": "Photo to Chibi",
+  "features.card2_desc": "Upload a selfie, pet photo, or portrait and preserve recognizable details while transforming the image into chibi art.",
+  "features.card3_title": "Style Presets",
+  "features.card3_desc": "Choose Classic Chibi, Kawaii Soft, Portrait Chibi, or Emoji Sticker depending on where you want to use the result.",
+  "features.card4_title": "Private History",
+  "features.card4_desc": "Logged-in users can review recent generated images from the dashboard and keep track of monthly image credits.",
+  "features.card5_title": "Instant Download",
+  "features.card5_desc": "Download completed images right away for avatars, stickers, fan art references, profiles, and personalized gifts.",
+  "features.card6_title": "Usage Controls",
+  "features.card6_desc": "Anonymous daily limits and account monthly credits protect the service while keeping the core tool easy to try.",
+  "features.cta": "Generate Chibi"
+}

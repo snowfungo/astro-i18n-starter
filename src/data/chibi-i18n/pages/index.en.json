@@ -1,0 +1,82 @@
+{
+  "index.hero_badge": "Free AI Chibi Maker · Text & Photo to Chibi",
+  "index.hero_title": "AI Chibi Generator",
+  "index.hero_subtitle": "Turn text prompts or photos into adorable chibi anime characters. Choose a style, generate a cute result, then download it instantly.",
+  "index.label_prompt": "Describe your chibi character",
+  "index.prompt_placeholder": "e.g., A cute chibi girl with pink hair, cat ears, pastel background",
+  "index.label_photo": "Or upload a photo",
+  "index.photo_help": "Optional: upload a selfie or portrait to transform into chibi style",
+  "index.label_style": "Choose style",
+  "index.style_help": "Select the art style for your chibi",
+  "index.result_title": "Your Chibi",
+  "index.result_desc": "Download or try again with a different prompt",
+  "index.inspiration_desc": "See what others are creating",
+  "index.tools_title": "Explore More Chibi Tools",
+  "index.tools_desc": "Specialized generators for different chibi use cases",
+  "index.tool_photo_desc": "Turn your photos into adorable chibi characters",
+  "index.tool_avatar_desc": "Create cute chibi avatars for your profiles",
+  "index.tool_couple_desc": "Generate romantic chibi couple art",
+  "index.recent_title": "Recent Creations",
+  "index.recent_desc": "See what the community is creating right now",
+  "index.recent_empty": "No recent creations yet. Be the first!",
+  "index.social_proof": "Thousands of chibi characters created and counting.",
+  "index.result_alt": "AI generated chibi character",
+  "index.example_alt": "Chibi example",
+  "faq_title": "FAQ",
+  "faq_items": [
+    {
+      "q": "Can I turn a photo into chibi?",
+      "a": "Yes. Upload a reference photo and add a short note. The AI chibi maker will create a cute anime-style result that you can preview and download."
+    },
+    {
+      "q": "What can I use it for?",
+      "a": "Use your chibi image as a profile avatar, sticker idea, character concept, fan art reference, or a cute social media post."
+    },
+    {
+      "q": "Is it really free?",
+      "a": "Yes. You can generate chibi characters at no cost. No sign-up or credit card required. Just type your prompt or upload a photo and hit generate."
+    },
+    {
+      "q": "How long does generation take?",
+      "a": "Most chibi images are ready in 5 to 15 seconds. Complex prompts with detailed descriptions may take a few seconds longer."
+    },
+    {
+      "q": "What styles are available?",
+      "a": "We offer Classic Chibi, Kawaii Soft, Emoji & Sticker, and Portrait Chibi styles. Each produces a different look so you can pick the one that fits your use case."
+    },
+    {
+      "q": "Can I use the result commercially?",
+      "a": "Generated images are yours to use for personal projects, social media, and non-commercial purposes. For commercial use such as merchandise or paid products, please check our terms page for details."
+    },
+    {
+      "q": "Do I need to create an account?",
+      "a": "No. You can generate and download chibi art without creating an account or logging in."
+    }
+  ],
+  "index_styles.title": "Chibi Styles",
+  "index_styles.description": "Explore the different looks you can create with our AI chibi generator.",
+  "index_styles.item1_title": "Classic Chibi",
+  "index_styles.item1_body": "Big head, tiny body, oversized eyes — the timeless anime look everyone loves.",
+  "index_styles.item2_title": "Kawaii Soft",
+  "index_styles.item2_body": "Pastel colors, rounded shapes, and gentle expressions for an extra-cute vibe.",
+  "index_styles.item3_title": "Emoji & Sticker",
+  "index_styles.item3_body": "Minimal detail, bold lines, and transparent-friendly designs perfect for messaging.",
+  "index_styles.item4_title": "Portrait Chibi",
+  "index_styles.item4_body": "A refined chibi face with detailed hair and clothing for profile pictures.",
+  "index_tips.title": "Tips for Best Results",
+  "index_tips.description": "Follow these simple guidelines to get the cutest chibi characters every time.",
+  "index_tips.item1_title": "Be descriptive",
+  "index_tips.item1_body": "Mention hair color, clothing, accessories, and expression for accurate results.",
+  "index_tips.item2_title": "Use clear photos",
+  "index_tips.item2_body": "For photo-to-chibi, upload well-lit, front-facing images with visible features.",
+  "index_tips.item3_title": "Pick the right style",
+  "index_tips.item3_body": "Classic for anime fans, Kawaii for soft aesthetics, Emoji for stickers and reactions.",
+  "index_tips.item4_title": "Experiment freely",
+  "index_tips.item4_body": "Try different prompts and styles — you can generate unlimited previews.",
+  "index_info.item1_title": "Free to Start",
+  "index_info.item1_body": "Generate your first chibi images at no cost. No credit card required.",
+  "index_info.item2_title": "Fast Generation",
+  "index_info.item2_body": "Most chibi characters are ready in under 30 seconds.",
+  "index_info.item3_title": "High Quality",
+  "index_info.item3_body": "Download crisp, printable PNG images suitable for profiles, stickers, and prints."
+}

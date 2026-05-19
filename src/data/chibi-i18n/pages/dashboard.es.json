@@ -1,0 +1,16 @@
+{
+  "dashboard.current_plan": "Plan Actual",
+  "dashboard.monthly_usage": "Uso Mensual",
+  "dashboard.upgrade": "Mejorar",
+  "dashboard.manage": "Gestionar",
+  "dashboard.label": "Cuenta",
+  "dashboard.title": "Panel de Chibi",
+  "dashboard.subtitle": "Administra tus créditos mensuales de imagen, revisa generaciones recientes y sigue creando avatares, stickers y arte de personajes chibi.",
+  "dashboard.create_btn": "Crear Chibi",
+  "dashboard.login_title": "Inicia sesión para guardar tu historial de chibi",
+  "dashboard.login_desc": "Las generaciones anónimas siguen funcionando desde la página principal. Iniciar sesión te da créditos de plan mensual y un historial privado.",
+  "dashboard.recent_title": "Imágenes chibi recientes",
+  "dashboard.recent_desc": "Tus imágenes generadas más recientes aparecen aquí después de la creación.",
+  "dashboard.refresh": "Actualizar",
+  "dashboard.empty": "Aún no hay imágenes chibi."
+}

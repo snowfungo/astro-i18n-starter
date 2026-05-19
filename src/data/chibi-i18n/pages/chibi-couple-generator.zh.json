@@ -1,0 +1,53 @@
+{
+  "couple_faq_title": "常见问题",
+  "couple_faq_items": [
+    {
+      "q": "可以上传两张分开的照片吗？",
+      "a": "可以。分别上传两人的照片，并添加描述说明您希望他们如何摆姿势在一起。AI 会将两人的外貌特征融合到一张情侣 Q 版场景中。"
+    },
+    {
+      "q": "两个角色的风格会保持一致吗？",
+      "a": "会的。两个角色会在同一张图像中一起生成，确保艺术风格、比例和色彩和谐一致。"
+    },
+    {
+      "q": "可以制作同性情侣图吗？",
+      "a": "当然可以。描述任何角色组合，AI 都会为您创作精美的情侣艺术作品，不受性别限制。"
+    },
+    {
+      "q": "可以用于婚礼请柬吗？",
+      "a": "完全可以。许多用户将情侣 Q 版艺术作品用于婚礼文具设计。选择肖像 Q 版风格可获得更细致的效果，非常适合印刷。"
+    }
+  ],
+  "couple.step3_body": "经典Q版适合大胆动漫风格，可爱软萌适合柔和粉彩浪漫，肖像Q版适合更细致的面部。",
+  "couple.generating": "正在生成你的情侣Q版...",
+  "couple.tips_title": "最佳情侣结果提示",
+  "couple.tip1_title": "清晰描述两个角色",
+  "couple.tip3_title": "保持姿势简单",
+  "couple.photo_help": "上传情侣照片或清晰描述两个角色。",
+  "couple.step2_title": "2. 或上传参考照片",
+  "couple.example_alt": "情侣Q版示例",
+  "couple.step4_title": "4. 生成并分享",
+  "couple.generate_btn": "生成情侣Q版",
+  "couple.style_help": "可爱软萌风格非常适合浪漫情侣场景。",
+  "couple.tip2_body": "\"手牵手\"、\"背靠背\"或\"共撑一把伞\"给AI明确的构图指示。",
+  "couple.tip2_title": "提及互动",
+  "couple.hero_subtitle": "从文字描述或参考照片创建可爱的Q版情侣艺术。生成配套的动漫风格情侣头像、可爱双人插画和浪漫Q版场景——非常适合纪念日、社交媒体，或仅仅是因为喜欢。",
+  "couple.inspiration_desc": "浪漫情侣Q版创意",
+  "couple.result_title": "你的情侣Q版艺术",
+  "couple.tip1_body": "分别给出每个人的细节。",
+  "couple.how_title": "如何工作",
+  "couple.step2_body": "上传你和伴侣的照片进行Q版转换，保留双方特征。",
+  "couple.step1_body": "告诉AI两个角色的信息：外貌、服装、姿势和你想要的氛围。",
+  "couple.prompt_default": "一对穿着配套服装、手牵手的可爱Q版情侣，浪漫粉彩背景，温暖快乐的表情",
+  "couple.label_photo": "可选参考照片",
+  "couple.step1_title": "1. 描述你的情侣",
+  "couple.hero_badge": "动漫情侣Q版 · 配套头像和可爱双人艺术",
+  "couple.result_desc": "下载你的浪漫情侣Q版图并分享到任何地方。",
+  "couple.label_prompt": "描述你的情侣Q版",
+  "couple.title": "Q版情侣生成器",
+  "couple.result_alt": "AI生成的情侣Q版艺术",
+  "couple.step4_body": "下载你的情侣Q版图并分享到任何地方。",
+  "couple.tip3_body": "Q版艺术最适合简单可爱的姿势，而不是复杂的动作场景。",
+  "couple.prompt_placeholder": "男孩：黑发，蓝色夹克。女孩：金发，红色连衣裙。在樱花下手牵手。",
+  "couple.step3_title": "3. 选择风格"
+}

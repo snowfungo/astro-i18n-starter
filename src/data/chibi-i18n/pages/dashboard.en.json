@@ -1,0 +1,16 @@
+{
+  "dashboard.label": "Account",
+  "dashboard.title": "Chibi Dashboard",
+  "dashboard.subtitle": "Manage your monthly image credits, review recent generations, and keep creating chibi avatars, stickers, and character art.",
+  "dashboard.create_btn": "Create Chibi",
+  "dashboard.login_title": "Log in to save your chibi history",
+  "dashboard.login_desc": "Anonymous generations still work from the homepage. Logging in gives you monthly plan credits and a private history.",
+  "dashboard.current_plan": "Current plan",
+  "dashboard.monthly_usage": "Monthly image usage",
+  "dashboard.upgrade": "Upgrade",
+  "dashboard.manage": "Manage",
+  "dashboard.recent_title": "Recent chibi images",
+  "dashboard.recent_desc": "Your latest generated images appear here after creation.",
+  "dashboard.refresh": "Refresh",
+  "dashboard.empty": "No chibi images yet."
+}
