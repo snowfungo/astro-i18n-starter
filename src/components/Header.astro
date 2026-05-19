@@ -9,6 +9,7 @@ const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 const translatePath = useTranslatedPath(lang);
 const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
+const homePath = translatePath("/").replace(/\/$/, "") || "/";
 ---
 
 <header class="site-header">
@@ -18,7 +19,10 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
             {
                 navigationData.map((item) => {
                     const href = translatePath(item.href);
-                    const active = currentPath === href.replace(/\/$/, "") || (href !== "/" && currentPath.startsWith(href));
+                    const normalizedHref = href.replace(/\/$/, "") || "/";
+                    const active =
+                        currentPath === normalizedHref ||
+                        (normalizedHref !== homePath && currentPath.startsWith(`${normalizedHref}/`));
                     return (
                         <a href={href} class:list={{ active }}>
                             {t(item.label)}
