@@ -1,6 +1,3 @@
-import { mkdirSync, writeFileSync } from "node:fs";
-import { resolve } from "node:path";
-
 import type { APIContext } from "astro";
 
 import {
@@ -21,9 +18,6 @@ import {
 import { all, get, run } from "@/lib/server/db/client";
 import { nowIso, stringifyJson } from "@/lib/server/db/utils";
 import { refundAnonymousQuota, reserveAnonymousQuota } from "@/lib/server/quota/service";
-
-const generatedDir = resolve("runtime/generated/chibi");
-mkdirSync(generatedDir, { recursive: true });
 
 export class ChibiProviderError extends Error {}
 
@@ -74,9 +68,10 @@ function generateMockSvg(jobId: number, prompt: string, style: ChibiStyle, sourc
   const label = styleLabels[style] ?? "Chibi";
   const source = sourceType === "image" ? "Photo to Chibi" : "Text to Chibi";
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024"><defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${bg}" /><stop offset="1" stop-color="#ffffff" /></linearGradient></defs><rect width="1024" height="1024" rx="56" fill="url(#bg)" /><g><circle cx="512" cy="396" r="230" fill="#fff7ed" stroke="${ink}" stroke-width="16" /><path d="M336 340 C370 210, 470 180, 512 248 C560 178, 666 220, 690 344 C620 294, 430 294, 336 340Z" fill="${accent}" stroke="${ink}" stroke-width="14" stroke-linejoin="round" /><circle cx="420" cy="410" r="34" fill="${ink}" /><circle cx="604" cy="410" r="34" fill="${ink}" /><path d="M462 504 Q512 548 562 504" fill="none" stroke="${ink}" stroke-width="12" stroke-linecap="round" /><path d="M376 638 Q512 720 648 638 L696 852 Q512 932 328 852 Z" fill="#ffffff" stroke="${ink}" stroke-width="14" stroke-linejoin="round" /></g><rect x="272" y="92" width="480" height="68" rx="34" fill="#ffffff" opacity="0.78" /><text x="512" y="136" text-anchor="middle" font-family="Arial, sans-serif" font-size="30" font-weight="700" fill="${ink}">${label} · ${source}</text>${textNodes}<text x="512" y="948" text-anchor="middle" font-family="Arial, sans-serif" font-size="22" fill="#64748b">Mock preview · connect a real image API when ready</text></svg>`;
-  const fileName = `chibi_${jobId}.svg`;
-  writeFileSync(resolve(generatedDir, fileName), svg, "utf8");
-  return `/api/images/archive/${fileName}`;
+  const encoded = typeof btoa === "function"
+    ? btoa(svg)
+    : Buffer.from(svg, "utf8").toString("base64");
+  return `data:image/svg+xml;base64,${encoded}`;
 }
 
 async function generateWithProvider(input: {

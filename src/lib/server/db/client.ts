@@ -10,17 +10,17 @@ if (!serverEnv.databaseUrl) {
   throw new Error("DATABASE_URL is required for PostgreSQL mode");
 }
 
-const sqlClient = postgres(serverEnv.databaseUrl, {
-  max: 1,
-  idle_timeout: 20,
-  connect_timeout: 15,
-  prepare: false,
-});
-
 const txStorage = new AsyncLocalStorage<Sql>();
 
-function currentClient() {
-  return txStorage.getStore() ?? sqlClient;
+function createClient() {
+  return postgres(serverEnv.databaseUrl, {
+    max: 1,
+    idle_timeout: 20,
+    connect_timeout: 15,
+    prepare: false,
+    // Suppress pg notices to avoid Worker cross-request console I/O issues.
+    onnotice: () => {},
+  });
 }
 
 function toPgPlaceholders(query: string) {
@@ -41,17 +41,35 @@ function normalizeRunResult(result: any) {
   };
 }
 
-export const db = drizzle(sqlClient, { schema: dbSchema });
+const dbClient = createClient();
+
+export const db = drizzle(dbClient, { schema: dbSchema });
 
 export function getSql() {
-  return currentClient();
+  return txStorage.getStore() ?? dbClient;
+}
+
+async function withClient<T>(fn: (client: Sql) => Promise<T>) {
+  const txClient = txStorage.getStore();
+  if (txClient) {
+    return await fn(txClient);
+  }
+
+  const client = createClient();
+  try {
+    return await fn(client);
+  } finally {
+    await client.end({ timeout: 5 });
+  }
 }
 
 export async function run(
   query: string,
   params: unknown[] = [],
 ) {
-  const result = await currentClient().unsafe(toPgPlaceholders(query), params as any[]);
+  const result = await withClient((client) =>
+    client.unsafe(toPgPlaceholders(query), params as any[]),
+  );
   return normalizeRunResult(result) as {
     changes: number;
     lastInsertRowid: number | null;
@@ -62,7 +80,9 @@ export async function get<T = Record<string, unknown>>(
   query: string,
   params: unknown[] = [],
 ) {
-  const rows = await currentClient().unsafe(toPgPlaceholders(query), params as any[]);
+  const rows = await withClient((client) =>
+    client.unsafe(toPgPlaceholders(query), params as any[]),
+  );
   return ((rows as T[])[0] ?? null) as T | null;
 }
 
@@ -70,14 +90,21 @@ export async function all<T = Record<string, unknown>>(
   query: string,
   params: unknown[] = [],
 ) {
-  const rows = await currentClient().unsafe(toPgPlaceholders(query), params as any[]);
+  const rows = await withClient((client) =>
+    client.unsafe(toPgPlaceholders(query), params as any[]),
+  );
   return rows as T[];
 }
 
 export async function transaction<T>(fn: () => Promise<T> | T): Promise<T> {
-  return currentClient().begin(async (tx) => txStorage.run(tx, () => Promise.resolve(fn())));
+  const client = createClient();
+  try {
+    return await client.begin(async (tx) => txStorage.run(tx, () => Promise.resolve(fn())));
+  } finally {
+    await client.end({ timeout: 5 });
+  }
 }
 
 export async function closeDb() {
-  await sqlClient.end({ timeout: 5 });
+  await dbClient.end({ timeout: 5 });
 }

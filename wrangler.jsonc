@@ -2,6 +2,14 @@
     "name": "astro-i18n-starter",
     "compatibility_date": "2026-04-04",
     "compatibility_flags": ["nodejs_compat"],
+    "observability": {
+        "enabled": true,
+        "logs": {
+            "enabled": true,
+            "invocation_logs": true,
+            "persist": true
+        }
+    },
     "assets": {
         "binding": "ASSETS",
         "directory": "./dist/client",
