@@ -55,6 +55,7 @@
         "typescript": "^6.0.2"
     },
     "devDependencies": {
+        "daisyui": "^5.5.20",
         "drizzle-kit": "^0.31.10",
         "wrangler": "^4.80.0"
     }

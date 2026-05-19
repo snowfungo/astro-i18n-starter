@@ -1,7 +1,7 @@
 ---
 const { as = "article", tone = "default", class: className, ...rest } = Astro.props;
 const Tag = as;
-const classes = ["ui-card", tone !== "default" ? `ui-card--${tone}` : null, className];
+const classes = ["ui-card", "card", tone !== "default" ? `ui-card--${tone}` : null, className];
 ---
 
 <Tag class:list={classes} {...rest}>

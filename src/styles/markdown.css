@@ -1,41 +1,47 @@
-@import "tailwindcss";
-
-@theme {
-    --color-main: #111111;
-    --color-primary: #6c24d8;
-}
-
 #md-content {
+    color: var(--text-body);
+
     h2 {
-        @apply text-2xl md:text-3xl font-bold mb-4 wrap-anywhere;
+        @apply text-2xl md:text-3xl font-semibold mb-4 wrap-anywhere;
+        color: var(--text-strong);
     }
 
     h3 {
-        @apply text-xl md:text-2xl font-bold mb-4 wrap-anywhere;
+        @apply text-xl md:text-2xl font-semibold mb-4 wrap-anywhere;
+        color: var(--text-strong);
     }
 
     h4 {
-        @apply text-lg md:text-xl font-bold mb-4 wrap-anywhere;
+        @apply text-lg md:text-xl font-semibold mb-4 wrap-anywhere;
+        color: var(--text-strong);
     }
 
     h5,
     h6 {
-        @apply text-lg font-bold mb-4 wrap-anywhere;
+        @apply text-lg font-semibold mb-4 wrap-anywhere;
+        color: var(--text-strong);
     }
 
     p {
-        @apply text-base mb-4 text-black/80;
+        @apply text-base mb-4;
+        color: var(--text-body);
     }
 
     blockquote {
-        @apply bg-primary/10 border-l-2 border-primary pl-4 py-2 text-primary font-medium mt-2 mb-8;
+        @apply pl-4 py-2 mt-2 mb-8 font-medium;
+        background: var(--prose-quote-bg);
+        border-left: 2px solid var(--primary);
+        color: var(--prose-quote-fg);
+
         p {
             @apply mb-0;
+            color: inherit;
         }
     }
 
     ol {
         @apply list-decimal space-y-1;
+
         li {
             @apply ml-8 mt-1 last:mb-8;
         }
@@ -43,34 +49,49 @@
 
     ul {
         @apply list-disc space-y-1;
+
         li {
             @apply ml-8 mt-1 last:mb-8;
         }
     }
 
     a {
-        @apply underline text-primary;
+        @apply underline underline-offset-4;
+        color: var(--primary);
     }
 
     .astro-code {
-        @apply bg-black/10 p-4 rounded-xl font-mono mb-8 text-sm w-full;
+        @apply p-4 rounded-xl font-mono mb-8 text-sm w-full overflow-x-auto;
+        background: var(--prose-code-bg) !important;
+        border: 1px solid var(--prose-table-border);
+        color: var(--prose-code-fg);
     }
 
     table {
-        @apply w-full border border-black/10 mb-8;
+        @apply w-full mb-8;
+        border: 1px solid var(--prose-table-border);
+        border-collapse: collapse;
 
         th {
-            @apply border border-black/10 bg-black/5 text-left p-3;
+            @apply text-left p-3;
+            border: 1px solid var(--prose-table-border);
+            background: var(--table-head-bg);
+            color: var(--text-strong);
         }
 
         td {
-            @apply border border-black/10 p-3;
+            @apply p-3;
+            border: 1px solid var(--prose-table-border);
+            color: var(--text-body);
         }
     }
 
     code:not(pre code) {
-        @apply bg-primary/10 px-1 py-0.5 rounded-md font-mono text-wrap flex-wrap;
+        @apply px-1 py-0.5 rounded-md font-mono text-wrap flex-wrap;
+        background: var(--prose-inline-code-bg);
+        color: var(--prose-inline-code-fg);
     }
+
     code {
         @apply text-wrap flex-wrap wrap-anywhere;
     }

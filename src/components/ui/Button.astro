@@ -7,7 +7,29 @@ const {
     class: className,
     ...rest
 } = Astro.props;
-const classes = ["ui-button", `ui-button--${variant}`, size !== "md" ? `ui-button--${size}` : null, className];
+
+const variantClasses = {
+    primary: "btn-primary",
+    secondary: "btn-secondary",
+    ghost: "btn-ghost",
+    danger: "btn-error",
+};
+
+const sizeClasses = {
+    sm: "btn-sm",
+    md: null,
+    lg: "btn-lg",
+};
+
+const classes = [
+    "ui-button",
+    "btn",
+    variantClasses[variant] ?? variantClasses.primary,
+    `ui-button--${variant}`,
+    sizeClasses[size] ?? null,
+    size !== "md" ? `ui-button--${size}` : null,
+    className,
+];
 ---
 
 {

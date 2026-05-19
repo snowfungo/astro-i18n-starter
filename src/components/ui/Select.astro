@@ -2,6 +2,6 @@
 const { class: className, ...rest } = Astro.props;
 ---
 
-<select class:list={["ui-select", className]} {...rest}>
+<select class:list={["ui-select", "select", "select-bordered", className]} {...rest}>
     <slot />
 </select>

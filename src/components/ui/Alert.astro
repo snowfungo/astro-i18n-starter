@@ -1,8 +1,13 @@
 ---
 const { tone = "default", title, class: className, ...rest } = Astro.props;
+
+const toneClasses = {
+    default: null,
+    destructive: "alert-error",
+};
 ---
 
-<div class:list={["ui-alert", tone !== "default" ? `ui-alert--${tone}` : null, className]} {...rest}>
+<div class:list={["ui-alert", "alert", toneClasses[tone] ?? null, tone !== "default" ? `ui-alert--${tone}` : null, className]} {...rest}>
     {title && <strong>{title}</strong>}
     <slot />
 </div>

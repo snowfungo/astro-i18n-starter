@@ -23,16 +23,33 @@ const pageTitle = `${title} | AI Chibi Generator`;
 const canonical = meta.canonical ?? Astro.url.href;
 const description = meta.description ?? "AI Chibi Generator";
 const image = meta.image ?? "/og-image.jpg";
+const initialThemeColor = "oklch(0.985 0.004 255)";
 ---
 
-<html lang={lang}>
+<html lang={lang} data-theme="starter">
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="theme-color" content="#0b0b10" />
+        <meta name="theme-color" content={initialThemeColor} />
+        <script is:inline>
+            (() => {
+                const syncThemeColor = () => {
+                    const meta = document.querySelector('meta[name="theme-color"]');
+                    const color = getComputedStyle(document.documentElement).getPropertyValue("--theme-color").trim();
+                    if (meta && color) {
+                        meta.setAttribute("content", color);
+                    }
+                };
+                syncThemeColor();
+                new MutationObserver(syncThemeColor).observe(document.documentElement, {
+                    attributes: true,
+                    attributeFilter: ["class", "data-theme"],
+                });
+            })();
+        </script>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-        <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
         <link rel="icon" type="image/png" href="/chibi-assets/favicon-32x32.png" />
         <link rel="shortcut icon" href="/chibi-assets/favicon.ico" />
         <title>{pageTitle}</title>
