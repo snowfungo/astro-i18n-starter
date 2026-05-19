@@ -4,7 +4,7 @@ import Card from "@/components/ui/Card.astro";
 const { title, description, class: className, ...rest } = Astro.props;
 ---
 
-<Card class:list={["empty-card", className]} tone="soft" {...rest}>
+<Card class:list={["grid gap-3 text-center", className]} tone="soft" {...rest}>
     {title && <h3>{title}</h3>}
     {description && <p>{description}</p>}
     <slot />

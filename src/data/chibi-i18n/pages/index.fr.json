@@ -78,5 +78,7 @@
   "index.tool_couple_desc": "Génère de l'art romantique de couple chibi",
   "index.recent_title": "Créations récentes",
   "index.recent_desc": "Regarde ce que la communauté crée en ce moment",
-  "index.recent_empty": "Pas encore de créations. Sois le premier !"
+  "index.recent_empty": "Pas encore de créations. Sois le premier !",
+  "index_info.title": "Pourquoi les équipes commencent ici",
+  "index_info.description": "Une base plus propre avec authentification, facturation, routage multilingue et flux de génération déjà connectés."
 }

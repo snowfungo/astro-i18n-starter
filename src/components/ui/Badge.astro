@@ -2,6 +2,12 @@
 const { class: className, ...rest } = Astro.props;
 ---
 
-<span class:list={["ui-badge", "badge", className]} {...rest}>
+<span
+    class:list={[
+        "ui-badge inline-flex min-h-8 items-center gap-2 rounded-full border border-[var(--badge-border)] bg-[var(--badge-bg)] px-3.5 py-1.5 text-xs font-semibold uppercase tracking-[0.04em] text-[var(--badge-fg)]",
+        className,
+    ]}
+    {...rest}
+>
     <slot />
 </span>

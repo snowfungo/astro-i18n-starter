@@ -4,9 +4,9 @@ export const prerender = false;
 import { useTranslatedPath, getLangFromUrl, useTranslations } from "@i18n/utils";
 import Base from "@layouts/Base.astro";
 import Button from "@/components/ui/Button.astro";
-import Card from "@/components/ui/Card.astro";
 import Shell from "@/components/ui/Shell.astro";
 import Badge from "@/components/ui/Badge.astro";
+import EmptyState from "@/components/ui/EmptyState.astro";
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
@@ -19,16 +19,16 @@ const translatePath = useTranslatedPath(lang);
         description: t("pageNotFound:head.description"),
     }}
 >
-    <section class="section">
+    <section class="py-10 md:py-12 lg:py-[84px]">
         <Shell>
-            <Card class="empty-card" tone="soft">
-                <Badge>404</Badge>
-                <h1>{t("pageNotFound.title")}</h1>
-                <p>{t("pageNotFound:head.description")}</p>
-                <div class="mt-16 flex justify-center">
+            <EmptyState title={t("pageNotFound.title")} description={t("pageNotFound:head.description")}>
+                <div class="mt-6 flex justify-center">
+                    <Badge>404</Badge>
+                </div>
+                <div class="mt-6 flex justify-center">
                     <Button href={translatePath("/")}>{t("pageNotFound.link")}</Button>
                 </div>
-            </Card>
+            </EmptyState>
         </Shell>
     </section>
 </Base>

@@ -1,98 +1,98 @@
 #md-content {
+    @apply text-[var(--text-body)];
+}
+
+#md-content :where(h2, h3, h4, h5, h6) {
+    @apply mb-4 font-semibold wrap-anywhere;
+    color: var(--text-strong);
+}
+
+#md-content h2 {
+    @apply text-2xl md:text-3xl;
+}
+
+#md-content h3 {
+    @apply text-xl md:text-2xl;
+}
+
+#md-content :where(h4, h5, h6) {
+    @apply text-lg md:text-xl;
+}
+
+#md-content p {
+    @apply mb-4 text-base;
     color: var(--text-body);
+}
 
-    h2 {
-        @apply text-2xl md:text-3xl font-semibold mb-4 wrap-anywhere;
-        color: var(--text-strong);
-    }
+#md-content blockquote {
+    @apply mb-8 mt-2 border-l-2 py-2 pl-4 font-medium;
+    background: var(--prose-quote-bg);
+    border-left-color: var(--primary);
+    color: var(--prose-quote-fg);
+}
 
-    h3 {
-        @apply text-xl md:text-2xl font-semibold mb-4 wrap-anywhere;
-        color: var(--text-strong);
-    }
+#md-content blockquote p {
+    @apply mb-0;
+    color: inherit;
+}
 
-    h4 {
-        @apply text-lg md:text-xl font-semibold mb-4 wrap-anywhere;
-        color: var(--text-strong);
-    }
+#md-content :where(ol, ul) {
+    @apply space-y-1;
+}
 
-    h5,
-    h6 {
-        @apply text-lg font-semibold mb-4 wrap-anywhere;
-        color: var(--text-strong);
-    }
+#md-content ol {
+    @apply list-decimal;
+}
 
-    p {
-        @apply text-base mb-4;
-        color: var(--text-body);
-    }
+#md-content ul {
+    @apply list-disc;
+}
 
-    blockquote {
-        @apply pl-4 py-2 mt-2 mb-8 font-medium;
-        background: var(--prose-quote-bg);
-        border-left: 2px solid var(--primary);
-        color: var(--prose-quote-fg);
+#md-content li {
+    @apply ml-8 mt-1;
+}
 
-        p {
-            @apply mb-0;
-            color: inherit;
-        }
-    }
+#md-content li:last-child {
+    @apply mb-8;
+}
 
-    ol {
-        @apply list-decimal space-y-1;
+#md-content a {
+    @apply underline underline-offset-4;
+    color: var(--primary);
+}
 
-        li {
-            @apply ml-8 mt-1 last:mb-8;
-        }
-    }
+#md-content .astro-code {
+    @apply mb-8 w-full overflow-x-auto rounded-xl border p-4 text-sm font-mono;
+    background: var(--prose-code-bg) !important;
+    border-color: var(--prose-table-border);
+    color: var(--prose-code-fg);
+}
 
-    ul {
-        @apply list-disc space-y-1;
+#md-content table {
+    @apply mb-8 w-full border-collapse border;
+    border-color: var(--prose-table-border);
+}
 
-        li {
-            @apply ml-8 mt-1 last:mb-8;
-        }
-    }
+#md-content :where(th, td) {
+    @apply p-3 text-left border;
+    border-color: var(--prose-table-border);
+}
 
-    a {
-        @apply underline underline-offset-4;
-        color: var(--primary);
-    }
+#md-content th {
+    background: var(--table-head-bg);
+    color: var(--text-strong);
+}
 
-    .astro-code {
-        @apply p-4 rounded-xl font-mono mb-8 text-sm w-full overflow-x-auto;
-        background: var(--prose-code-bg) !important;
-        border: 1px solid var(--prose-table-border);
-        color: var(--prose-code-fg);
-    }
+#md-content td {
+    color: var(--text-body);
+}
 
-    table {
-        @apply w-full mb-8;
-        border: 1px solid var(--prose-table-border);
-        border-collapse: collapse;
+#md-content code {
+    @apply wrap-anywhere font-mono;
+}
 
-        th {
-            @apply text-left p-3;
-            border: 1px solid var(--prose-table-border);
-            background: var(--table-head-bg);
-            color: var(--text-strong);
-        }
-
-        td {
-            @apply p-3;
-            border: 1px solid var(--prose-table-border);
-            color: var(--text-body);
-        }
-    }
-
-    code:not(pre code) {
-        @apply px-1 py-0.5 rounded-md font-mono text-wrap flex-wrap;
-        background: var(--prose-inline-code-bg);
-        color: var(--prose-inline-code-fg);
-    }
-
-    code {
-        @apply text-wrap flex-wrap wrap-anywhere;
-    }
+#md-content code:not(pre code) {
+    @apply rounded-md px-1 py-0.5;
+    background: var(--prose-inline-code-bg);
+    color: var(--prose-inline-code-fg);
 }

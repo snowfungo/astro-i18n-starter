@@ -78,5 +78,7 @@
   "index_info.item2_title": "Fast Generation",
   "index_info.item2_body": "Most chibi characters are ready in under 30 seconds.",
   "index_info.item3_title": "High Quality",
-  "index_info.item3_body": "Download crisp, printable PNG images suitable for profiles, stickers, and prints."
+  "index_info.item3_body": "Download crisp, printable PNG images suitable for profiles, stickers, and prints.",
+  "index_info.title": "Why teams start here",
+  "index_info.description": "A cleaner starter skeleton with auth, billing, multilingual routing, and generator flows already wired."
 }

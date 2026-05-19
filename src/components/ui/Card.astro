@@ -1,9 +1,21 @@
 ---
 const { as = "article", tone = "default", class: className, ...rest } = Astro.props;
 const Tag = as;
-const classes = ["ui-card", "card", tone !== "default" ? `ui-card--${tone}` : null, className];
+
+const toneClasses = {
+    default: "bg-[var(--surface-raised)]",
+    soft: "bg-[var(--surface-soft)]",
+    highlight: "bg-[var(--surface-hero)]",
+};
 ---
 
-<Tag class:list={classes} {...rest}>
+<Tag
+    class:list={[
+        "rounded-[20px] border border-[var(--card-border)] p-7 text-[var(--card-foreground)] shadow-[var(--card-shadow)] transition duration-200 ease-out hover:-translate-y-0.5 hover:border-[rgba(37,99,235,0.22)] hover:shadow-[var(--card-shadow-hover)]",
+        toneClasses[tone] ?? toneClasses.default,
+        className,
+    ]}
+    {...rest}
+>
     <slot />
 </Tag>

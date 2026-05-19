@@ -4,11 +4,11 @@ import Badge from "@/components/ui/Badge.astro";
 const { badge, title, description, class: className } = Astro.props;
 ---
 
-<div class:list={["ui-section-heading", className]}>
+<div class:list={["ui-section-heading grid max-w-[760px] gap-4", className]}>
     {badge && <Badge>{badge}</Badge>}
     {title && <h2>{title}</h2>}
-    {description && <p>{description}</p>}
-    <div class="ui-section-heading__actions">
+    {description && <p class="text-[1.06rem] text-[var(--text-muted)]">{description}</p>}
+    <div class="ui-section-heading__actions flex flex-wrap items-center gap-3">
         <slot />
     </div>
 </div>

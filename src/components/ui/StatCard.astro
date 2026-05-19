@@ -4,9 +4,9 @@ import Card from "@/components/ui/Card.astro";
 const { title, value, meta, class: className, tone = "default", ...rest } = Astro.props;
 ---
 
-<Card class:list={["ui-stat-card", className]} tone={tone} {...rest}>
+<Card class:list={["ui-stat-card grid gap-2", className]} tone={tone} {...rest}>
     {title && <h3>{title}</h3>}
-    <strong class="ui-stat-card__value">{value}</strong>
+    <strong class="ui-stat-card__value block text-[clamp(2rem,3vw,2.6rem)] leading-none tracking-[-0.04em] text-[var(--text-strong)]">{value}</strong>
     {meta && <p>{meta}</p>}
     <slot />
 </Card>

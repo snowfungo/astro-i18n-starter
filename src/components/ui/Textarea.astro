@@ -2,4 +2,10 @@
 const { class: className, value = "", ...rest } = Astro.props;
 ---
 
-<textarea class:list={["ui-textarea", "textarea", "textarea-bordered", className]} {...rest}>{value}</textarea>
+<textarea
+    class:list={[
+        "ui-textarea min-h-[150px] w-full resize-y rounded-xl border border-[var(--input-border)] bg-[var(--input-bg)] px-4 py-[0.95rem] text-[var(--text-strong)] shadow-[var(--input-shadow)] transition duration-150 ease-out focus:border-[var(--primary)] focus:outline-none focus:shadow-[var(--focus-ring)]",
+        className,
+    ]}
+    {...rest}
+>{value}</textarea>

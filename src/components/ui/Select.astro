@@ -1,7 +1,25 @@
 ---
-const { class: className, ...rest } = Astro.props;
+const { class: className, value, ...rest } = Astro.props;
+const selectedLabel = value ?? "Select";
 ---
 
-<select class:list={["ui-select", "select", "select-bordered", className]} {...rest}>
-    <slot />
-</select>
+<details class:list={["relative", className]} {...rest}>
+    <summary class="flex min-h-[3.25rem] w-full cursor-pointer list-none items-center justify-between rounded-[14px] border border-[var(--input-border)] bg-[var(--input-bg)] px-4 py-3 text-left text-[var(--text-strong)] shadow-[var(--input-shadow)] transition duration-150 ease-out hover:border-[var(--primary)] hover:shadow-[var(--focus-ring)]">
+        <span>{selectedLabel}</span>
+        <span class="h-[0.55rem] w-[0.55rem] rotate-45 border-b-2 border-r-2 border-current opacity-65"></span>
+    </summary>
+    <div class="absolute left-0 right-0 top-[calc(100%+0.7rem)] z-20 grid gap-1 rounded-[18px] border border-[rgba(148,163,184,0.2)] bg-[rgba(255,255,255,0.98)] p-2 shadow-[0_20px_44px_rgba(15,23,42,0.12)]">
+        <slot />
+    </div>
+</details>
+
+<style>
+    summary::-webkit-details-marker {
+        display: none;
+    }
+
+    details[open] > summary {
+        border-color: var(--primary);
+        box-shadow: var(--focus-ring);
+    }
+</style>

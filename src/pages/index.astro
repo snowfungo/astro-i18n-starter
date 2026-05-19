@@ -4,7 +4,7 @@ import GeneratorPanel from "@/components/GeneratorPanel.astro";
 import { exampleGroups } from "@/lib/site/content";
 import { getStats } from "@/lib/server/generation/service";
 import { ensureAppReady } from "@/lib/server/startup";
-import { useTranslations, useTranslatedPath } from "@/i18n/utils";
+import { useTranslations } from "@/i18n/utils";
 import Card from "@/components/ui/Card.astro";
 import Shell from "@/components/ui/Shell.astro";
 import SectionHeading from "@/components/ui/SectionHeading.astro";
@@ -15,7 +15,6 @@ import Badge from "@/components/ui/Badge.astro";
 await ensureAppReady();
 const lang = "en" as const;
 const t = useTranslations(lang);
-const translatePath = useTranslatedPath(lang);
 const stats = await getStats();
 const faqItems = t("pages:index.faq_items") as Array<{ q: string; a: string }>;
 const featureCards = [1, 2, 3, 4].map((item) => ({
@@ -30,6 +29,13 @@ const infoCards = [1, 2, 3].map((item) => ({
     title: t(`pages:index.index_info.item${item}_title`),
     body: t(`pages:index.index_info.item${item}_body`),
 }));
+
+const sectionBase = "py-10 md:py-12 lg:py-[84px]";
+const softSection = `${sectionBase} bg-[var(--surface-band-soft)]`;
+const neutralSection = `${sectionBase} bg-[var(--surface-band-neutral)]`;
+const faqSection = `${sectionBase} bg-[linear-gradient(180deg,#f8fafc_0%,#eef4fb_100%)]`;
+const gridThree = "grid gap-[18px] md:grid-cols-2 xl:grid-cols-3";
+const gridFour = "grid gap-[18px] md:grid-cols-2 xl:grid-cols-4";
 ---
 
 <Base
@@ -39,72 +45,71 @@ const infoCards = [1, 2, 3].map((item) => ({
         canonical: Astro.url.href,
     }}
 >
-    <section class="hero">
-        <Shell class="hero-grid">
-            <div class="hero-copy">
-                <Badge>{t("pages:index.hero_badge")}</Badge>
-                <h1>{t("pages:index.hero_title")}</h1>
-                <p>{t("pages:index.hero_subtitle")}</p>
-                <div class="action-row">
-                    <Button href="#home-generator">{t("cta.title")}</Button>
-                    <Button href={translatePath("/pricing")} variant="ghost">{t("nav.pricing")}</Button>
+    <section class="relative bg-[var(--surface-band-hero)] pb-6 pt-16 md:pt-[74px]">
+        <Shell>
+            <div class="grid gap-6">
+                <div class="grid justify-items-center gap-4 px-2 text-center">
+                    <Badge>{t("pages:index.hero_badge")}</Badge>
+                    <h1 class="mb-0 max-w-[10ch]">{t("pages:index.hero_title")}</h1>
+                    <p class="max-w-[54rem] text-[1.06rem] text-[var(--text-muted)]">{t("pages:index.hero_subtitle")}</p>
+                    <div class="flex flex-wrap justify-center gap-3">
+                        <Button href="#home-generator" size="lg">{t("cta.title")}</Button>
+                    </div>
                 </div>
-                <div class="stat-grid" style="margin-top:24px;">
-                    <StatCard value={stats.total} meta={t("pages:index.recent_title")} />
-                    <StatCard value={stats.today} meta={t("metrics.generated_today")} />
-                    <StatCard value={Object.keys(stats.styles).length} meta={t("metrics.style_count")} />
+
+                <div class="grid gap-[18px] md:grid-cols-3">
+                    <StatCard value={stats.total} meta={t("pages:index.recent_title")} class="bg-[linear-gradient(180deg,rgba(255,255,255,0.98)_0%,#f8fbff_100%)]" />
+                    <StatCard value={stats.today} meta={t("metrics.generated_today")} class="bg-[linear-gradient(180deg,rgba(255,255,255,0.98)_0%,#f8fbff_100%)]" />
+                    <StatCard value={Object.keys(stats.styles).length} meta={t("metrics.style_count")} class="bg-[linear-gradient(180deg,rgba(255,255,255,0.98)_0%,#f8fbff_100%)]" />
                 </div>
             </div>
-            <Card class="hero-panel" tone="highlight">
-                <SectionHeading title={t("pages:index.tools_title")} description={t("pages:index.tools_desc")} />
-                <div class="card-grid">
-                    <Card><h3>{t("nav.photo")}</h3><p>{t("pages:index.tool_photo_desc")}</p></Card>
-                    <Card><h3>{t("nav.avatar")}</h3><p>{t("pages:index.tool_avatar_desc")}</p></Card>
-                    <Card><h3>{t("nav.couple")}</h3><p>{t("pages:index.tool_couple_desc")}</p></Card>
-                </div>
-            </Card>
         </Shell>
     </section>
 
-    <Shell id="home-generator">
-        <GeneratorPanel
-            formId="home-generator-form"
-            labels={{
-                prompt: String(t("pages:index.label_prompt")),
-                promptPlaceholder: String(t("pages:index.prompt_placeholder")),
-                photo: String(t("pages:index.label_photo")),
-                photoHelp: String(t("pages:index.photo_help")),
-                style: String(t("pages:index.label_style")),
-                styleHelp: String(t("pages:index.style_help")),
-                submit: String(t("cta.title")),
-                generating: String(t("common.generating")),
-                resultTitle: String(t("pages:index.result_title")),
-                resultDesc: String(t("pages:index.result_desc")),
-                download: String(t("common.download")),
-                tryAgain: String(t("common.try_again")),
-            }}
-            lang={lang}
-            examples={exampleGroups.home}
-        />
-    </Shell>
-
-    <section class="section">
-        <Shell class="card-grid">
-            {
-                infoCards.map((card) => (
-                    <Card>
-                        <h3>{card.title}</h3>
-                        <p>{card.body}</p>
-                    </Card>
-                ))
-            }
+    <section class={`${sectionBase} bg-[var(--surface-band-generator)]`} id="home-generator">
+        <Shell>
+            <GeneratorPanel
+                formId="home-generator-form"
+                labels={{
+                    prompt: String(t("pages:index.label_prompt")),
+                    promptPlaceholder: String(t("pages:index.prompt_placeholder")),
+                    photo: String(t("pages:index.label_photo")),
+                    photoHelp: String(t("pages:index.photo_help")),
+                    style: String(t("pages:index.label_style")),
+                    styleHelp: String(t("pages:index.style_help")),
+                    submit: String(t("cta.title")),
+                    generating: String(t("common.generating")),
+                    resultTitle: String(t("pages:index.result_title")),
+                    resultDesc: String(t("pages:index.result_desc")),
+                    download: String(t("common.download")),
+                    tryAgain: String(t("common.try_again")),
+                }}
+                lang={lang}
+                examples={exampleGroups.home}
+            />
         </Shell>
     </section>
 
-    <section class="section">
+    <section class={softSection}>
+        <Shell>
+            <SectionHeading title={t("pages:index.index_info.title")} description={t("pages:index.index_info.description")} />
+            <div class={`${gridThree} mt-6`}>
+                {
+                    infoCards.map((card) => (
+                        <Card>
+                            <h3>{card.title}</h3>
+                            <p>{card.body}</p>
+                        </Card>
+                    ))
+                }
+            </div>
+        </Shell>
+    </section>
+
+    <section class={neutralSection}>
         <Shell>
             <SectionHeading title={t("pages:index.index_styles.title")} description={t("pages:index.index_styles.description")} />
-            <div class="card-grid" style="margin-top:18px;">
+            <div class={`${gridFour} mt-6`}>
                 {
                     featureCards.map((card) => (
                         <Card>
@@ -117,10 +122,10 @@ const infoCards = [1, 2, 3].map((item) => ({
         </Shell>
     </section>
 
-    <section class="section">
+    <section class={softSection}>
         <Shell>
             <SectionHeading title={t("pages:index.index_tips.title")} description={t("pages:index.index_tips.description")} />
-            <div class="card-grid" style="margin-top:18px;">
+            <div class={`${gridFour} mt-6`}>
                 {
                     tips.map((tip) => (
                         <Card>
@@ -133,21 +138,21 @@ const infoCards = [1, 2, 3].map((item) => ({
         </Shell>
     </section>
 
-    <section class="section">
+    <section class={faqSection}>
         <Shell>
-            <Card class="faq-card" tone="soft">
+            <div class="grid gap-6">
                 <SectionHeading title={t("pages:index.faq_title")} />
-                <div class="list-grid" style="margin-top:18px;">
+                <div class={gridThree}>
                     {
                         faqItems.map((item) => (
-                            <Card>
+                            <Card class="bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)]">
                                 <h3>{item.q}</h3>
                                 <p>{item.a}</p>
                             </Card>
                         ))
                     }
                 </div>
-            </Card>
+            </div>
         </Shell>
     </section>
 </Base>

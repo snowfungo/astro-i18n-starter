@@ -112,6 +112,18 @@ const coupleTips = [1, 2, 3].map((item) => ({
     body: t(`pages:chibi-couple-generator.tip${item}_body`),
 }));
 const posts = getBlogPosts(lang);
+const featuredPricingCard = pricingCards.find((card) => card.featured) ?? pricingCards[0];
+const homePreviewExamples = exampleGroups.home.slice(0, 3);
+const testimonials = [1, 2, 3].map((item) => ({
+    name: String(t(`testimonials.item${item}_name`)),
+    role: String(t(`testimonials.item${item}_role`)),
+    quote: String(t(`testimonials.item${item}_quote`)),
+}));
+const toolFooterLinks = [
+    { label: t("nav.photo"), href: getPathForRoute(lang, "photo-to-chibi") },
+    { label: t("nav.avatar"), href: getPathForRoute(lang, "chibi-avatar-maker") },
+    { label: t("nav.couple"), href: getPathForRoute(lang, "chibi-couple-generator") },
+];
 const uiText = {
     ctaGenerate: String(t("cta.title")),
     statTotalGenerated: String(t("metrics.total_generated")),
@@ -154,6 +166,32 @@ const uiText = {
     paymentCheckoutFailed: String(t("payment.checkout_failed")),
     paymentPortalFailed: String(t("payment.portal_failed")),
 };
+
+const sectionBase = "py-10 md:py-12 lg:py-[84px]";
+const softSection = "py-10 md:py-12 lg:py-[84px] bg-[var(--surface-band-soft)]";
+const neutralSection = "py-10 md:py-12 lg:py-[84px] bg-[var(--surface-band-neutral)]";
+const generatorSection = "py-10 md:py-12 lg:py-[84px] bg-[var(--surface-band-generator)]";
+const faqSection = "py-10 md:py-12 lg:py-[84px] bg-[linear-gradient(180deg,#f8fafc_0%,#eef4fb_100%)]";
+const heroHome = "relative bg-[var(--surface-band-hero)] pb-6 pt-16 md:pt-[74px]";
+const heroTool = "relative bg-[linear-gradient(180deg,#f8fbff_0%,#eef5ff_100%)] pb-6 pt-16 md:pt-[74px]";
+const heroPricing = "relative bg-[linear-gradient(180deg,#f8fbff_0%,#eef3fb_100%)] pb-6 pt-16 md:pt-[74px]";
+const heroSplitGrid = "grid gap-6 xl:grid-cols-2";
+const twoColumnGrid = "grid gap-6 lg:grid-cols-[minmax(280px,0.8fr)_minmax(0,1.2fr)]";
+const contentGrid = "grid gap-[18px] md:grid-cols-2 xl:grid-cols-3";
+const featureGrid = "grid gap-[18px] md:grid-cols-2 xl:grid-cols-4";
+const featureRailGrid = "grid gap-[18px] md:grid-cols-2 xl:grid-cols-3 xl:auto-rows-fr";
+const proofGrid = "grid gap-[18px] md:grid-cols-3";
+const miniGrid = "grid gap-[18px] md:grid-cols-2";
+const showcaseGrid = "grid gap-4 md:grid-cols-3";
+const pricingCardsGrid = "grid gap-[18px] md:grid-cols-2 xl:grid-cols-4";
+const exploreGrid = "grid gap-5 md:grid-cols-2 xl:grid-cols-3";
+const listGrid = "grid gap-[18px] md:grid-cols-2 xl:grid-cols-3";
+const eyebrowClass = "inline-flex min-h-8 w-fit items-center gap-2 rounded-full border border-[var(--badge-border)] bg-[var(--badge-bg)] px-3.5 py-1.5 text-xs font-semibold uppercase tracking-[0.04em] text-[var(--badge-fg)]";
+const indexClass = "inline-flex w-fit items-center justify-center text-[0.78rem] font-bold uppercase tracking-[0.08em] text-[var(--primary)]";
+const exploreCardClass = "grid min-h-[13rem] content-between gap-4 rounded-[22px] border border-[rgba(148,163,184,0.18)] bg-[linear-gradient(180deg,#ffffff_0%,#f8fbff_100%)] p-[1.45rem] text-[var(--text-strong)] no-underline shadow-[0_14px_28px_rgba(15,23,42,0.06)] transition duration-200 ease-out hover:-translate-y-0.5 hover:border-[rgba(37,99,235,0.24)] hover:shadow-[0_18px_36px_rgba(37,99,235,0.18)]";
+const showcaseCardClass = "overflow-hidden rounded-[18px] border border-[var(--card-border)] bg-[var(--surface-raised)] shadow-[var(--card-shadow)] transition duration-200 ease-out hover:-translate-y-0.5 hover:border-[rgba(37,99,235,0.22)] hover:shadow-[var(--card-shadow-hover)]";
+const summaryItemClass = "flex items-start justify-between gap-4 rounded-[18px] border border-[rgba(148,163,184,0.16)] bg-[rgba(255,255,255,0.64)] px-[1.1rem] py-4";
+
 const metaTitle = render404
     ? String(t("error_404_title"))
     : page.isBlogDetail && blogPost
@@ -169,10 +207,10 @@ const metaDescription = render404
 <Base title={metaTitle} meta={{ description: metaDescription, canonical: Astro.url.href, robots: render404 ? "noindex,nofollow" : "index,follow" }}>
     {
         render404 ? (
-            <section class="section">
+            <section class={sectionBase}>
                 <Shell>
                     <EmptyState title={String(t("error_404_title"))} description={String(t("error_404_desc"))}>
-                        <div class="action-row">
+                        <div class="flex flex-wrap items-center justify-center gap-3">
                             <Button href={getPathForRoute(lang, "home")}>{String(t("error_back_home"))}</Button>
                         </div>
                     </EmptyState>
@@ -180,69 +218,691 @@ const metaDescription = render404
             </section>
         ) : page.routeKey === "home" ? (
             <>
-                <section class="hero">
-                    <Shell class="hero-grid">
-                        <div class="hero-copy">
-                            <span class="eyebrow">{t("pages:index.hero_badge")}</span>
-                            <h1>{t("pages:index.hero_title")}</h1>
-                            <p>{t("pages:index.hero_subtitle")}</p>
-                            <div class="action-row">
-                                <Button href="#route-generator">{uiText.ctaGenerate}</Button>
-                                <Button href={translatePath("/pricing")} variant="ghost">{t("nav.pricing")}</Button>
+                <section class={heroHome}>
+                    <Shell>
+                        <div class={heroSplitGrid}>
+                            <div class="grid content-start gap-4">
+                                <span class={eyebrowClass}>{t("pages:index.hero_badge")}</span>
+                                <h1 class="mb-0 max-w-[10ch]">{t("pages:index.hero_title")}</h1>
+                                <p class="text-[1.06rem] text-[var(--text-muted)]">{t("pages:index.hero_subtitle")}</p>
+                                <div class="flex flex-wrap items-center gap-3">
+                                    <Button href="#route-generator">{uiText.ctaGenerate}</Button>
+                                    <Button href={translatePath("/pricing")} variant="ghost">{t("nav.pricing")}</Button>
+                                </div>
+                                <div class={proofGrid}>
+                                    <Card class="grid gap-2" tone="soft">
+                                        <strong class="block text-[clamp(2rem,3vw,2.6rem)] leading-none tracking-[-0.04em] text-[var(--text-strong)]">{stats.total}</strong>
+                                        <span class="text-sm text-[var(--text-muted)]">{uiText.statTotalGenerated}</span>
+                                    </Card>
+                                    <Card class="grid gap-2" tone="soft">
+                                        <strong class="block text-[clamp(2rem,3vw,2.6rem)] leading-none tracking-[-0.04em] text-[var(--text-strong)]">{stats.today}</strong>
+                                        <span class="text-sm text-[var(--text-muted)]">{uiText.statTodayGenerated}</span>
+                                    </Card>
+                                    <Card class="grid gap-2" tone="soft">
+                                        <strong class="block text-[clamp(2rem,3vw,2.6rem)] leading-none tracking-[-0.04em] text-[var(--text-strong)]">{Object.keys(stats.styles).length}</strong>
+                                        <span class="text-sm text-[var(--text-muted)]">{uiText.statStyles}</span>
+                                    </Card>
+                                </div>
+                            </div>
+
+                            <div class="grid gap-5">
+                                <Card class="grid gap-5" tone="highlight">
+                                    <SectionHeading title={t("pages:index.recent_title")} description={t("pages:index.recent_desc")} />
+                                    <div class={proofGrid}>
+                                        <StatCard value={stats.total} meta={uiText.statTotalGenerated} />
+                                        <StatCard value={stats.today} meta={uiText.statTodayGenerated} />
+                                        <StatCard value={Object.keys(stats.styles).length} meta={uiText.statStyles} />
+                                    </div>
+                                    <div class={showcaseGrid}>
+                                        {
+                                            homePreviewExamples.map((example) => (
+                                                <figure class={showcaseCardClass}>
+                                                    <img
+                                                        src={example.image}
+                                                        alt={typeof example.alt === "string" ? example.alt : example.alt[lang] ?? example.alt.en}
+                                                        loading="lazy"
+                                                        class="aspect-square w-full object-cover"
+                                                    />
+                                                    <figcaption class="px-4 pb-4 pt-3 text-sm font-semibold text-[var(--text-strong)]">
+                                                        {typeof example.title === "string" ? example.title : example.title[lang] ?? example.title.en}
+                                                    </figcaption>
+                                                </figure>
+                                            ))
+                                        }
+                                    </div>
+                                </Card>
+                                <div class={miniGrid}>
+                                    {
+                                        infoCards.slice(0, 2).map((card, index) => (
+                                            <Card class="grid gap-3" tone={index === 0 ? "soft" : "default"}>
+                                                <span class={indexClass}>0{index + 1}</span>
+                                                <h3>{card.title}</h3>
+                                                <p>{card.body}</p>
+                                            </Card>
+                                        ))
+                                    }
+                                </div>
                             </div>
                         </div>
-                        <Card class="hero-panel" tone="highlight">
-                            <SectionHeading title={t("pages:index.recent_title")} description={t("pages:index.recent_desc")} />
-                            <div class="stat-grid" style="margin-top:18px;">
-                                <StatCard value={stats.total} meta={uiText.statTotalGenerated} />
-                                <StatCard value={stats.today} meta={uiText.statTodayGenerated} />
-                                <StatCard value={Object.keys(stats.styles).length} meta={uiText.statStyles} />
-                            </div>
-                        </Card>
                     </Shell>
                 </section>
-                <Shell id="route-generator">
-                    <GeneratorPanel formId={`generator-${lang}`} labels={{ prompt: String(t("pages:index.label_prompt")), promptPlaceholder: String(t("pages:index.prompt_placeholder")), photo: String(t("pages:index.label_photo")), photoHelp: String(t("pages:index.photo_help")), style: String(t("pages:index.label_style")), styleHelp: String(t("pages:index.style_help")), submit: String(t("cta.title")), generating: String(t("common.generating")), resultTitle: String(t("pages:index.result_title")), resultDesc: String(t("pages:index.result_desc")), download: String(t("common.download")), tryAgain: String(t("common.try_again")) }} lang={lang} examples={exampleGroups.home} />
-                </Shell>
-                <section class="section"><Shell class="card-grid">{infoCards.map((card) => <Card><h3>{card.title}</h3><p>{card.body}</p></Card>)}</Shell></section>
-                <section class="section"><Shell><SectionHeading title={t("pages:index.index_styles.title")} description={t("pages:index.index_styles.description")} /><div class="card-grid" style="margin-top:18px;">{styleCards.map((card) => <Card><h3>{card.title}</h3><p>{card.body}</p></Card>)}</div></Shell></section>
-                <section class="section"><Shell><SectionHeading title={t("pages:index.index_tips.title")} description={t("pages:index.index_tips.description")} /><div class="card-grid" style="margin-top:18px;">{tipCards.map((card) => <Card><h3>{card.title}</h3><p>{card.body}</p></Card>)}</div></Shell></section>
-                <section class="section"><Shell><Card class="faq-card" tone="soft"><SectionHeading title={t("pages:index.faq_title")} /><div class="list-grid" style="margin-top:18px;">{faqItems("pages:index.faq_items").map((item) => <Card><h3>{item.q}</h3><p>{item.a}</p></Card>)}</div></Card></Shell></section>
+
+                <section class={generatorSection} id="route-generator">
+                    <Shell>
+                        <div class="grid gap-6">
+                            <SectionHeading badge={t("pages:index.recent_title")} title={uiText.ctaGenerate} description={t("pages:index.recent_desc")} />
+                            <GeneratorPanel
+                                formId={`generator-${lang}`}
+                                labels={{
+                                    prompt: String(t("pages:index.label_prompt")),
+                                    promptPlaceholder: String(t("pages:index.prompt_placeholder")),
+                                    photo: String(t("pages:index.label_photo")),
+                                    photoHelp: String(t("pages:index.photo_help")),
+                                    style: String(t("pages:index.label_style")),
+                                    styleHelp: String(t("pages:index.style_help")),
+                                    submit: String(t("cta.title")),
+                                    generating: String(t("common.generating")),
+                                    resultTitle: String(t("pages:index.result_title")),
+                                    resultDesc: String(t("pages:index.result_desc")),
+                                    download: String(t("common.download")),
+                                    tryAgain: String(t("common.try_again")),
+                                }}
+                                lang={lang}
+                                examples={exampleGroups.home}
+                            />
+                        </div>
+                    </Shell>
+                </section>
+
+                <section class={sectionBase}>
+                    <Shell>
+                        <div class={twoColumnGrid}>
+                            <SectionHeading title={t("pages:index.index_styles.title")} description={t("pages:index.index_styles.description")} />
+                            <div class={featureRailGrid}>
+                                {
+                                    styleCards.map((card, index) => (
+                                        <Card tone={index === 1 ? "highlight" : index === 2 ? "soft" : "default"} class="grid gap-3">
+                                            <span class={indexClass}>0{index + 1}</span>
+                                            <h3>{card.title}</h3>
+                                            <p>{card.body}</p>
+                                        </Card>
+                                    ))
+                                }
+                            </div>
+                        </div>
+                    </Shell>
+                </section>
+
+                <section class={sectionBase}>
+                    <Shell>
+                        <div class="grid gap-6 xl:grid-cols-2">
+                            <Card class="grid gap-5" tone="soft">
+                                <SectionHeading title={t("pages:index.index_tips.title")} description={t("pages:index.index_tips.description")} />
+                                <div class="grid gap-4">
+                                    {
+                                        tipCards.map((card, index) => (
+                                            <article class="grid grid-cols-[auto_minmax(0,1fr)] gap-4">
+                                                <span class={indexClass}>0{index + 1}</span>
+                                                <div>
+                                                    <h3>{card.title}</h3>
+                                                    <p>{card.body}</p>
+                                                </div>
+                                            </article>
+                                        ))
+                                    }
+                                </div>
+                            </Card>
+                            <div class="grid gap-[18px] md:grid-cols-2">
+                                {
+                                    infoCards.map((card) => (
+                                        <Card>
+                                            <h3>{card.title}</h3>
+                                            <p>{card.body}</p>
+                                        </Card>
+                                    ))
+                                }
+                            </div>
+                        </div>
+                    </Shell>
+                </section>
+
+                <section class={faqSection}>
+                    <Shell>
+                        <div class="grid gap-6">
+                            <SectionHeading title={t("pages:index.faq_title")} description={t("pages:index.recent_desc")} />
+                            <div class={listGrid}>
+                                {faqItems("pages:index.faq_items").map((item) => <Card class="bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)]"><h3>{item.q}</h3><p>{item.a}</p></Card>)}
+                            </div>
+                        </div>
+                    </Shell>
+                </section>
             </>
         ) : page.routeKey === "photo-to-chibi" ? (
             <>
-                <section class="hero"><Shell class="hero-grid"><div class="hero-copy"><span class="eyebrow">{t("pages:photo-to-chibi.hero_badge")}</span><h1>{t("pages:photo-to-chibi.title")}</h1><p>{t("pages:photo-to-chibi.hero_subtitle")}</p></div><Card class="hero-panel" tone="highlight"><SectionHeading title={t("pages:photo-to-chibi.how_it_works_title")} /><div class="list-grid">{photoSteps.map((step) => <Card><h3>{step.title}</h3><p>{step.body}</p></Card>)}</div></Card></Shell></section>
-                <Shell><GeneratorPanel formId={`photo-generator-${lang}`} labels={{ prompt: String(t("pages:photo-to-chibi.label_notes")), promptPlaceholder: String(t("pages:photo-to-chibi.notes_placeholder")), photo: String(t("pages:photo-to-chibi.label_photo")), photoHelp: String(t("pages:photo-to-chibi.photo_help")), style: String(t("pages:index.label_style")), styleHelp: String(t("pages:photo-to-chibi.style_help")), submit: String(t("pages:photo-to-chibi.generate_btn")), generating: String(t("common.generating")), resultTitle: String(t("pages:photo-to-chibi.result_title")), resultDesc: String(t("pages:index.result_desc")), download: String(t("common.download")), tryAgain: String(t("common.try_again")) }} defaults={{ style: "avatar" }} lang={lang} examples={exampleGroups.photo} /></Shell>
-                <section class="section"><Shell><SectionHeading title={t("pages:photo-to-chibi.tips_title")} /><div class="card-grid">{photoTips.map((tip) => <Card><h3>{tip.title}</h3><p>{tip.body}</p></Card>)}</div></Shell></section>
-                <section class="section"><Shell><Card class="faq-card" tone="soft"><SectionHeading title={t("pages:photo-to-chibi.photo_faq_title")} /><div class="list-grid">{faqItems("pages:photo-to-chibi.photo_faq_items").map((item) => <Card><h3>{item.q}</h3><p>{item.a}</p></Card>)}</div></Card></Shell></section>
+                <section class={heroTool}>
+                    <Shell>
+                        <div class={heroSplitGrid}>
+                            <div class="grid content-start gap-4">
+                                <span class={eyebrowClass}>{t("pages:photo-to-chibi.hero_badge")}</span>
+                                <h1 class="mb-0 max-w-[11ch]">{t("pages:photo-to-chibi.title")}</h1>
+                                <p class="text-[1.06rem] text-[var(--text-muted)]">{t("pages:photo-to-chibi.hero_subtitle")}</p>
+                                <div class="flex flex-wrap items-center gap-3">
+                                    <Button href="#route-generator">{t("pages:photo-to-chibi.generate_btn")}</Button>
+                                </div>
+                            </div>
+                            <div class={miniGrid}>
+                                {
+                                    photoTips.slice(0, 3).map((tip, index) => (
+                                        <Card class="grid gap-3" tone={index === 1 ? "soft" : "default"}>
+                                            <h3>{tip.title}</h3>
+                                            <p>{tip.body}</p>
+                                        </Card>
+                                    ))
+                                }
+                            </div>
+                        </div>
+                    </Shell>
+                </section>
+
+                <section class={generatorSection} id="route-generator">
+                    <Shell>
+                        <GeneratorPanel
+                            formId={`photo-generator-${lang}`}
+                            labels={{
+                                prompt: String(t("pages:photo-to-chibi.label_notes")),
+                                promptPlaceholder: String(t("pages:photo-to-chibi.notes_placeholder")),
+                                photo: String(t("pages:photo-to-chibi.label_photo")),
+                                photoHelp: String(t("pages:photo-to-chibi.photo_help")),
+                                style: String(t("pages:index.label_style")),
+                                styleHelp: String(t("pages:photo-to-chibi.style_help")),
+                                submit: String(t("pages:photo-to-chibi.generate_btn")),
+                                generating: String(t("common.generating")),
+                                resultTitle: String(t("pages:photo-to-chibi.result_title")),
+                                resultDesc: String(t("pages:index.result_desc")),
+                                download: String(t("common.download")),
+                                tryAgain: String(t("common.try_again")),
+                            }}
+                            defaults={{ style: "avatar" }}
+                            lang={lang}
+                            examples={exampleGroups.photo}
+                        />
+                    </Shell>
+                </section>
+
+                <section class={neutralSection}>
+                    <Shell>
+                        <div class={twoColumnGrid}>
+                            <SectionHeading title={t("nav.features")} description={t("pages:photo-to-chibi.tips_title")} />
+                            <div class={contentGrid}>
+                                {photoTips.map((tip) => <Card><h3>{tip.title}</h3><p>{tip.body}</p></Card>)}
+                            </div>
+                        </div>
+                    </Shell>
+                </section>
+
+                <section class={softSection}>
+                    <Shell>
+                        <SectionHeading title={t("pages:photo-to-chibi.how_it_works_title")} />
+                        <div class={`mt-6 ${featureGrid}`}>
+                            {photoSteps.map((step, index) => <Card class="grid gap-3"><span class={indexClass}>0{index + 1}</span><h3>{step.title}</h3><p>{step.body}</p></Card>)}
+                        </div>
+                    </Shell>
+                </section>
+
+                <section class={neutralSection}>
+                    <Shell>
+                        <SectionHeading title={t("nav.pricing")} description={t(`pages:pricing.${featuredPricingCard.id}_desc`)} />
+                        <div class={`mt-6 ${pricingCardsGrid}`}>
+                            {
+                                pricingCards.map((card) => (
+                                    <Card tone={card.featured ? "highlight" : "default"} class="grid gap-4">
+                                        <span class={eyebrowClass}>{card.featured ? t("pages:pricing.popular") : t(`plan.${card.id}`)}</span>
+                                        <h3>{t(`pages:pricing.${card.id}_title`)}</h3>
+                                        <p>{t(`pages:pricing.${card.id}_desc`)}</p>
+                                        <strong class="block text-[clamp(2rem,3vw,2.6rem)] leading-none tracking-[-0.04em] text-[var(--text-strong)]">{card.priceLabel}</strong>
+                                        <p>{card.creditLabel ?? t(`pages:pricing.${card.id}_credit`)}</p>
+                                        {card.featureKeys && <ul class="m-0 pl-5">{card.featureKeys.map((key) => <li>{t(key)}</li>)}</ul>}
+                                    </Card>
+                                ))
+                            }
+                        </div>
+                    </Shell>
+                </section>
+
+                <section class={softSection}>
+                    <Shell>
+                        <SectionHeading title={t("testimonials.title")} description={t("testimonials.description")} />
+                        <div class={`mt-6 ${contentGrid}`}>
+                            {testimonials.map((item) => <Card class="grid gap-4"><p class="text-[1.05rem] leading-[1.75]">"{item.quote}"</p><div><h3 class="mb-1">{item.name}</h3><p>{item.role}</p></div></Card>)}
+                        </div>
+                    </Shell>
+                </section>
+
+                <section class={faqSection}>
+                    <Shell>
+                        <div class="grid gap-6">
+                            <SectionHeading title={t("pages:photo-to-chibi.photo_faq_title")} />
+                            <div class={listGrid}>
+                                {faqItems("pages:photo-to-chibi.photo_faq_items").map((item) => <Card class="bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)]"><h3>{item.q}</h3><p>{item.a}</p></Card>)}
+                            </div>
+                        </div>
+                    </Shell>
+                </section>
+
+                <section class={softSection}>
+                    <Shell>
+                        <SectionHeading title={t("pages:index.tools_title")} description={t("pages:index.tools_desc")} />
+                        <div class={`mt-8 ${exploreGrid}`}>
+                            {toolFooterLinks.map((item) => <a class={exploreCardClass} href={item.href}><strong class="text-base">{item.label}</strong><span class="text-[0.9rem] font-semibold text-[var(--primary)]">{t("cta.title")}</span></a>)}
+                        </div>
+                    </Shell>
+                </section>
             </>
         ) : page.routeKey === "chibi-avatar-maker" ? (
             <>
-                <section class="hero"><Shell class="hero-grid"><div class="hero-copy"><span class="eyebrow">{t("pages:chibi-avatar-maker.hero_badge")}</span><h1>{t("pages:chibi-avatar-maker.title")}</h1><p>{t("pages:chibi-avatar-maker.hero_subtitle")}</p></div><Card class="hero-panel" tone="highlight"><SectionHeading title={t("pages:chibi-avatar-maker.avatar_perfect_for.title")} /><div class="list-grid">{avatarPerfectFor.map((item) => <Card><h3>{item.title}</h3><p>{item.body}</p></Card>)}</div></Card></Shell></section>
-                <Shell><GeneratorPanel formId={`avatar-generator-${lang}`} labels={{ prompt: String(t("pages:chibi-avatar-maker.label_prompt")), promptPlaceholder: String(t("pages:chibi-avatar-maker.prompt_placeholder")), photo: String(t("pages:index.label_photo")), photoHelp: String(t("pages:chibi-avatar-maker.photo_help")), style: String(t("pages:index.label_style")), styleHelp: String(t("pages:chibi-avatar-maker.style_help")), submit: String(t("pages:chibi-avatar-maker.generate_btn")), generating: String(t("pages:chibi-avatar-maker.generating")), resultTitle: String(t("pages:chibi-avatar-maker.result_title")), resultDesc: String(t("pages:chibi-avatar-maker.result_desc")), download: String(t("common.download")), tryAgain: String(t("common.try_again")) }} defaults={{ prompt: String(t("pages:chibi-avatar-maker.prompt_default")), style: "kawaii" }} lang={lang} examples={exampleGroups.avatar} /></Shell>
-                <section class="section"><Shell><SectionHeading title={t("pages:chibi-avatar-maker.how_title")} /><div class="card-grid">{avatarSteps.map((item) => <Card><h3>{item.title}</h3><p>{item.body}</p></Card>)}</div></Shell></section>
-                <section class="section"><Shell><SectionHeading title={t("pages:chibi-avatar-maker.avatar_ideas.title")} description={t("pages:chibi-avatar-maker.avatar_ideas.description")} /><div class="card-grid">{avatarIdeas.map((item) => <Card><h3>{item.title}</h3><p>{item.body}</p></Card>)}</div></Shell></section>
-                <section class="section"><Shell><Card class="faq-card" tone="soft"><SectionHeading title={t("pages:chibi-avatar-maker.avatar_faq_title")} /><div class="list-grid">{faqItems("pages:chibi-avatar-maker.avatar_faq_items").map((item) => <Card><h3>{item.q}</h3><p>{item.a}</p></Card>)}</div></Card></Shell></section>
+                <section class={heroTool}>
+                    <Shell>
+                        <div class={heroSplitGrid}>
+                            <div class="grid content-start gap-4">
+                                <span class={eyebrowClass}>{t("pages:chibi-avatar-maker.hero_badge")}</span>
+                                <h1 class="mb-0 max-w-[11ch]">{t("pages:chibi-avatar-maker.title")}</h1>
+                                <p class="text-[1.06rem] text-[var(--text-muted)]">{t("pages:chibi-avatar-maker.hero_subtitle")}</p>
+                                <div class="flex flex-wrap items-center gap-3">
+                                    <Button href="#route-generator">{t("pages:chibi-avatar-maker.generate_btn")}</Button>
+                                </div>
+                            </div>
+                            <div class={miniGrid}>
+                                {avatarPerfectFor.map((item, index) => <Card class="grid gap-3" tone={index === 1 ? "soft" : "default"}><h3>{item.title}</h3><p>{item.body}</p></Card>)}
+                            </div>
+                        </div>
+                    </Shell>
+                </section>
+
+                <section class={generatorSection} id="route-generator">
+                    <Shell>
+                        <GeneratorPanel
+                            formId={`avatar-generator-${lang}`}
+                            labels={{
+                                prompt: String(t("pages:chibi-avatar-maker.label_prompt")),
+                                promptPlaceholder: String(t("pages:chibi-avatar-maker.prompt_placeholder")),
+                                photo: String(t("pages:index.label_photo")),
+                                photoHelp: String(t("pages:chibi-avatar-maker.photo_help")),
+                                style: String(t("pages:index.label_style")),
+                                styleHelp: String(t("pages:chibi-avatar-maker.style_help")),
+                                submit: String(t("pages:chibi-avatar-maker.generate_btn")),
+                                generating: String(t("pages:chibi-avatar-maker.generating")),
+                                resultTitle: String(t("pages:chibi-avatar-maker.result_title")),
+                                resultDesc: String(t("pages:chibi-avatar-maker.result_desc")),
+                                download: String(t("common.download")),
+                                tryAgain: String(t("common.try_again")),
+                            }}
+                            defaults={{ prompt: String(t("pages:chibi-avatar-maker.prompt_default")), style: "kawaii" }}
+                            lang={lang}
+                            examples={exampleGroups.avatar}
+                        />
+                    </Shell>
+                </section>
+
+                <section class={neutralSection}>
+                    <Shell>
+                        <div class={twoColumnGrid}>
+                            <SectionHeading title={t("nav.features")} description={t("pages:chibi-avatar-maker.avatar_ideas.description")} />
+                            <div class={contentGrid}>
+                                {avatarIdeas.map((item) => <Card><h3>{item.title}</h3><p>{item.body}</p></Card>)}
+                            </div>
+                        </div>
+                    </Shell>
+                </section>
+
+                <section class={softSection}>
+                    <Shell>
+                        <SectionHeading title={t("pages:chibi-avatar-maker.how_title")} />
+                        <div class={`mt-6 ${featureGrid}`}>
+                            {avatarSteps.map((item, index) => <Card class="grid gap-3"><span class={indexClass}>0{index + 1}</span><h3>{item.title}</h3><p>{item.body}</p></Card>)}
+                        </div>
+                    </Shell>
+                </section>
+
+                <section class={neutralSection}>
+                    <Shell>
+                        <SectionHeading title={t("nav.pricing")} description={t(`pages:pricing.${featuredPricingCard.id}_desc`)} />
+                        <div class={`mt-6 ${pricingCardsGrid}`}>
+                            {
+                                pricingCards.map((card) => (
+                                    <Card tone={card.featured ? "highlight" : "default"} class="grid gap-4">
+                                        <span class={eyebrowClass}>{card.featured ? t("pages:pricing.popular") : t(`plan.${card.id}`)}</span>
+                                        <h3>{t(`pages:pricing.${card.id}_title`)}</h3>
+                                        <p>{t(`pages:pricing.${card.id}_desc`)}</p>
+                                        <strong class="block text-[clamp(2rem,3vw,2.6rem)] leading-none tracking-[-0.04em] text-[var(--text-strong)]">{card.priceLabel}</strong>
+                                        <p>{card.creditLabel ?? t(`pages:pricing.${card.id}_credit`)}</p>
+                                        {card.featureKeys && <ul class="m-0 pl-5">{card.featureKeys.map((key) => <li>{t(key)}</li>)}</ul>}
+                                    </Card>
+                                ))
+                            }
+                        </div>
+                    </Shell>
+                </section>
+
+                <section class={softSection}>
+                    <Shell>
+                        <SectionHeading title={t("testimonials.title")} description={t("testimonials.description")} />
+                        <div class={`mt-6 ${contentGrid}`}>
+                            {testimonials.map((item) => <Card class="grid gap-4"><p class="text-[1.05rem] leading-[1.75]">"{item.quote}"</p><div><h3 class="mb-1">{item.name}</h3><p>{item.role}</p></div></Card>)}
+                        </div>
+                    </Shell>
+                </section>
+
+                <section class={faqSection}>
+                    <Shell>
+                        <div class="grid gap-6">
+                            <SectionHeading title={t("pages:chibi-avatar-maker.avatar_faq_title")} />
+                            <div class={listGrid}>
+                                {faqItems("pages:chibi-avatar-maker.avatar_faq_items").map((item) => <Card class="bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)]"><h3>{item.q}</h3><p>{item.a}</p></Card>)}
+                            </div>
+                        </div>
+                    </Shell>
+                </section>
+
+                <section class={softSection}>
+                    <Shell>
+                        <SectionHeading title={t("pages:index.tools_title")} description={t("pages:index.tools_desc")} />
+                        <div class={`mt-8 ${exploreGrid}`}>
+                            {toolFooterLinks.map((item) => <a class={exploreCardClass} href={item.href}><strong class="text-base">{item.label}</strong><span class="text-[0.9rem] font-semibold text-[var(--primary)]">{t("cta.title")}</span></a>)}
+                        </div>
+                    </Shell>
+                </section>
             </>
         ) : page.routeKey === "chibi-couple-generator" ? (
             <>
-                <section class="hero"><Shell class="hero-grid"><div class="hero-copy"><span class="eyebrow">{t("pages:chibi-couple-generator.hero_badge")}</span><h1>{t("pages:chibi-couple-generator.title")}</h1><p>{t("pages:chibi-couple-generator.hero_subtitle")}</p></div><Card class="hero-panel" tone="highlight"><SectionHeading title={t("pages:chibi-couple-generator.how_title")} /><div class="list-grid">{coupleSteps.map((item) => <Card><h3>{item.title}</h3><p>{item.body}</p></Card>)}</div></Card></Shell></section>
-                <Shell><GeneratorPanel formId={`couple-generator-${lang}`} labels={{ prompt: String(t("pages:chibi-couple-generator.label_prompt")), promptPlaceholder: String(t("pages:chibi-couple-generator.prompt_placeholder")), photo: String(t("pages:chibi-couple-generator.label_photo")), photoHelp: String(t("pages:chibi-couple-generator.photo_help")), style: String(t("pages:index.label_style")), styleHelp: String(t("pages:chibi-couple-generator.style_help")), submit: String(t("pages:chibi-couple-generator.generate_btn")), generating: String(t("pages:chibi-couple-generator.generating")), resultTitle: String(t("pages:chibi-couple-generator.result_title")), resultDesc: String(t("pages:chibi-couple-generator.result_desc")), download: String(t("common.download")), tryAgain: String(t("common.try_again")) }} defaults={{ prompt: String(t("pages:chibi-couple-generator.prompt_default")), style: "kawaii" }} lang={lang} examples={exampleGroups.couple} /></Shell>
-                <section class="section"><Shell><SectionHeading title={t("pages:chibi-couple-generator.tips_title")} /><div class="card-grid">{coupleTips.map((item) => <Card><h3>{item.title}</h3><p>{item.body}</p></Card>)}</div></Shell></section>
-                <section class="section"><Shell><Card class="faq-card" tone="soft"><SectionHeading title={t("pages:chibi-couple-generator.couple_faq_title")} /><div class="list-grid">{faqItems("pages:chibi-couple-generator.couple_faq_items").map((item) => <Card><h3>{item.q}</h3><p>{item.a}</p></Card>)}</div></Card></Shell></section>
+                <section class={heroTool}>
+                    <Shell>
+                        <div class={heroSplitGrid}>
+                            <div class="grid content-start gap-4">
+                                <span class={eyebrowClass}>{t("pages:chibi-couple-generator.hero_badge")}</span>
+                                <h1 class="mb-0 max-w-[11ch]">{t("pages:chibi-couple-generator.title")}</h1>
+                                <p class="text-[1.06rem] text-[var(--text-muted)]">{t("pages:chibi-couple-generator.hero_subtitle")}</p>
+                                <div class="flex flex-wrap items-center gap-3">
+                                    <Button href="#route-generator">{t("pages:chibi-couple-generator.generate_btn")}</Button>
+                                </div>
+                            </div>
+                            <div class={miniGrid}>
+                                {coupleTips.map((item, index) => <Card class="grid gap-3" tone={index === 1 ? "soft" : "default"}><h3>{item.title}</h3><p>{item.body}</p></Card>)}
+                            </div>
+                        </div>
+                    </Shell>
+                </section>
+
+                <section class={generatorSection} id="route-generator">
+                    <Shell>
+                        <GeneratorPanel
+                            formId={`couple-generator-${lang}`}
+                            labels={{
+                                prompt: String(t("pages:chibi-couple-generator.label_prompt")),
+                                promptPlaceholder: String(t("pages:chibi-couple-generator.prompt_placeholder")),
+                                photo: String(t("pages:chibi-couple-generator.label_photo")),
+                                photoHelp: String(t("pages:chibi-couple-generator.photo_help")),
+                                style: String(t("pages:index.label_style")),
+                                styleHelp: String(t("pages:chibi-couple-generator.style_help")),
+                                submit: String(t("pages:chibi-couple-generator.generate_btn")),
+                                generating: String(t("pages:chibi-couple-generator.generating")),
+                                resultTitle: String(t("pages:chibi-couple-generator.result_title")),
+                                resultDesc: String(t("pages:chibi-couple-generator.result_desc")),
+                                download: String(t("common.download")),
+                                tryAgain: String(t("common.try_again")),
+                            }}
+                            defaults={{ prompt: String(t("pages:chibi-couple-generator.prompt_default")), style: "kawaii" }}
+                            lang={lang}
+                            examples={exampleGroups.couple}
+                        />
+                    </Shell>
+                </section>
+
+                <section class={neutralSection}>
+                    <Shell>
+                        <div class={twoColumnGrid}>
+                            <SectionHeading title={t("nav.features")} description={t("pages:chibi-couple-generator.tips_title")} />
+                            <div class={contentGrid}>
+                                {coupleTips.map((item) => <Card><h3>{item.title}</h3><p>{item.body}</p></Card>)}
+                            </div>
+                        </div>
+                    </Shell>
+                </section>
+
+                <section class={softSection}>
+                    <Shell>
+                        <SectionHeading title={t("pages:chibi-couple-generator.how_title")} />
+                        <div class={`mt-6 ${featureGrid}`}>
+                            {coupleSteps.map((item, index) => <Card class="grid gap-3"><span class={indexClass}>0{index + 1}</span><h3>{item.title}</h3><p>{item.body}</p></Card>)}
+                        </div>
+                    </Shell>
+                </section>
+
+                <section class={neutralSection}>
+                    <Shell>
+                        <SectionHeading title={t("nav.pricing")} description={t(`pages:pricing.${featuredPricingCard.id}_desc`)} />
+                        <div class={`mt-6 ${pricingCardsGrid}`}>
+                            {
+                                pricingCards.map((card) => (
+                                    <Card tone={card.featured ? "highlight" : "default"} class="grid gap-4">
+                                        <span class={eyebrowClass}>{card.featured ? t("pages:pricing.popular") : t(`plan.${card.id}`)}</span>
+                                        <h3>{t(`pages:pricing.${card.id}_title`)}</h3>
+                                        <p>{t(`pages:pricing.${card.id}_desc`)}</p>
+                                        <strong class="block text-[clamp(2rem,3vw,2.6rem)] leading-none tracking-[-0.04em] text-[var(--text-strong)]">{card.priceLabel}</strong>
+                                        <p>{card.creditLabel ?? t(`pages:pricing.${card.id}_credit`)}</p>
+                                        {card.featureKeys && <ul class="m-0 pl-5">{card.featureKeys.map((key) => <li>{t(key)}</li>)}</ul>}
+                                    </Card>
+                                ))
+                            }
+                        </div>
+                    </Shell>
+                </section>
+
+                <section class={softSection}>
+                    <Shell>
+                        <SectionHeading title={t("testimonials.title")} description={t("testimonials.description")} />
+                        <div class={`mt-6 ${contentGrid}`}>
+                            {testimonials.map((item) => <Card class="grid gap-4"><p class="text-[1.05rem] leading-[1.75]">"{item.quote}"</p><div><h3 class="mb-1">{item.name}</h3><p>{item.role}</p></div></Card>)}
+                        </div>
+                    </Shell>
+                </section>
+
+                <section class={faqSection}>
+                    <Shell>
+                        <div class="grid gap-6">
+                            <SectionHeading title={t("pages:chibi-couple-generator.couple_faq_title")} />
+                            <div class={listGrid}>
+                                {faqItems("pages:chibi-couple-generator.couple_faq_items").map((item) => <Card class="bg-[linear-gradient(180deg,#ffffff_0%,#f8fafc_100%)]"><h3>{item.q}</h3><p>{item.a}</p></Card>)}
+                            </div>
+                        </div>
+                    </Shell>
+                </section>
+
+                <section class={softSection}>
+                    <Shell>
+                        <SectionHeading title={t("pages:index.tools_title")} description={t("pages:index.tools_desc")} />
+                        <div class={`mt-8 ${exploreGrid}`}>
+                            {toolFooterLinks.map((item) => <a class={exploreCardClass} href={item.href}><strong class="text-base">{item.label}</strong><span class="text-[0.9rem] font-semibold text-[var(--primary)]">{t("cta.title")}</span></a>)}
+                        </div>
+                    </Shell>
+                </section>
             </>
         ) : page.routeKey === "pricing" ? (
-            <section class="section"><Shell><SectionHeading badge={t("pages:pricing.label")} title={t("pages:pricing.title")} description={t("pages:pricing.subtitle")} /><div class="pricing-grid" style="margin-top:24px;">{pricingCards.map((card) => <Card class="pricing-card" tone={card.featured ? "highlight" : "default"}><span class="eyebrow">{card.featured ? t("pages:pricing.popular") : t(`plan.${card.id}`)}</span><h3>{t(`pages:pricing.${card.id}_title`)}</h3><p>{t(`pages:pricing.${card.id}_desc`)}</p><strong class="metric">{card.priceLabel}</strong><p>{card.creditLabel ?? t(`pages:pricing.${card.id}_credit`)}</p>{card.featureKeys && <ul>{card.featureKeys.map((key) => <li>{t(key)}</li>)}</ul>}<div class="action-row" style="margin-top:16px;">{card.paid ? <Button type="button" data-checkout-plan={card.id}>{t(card.ctaKey)}</Button> : <Button href={getPathForRoute(lang, "home")} variant="ghost">{t(card.ctaKey)}</Button>}</div></Card>)}</div><div class="notice" data-payment-message hidden></div></Shell></section>
+            <>
+                <section class={heroPricing}>
+                    <Shell>
+                        <div class={heroSplitGrid}>
+                            <div class="grid content-start gap-4">
+                                <span class={eyebrowClass}>{t("pages:pricing.label")}</span>
+                                <h1 class="mb-0 max-w-[10ch]">{t("pages:pricing.title")}</h1>
+                                <p class="text-[1.06rem] text-[var(--text-muted)]">{t("pages:pricing.subtitle")}</p>
+                                <div class="flex flex-wrap items-center gap-3">
+                                    <Button href={getPathForRoute(lang, "home")}>{uiText.ctaGenerate}</Button>
+                                    <Button href={getPathForRoute(lang, "dashboard")} variant="ghost">{t("nav.dashboard")}</Button>
+                                </div>
+                                <div class={proofGrid}>
+                                    {
+                                        pricingCards.map((card) => (
+                                            <Card tone={card.featured ? "highlight" : "soft"} class="grid gap-2">
+                                                <span class="text-sm text-[var(--text-muted)]">{card.featured ? t("pages:pricing.popular") : t(`plan.${card.id}`)}</span>
+                                                <strong class="block text-[clamp(1.7rem,2.5vw,2.2rem)] leading-none tracking-[-0.04em] text-[var(--text-strong)]">{card.priceLabel}</strong>
+                                            </Card>
+                                        ))
+                                    }
+                                </div>
+                            </div>
+
+                            <Card class="grid gap-5" tone="highlight">
+                                <SectionHeading title={t("pages:pricing.popular")} description={t(`pages:pricing.${featuredPricingCard.id}_desc`)} />
+                                <div class="grid gap-4">
+                                    {
+                                        pricingCards.map((card) => (
+                                            <article class:list={[summaryItemClass, card.featured && "border-[rgba(37,99,235,0.24)] bg-[rgba(37,99,235,0.08)]"]}>
+                                                <div>
+                                                    <span class="mb-1 block font-semibold text-[var(--text-strong)]">{t(`pages:pricing.${card.id}_title`)}</span>
+                                                    <p>{card.creditLabel ?? t(`pages:pricing.${card.id}_credit`)}</p>
+                                                </div>
+                                                <strong class="text-[var(--text-strong)]">{card.priceLabel}</strong>
+                                            </article>
+                                        ))
+                                    }
+                                </div>
+                            </Card>
+                        </div>
+                    </Shell>
+                </section>
+
+                <section class={sectionBase}>
+                    <Shell>
+                        <div class={pricingCardsGrid}>
+                            {
+                                pricingCards.map((card) => (
+                                    <Card tone={card.featured ? "highlight" : "default"} class="grid gap-4">
+                                        <span class={eyebrowClass}>{card.featured ? t("pages:pricing.popular") : t(`plan.${card.id}`)}</span>
+                                        <h3>{t(`pages:pricing.${card.id}_title`)}</h3>
+                                        <p>{t(`pages:pricing.${card.id}_desc`)}</p>
+                                        <strong class="block text-[clamp(2rem,3vw,2.6rem)] leading-none tracking-[-0.04em] text-[var(--text-strong)]">{card.priceLabel}</strong>
+                                        <p>{card.creditLabel ?? t(`pages:pricing.${card.id}_credit`)}</p>
+                                        {card.featureKeys && <ul class="m-0 pl-5">{card.featureKeys.map((key) => <li>{t(key)}</li>)}</ul>}
+                                        <div class="flex flex-wrap items-center gap-3">
+                                            {card.paid ? <Button type="button" data-checkout-plan={card.id}>{t(card.ctaKey)}</Button> : <Button href={getPathForRoute(lang, "home")} variant="ghost">{t(card.ctaKey)}</Button>}
+                                        </div>
+                                    </Card>
+                                ))
+                            }
+                        </div>
+                        <Card class="mt-6 grid gap-4" tone="soft">
+                            <SectionHeading title={t("pages:pricing.subtitle")} description={t(`pages:pricing.${featuredPricingCard.id}_credit`)} />
+                            <div class="rounded-2xl border border-[var(--card-border)] bg-[var(--surface-soft)] px-4 py-4 text-[var(--text-muted)]" data-payment-message hidden></div>
+                        </Card>
+                    </Shell>
+                </section>
+            </>
         ) : page.routeKey === "features" ? (
-            <section class="section"><Shell><SectionHeading badge={t("pages:features.label")} title={t("pages:features.title")} description={t("pages:features.subtitle")} /><div class="card-grid" style="margin-top:24px;">{featureBlocks.map((block) => <Card><h3>{block.title}</h3><p>{block.body}</p></Card>)}</div><div class="page-actions" style="margin-top:24px;"><Button href={getPathForRoute(lang, "home")}>{t("pages:features.cta")}</Button></div></Shell></section>
+            <section class={sectionBase}>
+                <Shell>
+                    <SectionHeading badge={t("pages:features.label")} title={t("pages:features.title")} description={t("pages:features.subtitle")} />
+                    <div class={`mt-6 ${contentGrid}`}>
+                        {featureBlocks.map((block) => <Card><h3>{block.title}</h3><p>{block.body}</p></Card>)}
+                    </div>
+                    <div class="mt-6 flex flex-wrap items-center gap-3">
+                        <Button href={getPathForRoute(lang, "home")}>{t("pages:features.cta")}</Button>
+                    </div>
+                </Shell>
+            </section>
         ) : page.routeKey === "about" ? (
-            <section class="section"><Shell><SectionHeading badge={t("pages:about.label")} title={t("pages:about.title")} description={t("pages:about.para1")} /><Card class="list-card" tone="soft"><p>{t("pages:about.para2")}</p></Card><div class="card-grid" style="margin-top:24px;">{aboutValues.map((item) => <Card><h3>{item.title}</h3><p>{item.body}</p></Card>)}</div><div class="page-actions" style="margin-top:24px;"><Button href={getPathForRoute(lang, "home")}>{t("pages:about.cta")}</Button></div></Shell></section>
+            <section class={sectionBase}>
+                <Shell>
+                    <SectionHeading badge={t("pages:about.label")} title={t("pages:about.title")} description={t("pages:about.para1")} />
+                    <Card class="grid gap-4" tone="soft">
+                        <p>{t("pages:about.para2")}</p>
+                    </Card>
+                    <div class={`mt-6 ${contentGrid}`}>
+                        {aboutValues.map((item) => <Card><h3>{item.title}</h3><p>{item.body}</p></Card>)}
+                    </div>
+                    <div class="mt-6 flex flex-wrap items-center gap-3">
+                        <Button href={getPathForRoute(lang, "home")}>{t("pages:about.cta")}</Button>
+                    </div>
+                </Shell>
+            </section>
         ) : page.routeKey === "blog" && blogPost ? (
-            <section class="section"><Shell><Card class="article-card" tone="soft"><span class="eyebrow">{t("pages:blog.title")}</span><h1>{blogPost.title}</h1><p class="article-intro">{blogPost.excerpt}</p><div class="meta-row"><span>{blogPost.publishedAt}</span><span>{blogPost.readMinutes} {uiText.readMinutesUnit}</span></div><img src={blogPost.cover} alt={blogPost.title} /><div class="list-grid">{blogPost.body.map((paragraph) => <Card><p>{paragraph}</p></Card>)}</div><div class="page-actions" style="margin-top:24px;"><Button href={getPathForRoute(lang, "blog")} variant="ghost">{t("pages:blog.back_to_list")}</Button></div></Card></Shell></section>
+            <section class={sectionBase}>
+                <Shell>
+                    <Card class="grid gap-6" tone="soft">
+                        <span class={eyebrowClass}>{t("pages:blog.title")}</span>
+                        <h1 class="mb-0 max-w-full">{blogPost.title}</h1>
+                        <p class="text-[var(--text-muted)]">{blogPost.excerpt}</p>
+                        <div class="flex flex-wrap items-center gap-4 text-sm text-[var(--text-muted)]">
+                            <span>{blogPost.publishedAt}</span>
+                            <span>{blogPost.readMinutes} {uiText.readMinutesUnit}</span>
+                        </div>
+                        <img src={blogPost.cover} alt={blogPost.title} class="w-full rounded-[16px] object-cover" />
+                        <div class={`mt-2 ${contentGrid}`}>
+                            {blogPost.body.map((paragraph) => <Card><p>{paragraph}</p></Card>)}
+                        </div>
+                        <div class="flex flex-wrap items-center gap-3">
+                            <Button href={getPathForRoute(lang, "blog")} variant="ghost">{t("pages:blog.back_to_list")}</Button>
+                        </div>
+                    </Card>
+                </Shell>
+            </section>
         ) : page.routeKey === "blog" ? (
-            <section class="section"><Shell><SectionHeading badge={t("pages:blog.title")} title={t("pages:blog.title")} description={t("pages:blog.subtitle")} /><div class="blog-grid" style="margin-top:24px;">{posts.map((post) => <Card class="blog-card"><img src={post.cover} alt={post.title} /><div class="meta-row"><span>{post.publishedAt}</span><span>{post.readMinutes} {uiText.readMinutesUnit}</span></div><h3>{post.title}</h3><p>{post.excerpt}</p><Button href={getPathForRoute(lang, "blog", [post.slug])} variant="ghost">{t("pages:blog.back_to_list")}</Button></Card>)}</div></Shell></section>
+            <section class={sectionBase}>
+                <Shell>
+                    <SectionHeading badge={t("pages:blog.title")} title={t("pages:blog.title")} description={t("pages:blog.subtitle")} />
+                    <div class={`mt-6 ${contentGrid}`}>
+                        {
+                            posts.map((post) => (
+                                <Card class="grid gap-4">
+                                    <img src={post.cover} alt={post.title} class="aspect-[4/3] w-full rounded-[16px] object-cover" />
+                                    <div class="flex flex-wrap items-center gap-4 text-sm text-[var(--text-muted)]">
+                                        <span>{post.publishedAt}</span>
+                                        <span>{post.readMinutes} {uiText.readMinutesUnit}</span>
+                                    </div>
+                                    <div>
+                                        <h3>{post.title}</h3>
+                                        <p>{post.excerpt}</p>
+                                    </div>
+                                    <Button href={getPathForRoute(lang, "blog", [post.slug])} variant="ghost">{t("pages:blog.back_to_list")}</Button>
+                                </Card>
+                            ))
+                        }
+                    </div>
+                </Shell>
+            </section>
         ) : page.routeKey === "dashboard" ? (
-            <section class="section"><Shell><SectionHeading badge={t("pages:dashboard.label")} title={t("pages:dashboard.title")} description={t("pages:dashboard.subtitle")} /><div class="dashboard-grid" style="margin-top:24px;"><StatCard class="dashboard-card" title={t("pages:dashboard.current_plan")} value={t("common.loading")} meta={t("common.loading")} data-plan-card><span class="sr-only" data-plan-value>{t("common.loading")}</span><span class="sr-only" data-status-value>{t("common.loading")}</span></StatCard><StatCard class="dashboard-card" title={t("pages:dashboard.monthly_usage")} value="0" meta={t("common.loading")} data-credits-card><span class="sr-only" data-credit-value>0</span><span class="sr-only" data-expiry-value>{t("common.loading")}</span></StatCard><Card class="dashboard-card" tone="highlight"><h3>{t("nav.login")}</h3><div class="action-row"><Button type="button" data-checkout-plan="starter">{t("pages:dashboard.upgrade")}</Button><Button type="button" variant="ghost" data-open-portal>{t("pages:dashboard.manage")}</Button></div></Card></div><Card class="dashboard-card" style="margin-top:24px;"><div class="toolbar"><h2 style="margin-bottom:0;">{t("pages:dashboard.recent_title")}</h2><Button type="button" variant="ghost" data-dashboard-refresh>{t("pages:dashboard.refresh")}</Button></div><p class="muted">{t("pages:dashboard.recent_desc")}</p><div class="examples-grid" data-history-grid></div><EmptyState title={t("pages:dashboard.login_title")} description={t("pages:dashboard.login_desc")} data-login-callout style="margin-top:18px;" hidden><Button href="/api/auth/google">{t("nav.login")}</Button></EmptyState></Card></Shell></section>
+            <section class={sectionBase}>
+                <Shell>
+                    <SectionHeading badge={t("pages:dashboard.label")} title={t("pages:dashboard.title")} description={t("pages:dashboard.subtitle")} />
+                    <div class={`mt-6 ${contentGrid}`}>
+                        <StatCard class="grid gap-3" title={t("pages:dashboard.current_plan")} value={t("common.loading")} meta={t("common.loading")} data-plan-card>
+                            <span class="sr-only" data-plan-value>{t("common.loading")}</span>
+                            <span class="sr-only" data-status-value>{t("common.loading")}</span>
+                        </StatCard>
+                        <StatCard class="grid gap-3" title={t("pages:dashboard.monthly_usage")} value="0" meta={t("common.loading")} data-credits-card>
+                            <span class="sr-only" data-credit-value>0</span>
+                            <span class="sr-only" data-expiry-value>{t("common.loading")}</span>
+                        </StatCard>
+                        <Card class="grid gap-4" tone="highlight">
+                            <h3>{t("nav.login")}</h3>
+                            <div class="flex flex-wrap items-center gap-3">
+                                <Button type="button" data-checkout-plan="starter">{t("pages:dashboard.upgrade")}</Button>
+                                <Button type="button" variant="ghost" data-open-portal>{t("pages:dashboard.manage")}</Button>
+                            </div>
+                        </Card>
+                    </div>
+                    <Card class="mt-6 grid gap-5">
+                        <div class="flex flex-wrap items-center justify-between gap-3">
+                            <h2 class="mb-0">{t("pages:dashboard.recent_title")}</h2>
+                            <Button type="button" variant="ghost" data-dashboard-refresh>{t("pages:dashboard.refresh")}</Button>
+                        </div>
+                        <p class="text-[var(--text-muted)]">{t("pages:dashboard.recent_desc")}</p>
+                        <div class={contentGrid} data-history-grid></div>
+                        <EmptyState title={t("pages:dashboard.login_title")} description={t("pages:dashboard.login_desc")} data-login-callout class="mt-2" hidden>
+                            <Button href="/api/auth/google">{t("nav.login")}</Button>
+                        </EmptyState>
+                    </Card>
+                </Shell>
+            </section>
             <script is:inline define:vars={{ uiText }}>
                 (() => {
                     const historyGrid = document.querySelector("[data-history-grid]");
@@ -253,19 +913,19 @@ const metaDescription = render404
                     const setCard = (card, value, meta) => {
                         if (!card) return;
                         const title = card.querySelector("h3")?.outerHTML || "";
-                        card.innerHTML = `${title}<strong class="ui-stat-card__value">${value}</strong><p>${meta}</p>`;
+                        card.innerHTML = `${title}<strong class="block text-[clamp(2rem,3vw,2.6rem)] leading-none tracking-[-0.04em] text-[var(--text-strong)]">${value}</strong><p class="text-[var(--text-muted)]">${meta}</p>`;
                     };
                     const renderHistory = (items) => {
                         if (!historyGrid) return;
                         historyGrid.innerHTML = "";
                         if (!items.length) {
-                            historyGrid.innerHTML = `<article class="empty-card ui-card"><h3>${uiText.dashboardEmpty}</h3></article>`;
+                            historyGrid.innerHTML = `<article class="rounded-[20px] border border-[var(--card-border)] bg-[var(--surface-soft)] p-7 text-center shadow-[var(--card-shadow)]"><h3>${uiText.dashboardEmpty}</h3></article>`;
                             return;
                         }
                         for (const item of items) {
                             const card = document.createElement("article");
-                            card.className = "example-card ui-card";
-                            card.innerHTML = `<img src="${item.output_url}" alt="${item.prompt || uiText.fallbackPrompt}" loading="lazy" /><figcaption>${item.prompt || item.style || uiText.fallbackName}</figcaption>`;
+                            card.className = "overflow-hidden rounded-[20px] border border-[var(--card-border)] bg-[var(--surface-raised)] p-3 shadow-[0_14px_30px_rgba(15,23,42,0.06)] transition duration-200 ease-out hover:-translate-y-0.5 hover:border-[rgba(37,99,235,0.22)] hover:shadow-[var(--card-shadow-hover)]";
+                            card.innerHTML = `<img src="${item.output_url}" alt="${item.prompt || uiText.fallbackPrompt}" loading="lazy" class="aspect-square w-full rounded-[16px] object-cover" /><figcaption class="mt-3 text-sm font-semibold text-[var(--text-strong)]">${item.prompt || item.style || uiText.fallbackName}</figcaption>`;
                             historyGrid.appendChild(card);
                         }
                     };
@@ -288,7 +948,7 @@ const metaDescription = render404
                             const history = await fetch("/api/images/history", { credentials: "include" }).then((res) => res.json());
                             renderHistory(history.items || []);
                         } catch {
-                            if (historyGrid) historyGrid.innerHTML = `<article class="empty-card ui-card"><p>${JSON.stringify(uiText.dashboardHistoryError).slice(1, -1)}</p></article>`;
+                            if (historyGrid) historyGrid.innerHTML = `<article class="rounded-[20px] border border-[var(--card-border)] bg-[var(--surface-soft)] p-7 text-center shadow-[var(--card-shadow)]"><p>${JSON.stringify(uiText.dashboardHistoryError).slice(1, -1)}</p></article>`;
                         }
                     };
                     refreshButton?.addEventListener("click", load);
@@ -297,7 +957,31 @@ const metaDescription = render404
                 })();
             </script>
         ) : page.routeKey === "admin" ? (
-            <section class="section"><Shell><SectionHeading badge={t("pages:admin.label")} title={t("pages:admin.title")} description={t("pages:admin.subtitle")} /><Card class="admin-panel" tone="soft" style="margin-top:24px;"><div class="toolbar"><Button type="button" variant="ghost" data-admin-refresh>{t("pages:admin.refresh")}</Button><span class="muted" data-admin-status>{t("pages:admin.loading")}</span></div><div class="table-wrap" style="margin-top:18px;"><table><thead><tr><th>{t("pages:admin.col_user")}</th><th>{t("pages:admin.col_plan")}</th><th>{t("pages:admin.col_usage")}</th><th>{t("pages:admin.col_registered")}</th><th>{t("pages:admin.col_actions")}</th></tr></thead><tbody data-admin-body></tbody></table></div></Card></Shell></section>
+            <section class={sectionBase}>
+                <Shell>
+                    <SectionHeading badge={t("pages:admin.label")} title={t("pages:admin.title")} description={t("pages:admin.subtitle")} />
+                    <Card class="mt-6 grid gap-5" tone="soft">
+                        <div class="flex flex-wrap items-center justify-between gap-3">
+                            <Button type="button" variant="ghost" data-admin-refresh>{t("pages:admin.refresh")}</Button>
+                            <span class="text-[var(--text-muted)]" data-admin-status>{t("pages:admin.loading")}</span>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full border-collapse">
+                                <thead>
+                                    <tr>
+                                        <th class="border-b border-[rgba(148,163,184,0.16)] bg-[rgba(255,255,255,0.68)] px-3.5 py-4 text-left text-[var(--text-strong)]">{t("pages:admin.col_user")}</th>
+                                        <th class="border-b border-[rgba(148,163,184,0.16)] bg-[rgba(255,255,255,0.68)] px-3.5 py-4 text-left text-[var(--text-strong)]">{t("pages:admin.col_plan")}</th>
+                                        <th class="border-b border-[rgba(148,163,184,0.16)] bg-[rgba(255,255,255,0.68)] px-3.5 py-4 text-left text-[var(--text-strong)]">{t("pages:admin.col_usage")}</th>
+                                        <th class="border-b border-[rgba(148,163,184,0.16)] bg-[rgba(255,255,255,0.68)] px-3.5 py-4 text-left text-[var(--text-strong)]">{t("pages:admin.col_registered")}</th>
+                                        <th class="border-b border-[rgba(148,163,184,0.16)] bg-[rgba(255,255,255,0.68)] px-3.5 py-4 text-left text-[var(--text-strong)]">{t("pages:admin.col_actions")}</th>
+                                    </tr>
+                                </thead>
+                                <tbody data-admin-body></tbody>
+                            </table>
+                        </div>
+                    </Card>
+                </Shell>
+            </section>
             <script is:inline define:vars={{ uiText }}>
                 (() => {
                     const body = document.querySelector("[data-admin-body]");
@@ -307,12 +991,12 @@ const metaDescription = render404
                         if (!body) return;
                         body.innerHTML = "";
                         if (!items.length) {
-                            body.innerHTML = `<tr><td colspan="5">${uiText.adminNoUsers}</td></tr>`;
+                            body.innerHTML = `<tr><td colspan="5" class="px-3.5 py-4 text-[var(--text-muted)]">${uiText.adminNoUsers}</td></tr>`;
                             return;
                         }
                         for (const item of items) {
                             const tr = document.createElement("tr");
-                            tr.innerHTML = `<td>${item.name || item.email || uiText.adminUnnamed}</td><td><select class="ui-select" data-plan-select><option value="free" ${item.plan === "free" ? "selected" : ""}>${uiText.adminPlanFree}</option><option value="starter" ${item.plan === "starter" ? "selected" : ""}>${uiText.adminPlanStarter}</option><option value="standard" ${item.plan === "standard" ? "selected" : ""}>${uiText.adminPlanStandard}</option><option value="value" ${item.plan === "value" ? "selected" : ""}>${uiText.adminPlanValue}</option></select></td><td>${item.credits} ${uiText.adminCreditsLabel} / ${item.total_images} ${uiText.adminImageUnit}</td><td>${item.created_at}</td><td><div class="action-row"><input class="ui-input" type="number" value="10" step="1" style="max-width:100px;" /><button class="ui-button ui-button--ghost" data-fill>${uiText.adminCreditsButton}</button><button class="ui-button ui-button--primary" data-set-plan>${uiText.adminPlanButton}</button></div></td>`;
+                            tr.innerHTML = `<td class="border-b border-[rgba(148,163,184,0.16)] px-3.5 py-4 text-[var(--text-muted)]">${item.name || item.email || uiText.adminUnnamed}</td><td class="border-b border-[rgba(148,163,184,0.16)] px-3.5 py-4"><select class="w-full rounded-xl border border-[var(--input-border)] bg-[var(--input-bg)] px-3.5 py-3 text-[var(--text-strong)] shadow-[var(--input-shadow)]" data-plan-select><option value="free" ${item.plan === "free" ? "selected" : ""}>${uiText.adminPlanFree}</option><option value="starter" ${item.plan === "starter" ? "selected" : ""}>${uiText.adminPlanStarter}</option><option value="standard" ${item.plan === "standard" ? "selected" : ""}>${uiText.adminPlanStandard}</option><option value="value" ${item.plan === "value" ? "selected" : ""}>${uiText.adminPlanValue}</option></select></td><td class="border-b border-[rgba(148,163,184,0.16)] px-3.5 py-4 text-[var(--text-muted)]">${item.credits} ${uiText.adminCreditsLabel} / ${item.total_images} ${uiText.adminImageUnit}</td><td class="border-b border-[rgba(148,163,184,0.16)] px-3.5 py-4 text-[var(--text-muted)]">${item.created_at}</td><td class="border-b border-[rgba(148,163,184,0.16)] px-3.5 py-4"><div class="flex flex-wrap items-center gap-3"><input class="w-full max-w-[100px] rounded-xl border border-[var(--input-border)] bg-[var(--input-bg)] px-3.5 py-3 text-[var(--text-strong)] shadow-[var(--input-shadow)]" type="number" value="10" step="1" /><button class="inline-flex min-h-[2.9rem] items-center justify-center gap-2 rounded-xl bg-[var(--button-ghost-bg)] px-4 text-[0.94rem] font-semibold text-[var(--button-ghost-fg)] transition duration-200 ease-out hover:-translate-y-px" data-fill>${uiText.adminCreditsButton}</button><button class="inline-flex min-h-[2.9rem] items-center justify-center gap-2 rounded-xl bg-[var(--button-primary-bg)] px-4 text-[0.94rem] font-semibold text-[var(--button-primary-fg)] shadow-[var(--button-primary-shadow)] transition duration-200 ease-out hover:-translate-y-px" data-set-plan>${uiText.adminPlanButton}</button></div></td>`;
                             const amountInput = tr.querySelector("input");
                             const planSelect = tr.querySelector("select");
                             tr.querySelector("[data-fill]")?.addEventListener("click", async () => {

@@ -9,25 +9,22 @@ const {
 } = Astro.props;
 
 const variantClasses = {
-    primary: "btn-primary",
-    secondary: "btn-secondary",
-    ghost: "btn-ghost",
-    danger: "btn-error",
+    primary: "border border-transparent bg-[var(--button-primary-bg)] text-[var(--button-primary-fg)] shadow-[var(--button-primary-shadow)] hover:bg-[var(--button-primary-bg-hover)]",
+    secondary: "border border-[var(--button-secondary-border)] bg-[var(--button-secondary-bg)] text-[var(--button-secondary-fg)] hover:bg-[var(--button-secondary-bg-hover)]",
+    ghost: "border border-transparent bg-[var(--button-ghost-bg)] text-[var(--button-ghost-fg)] hover:bg-[var(--button-ghost-bg-hover)]",
+    danger: "border border-transparent bg-[var(--button-danger-bg)] text-[var(--button-danger-fg)]",
 };
 
 const sizeClasses = {
-    sm: "btn-sm",
-    md: null,
-    lg: "btn-lg",
+    sm: "min-h-10 px-4 text-sm",
+    md: "min-h-[2.9rem] px-4 text-[0.94rem]",
+    lg: "min-h-[3.15rem] px-5 text-base",
 };
 
 const classes = [
-    "ui-button",
-    "btn",
+    "ui-button inline-flex items-center justify-center gap-2 rounded-xl font-semibold no-underline transition duration-200 ease-out hover:-translate-y-px disabled:cursor-not-allowed disabled:opacity-70 disabled:transform-none",
     variantClasses[variant] ?? variantClasses.primary,
-    `ui-button--${variant}`,
-    sizeClasses[size] ?? null,
-    size !== "md" ? `ui-button--${size}` : null,
+    sizeClasses[size] ?? sizeClasses.md,
     className,
 ];
 ---

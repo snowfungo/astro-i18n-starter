@@ -78,5 +78,7 @@
   "index.tool_couple_desc": "ロマンチックなちびカップルアートを生成",
   "index.recent_title": "最近の作成",
   "index.recent_desc": "コミュニティが今何を作成しているか見てみよう",
-  "index.recent_empty": "まだ作成はありません。最初の作成者になりましょう！"
+  "index.recent_empty": "まだ作成はありません。最初の作成者になりましょう！",
+  "index_info.title": "チームがここから始める理由",
+  "index_info.description": "認証、課金、多言語ルーティング、生成フローを最初から備えた、より整理されたスターターです。"
 }

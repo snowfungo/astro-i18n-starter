@@ -1,31 +1,105 @@
 ---
 import navigationData from "@/data/navigationData";
 import { getLangFromUrl, useTranslatedPath, useTranslations } from "@/i18n/utils";
+import LanguagePicker from "@/components/LanguagePicker.astro";
 import Shell from "@/components/ui/Shell.astro";
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 const translatePath = useTranslatedPath(lang);
 const year = new Date().getFullYear();
+
+const resourceLinks = navigationData.filter((item) => ["/features", "/pricing", "/blog"].includes(item.href));
+const toolLinks = navigationData.filter((item) => ["/photo-to-chibi", "/chibi-avatar-maker", "/chibi-couple-generator"].includes(item.href));
+const ecosystemLinks = [
+    { label: t("footer.dashboard"), href: translatePath("/dashboard") },
+    { label: t("nav.login"), href: "/api/auth/google" },
+    { label: t("nav.about"), href: translatePath("/about") },
+    { label: t("nav.blog"), href: translatePath("/blog") },
+];
+const legalLinks = [
+    { label: t("footer.terms"), href: translatePath("/about") },
+    { label: t("footer.privacy"), href: translatePath("/about") },
+    { label: t("footer.refund"), href: translatePath("/pricing") },
+];
+const databaseItems = [
+    t("footer.database_styles"),
+    t("footer.database_languages"),
+    t("footer.database_payments"),
+    t("footer.database_auth"),
+    t("footer.database_prompts"),
+];
 ---
 
-<footer class="site-footer">
-    <Shell class="footer-grid">
-        <div class="footer-copy">
-            <strong>{t("nav.brand")}</strong>
-            <p>{t("footer.tagline")}</p>
-        </div>
-        <nav class="footer-links">
-            {
-                navigationData.map((item) => (
-                    <a href={translatePath(item.href)}>{t(item.label)}</a>
-                ))
-            }
-            <a href={translatePath("/dashboard")}>{t("footer.dashboard")}</a>
-        </nav>
-    </Shell>
-    <Shell class="footer-meta">
-        <span>{t("footer.company")} © {year}</span>
-        <span>{t("footer.rights")}</span>
-    </Shell>
+<footer class="bg-[var(--surface-band-footer-main)] pb-16 pt-10">
+    <section class="border-t border-[rgba(148,163,184,0.12)] bg-[var(--surface-band-footer-main)]">
+        <Shell>
+            <div class="grid gap-8 py-[54px] max-[1200px]:grid-cols-2 max-[1080px]:grid-cols-1 [grid-template-columns:minmax(0,0.9fr)_minmax(0,1.1fr)]">
+                <div class="grid content-start gap-5">
+                    <span class="inline-flex min-h-8 w-fit items-center gap-2 rounded-full border border-[var(--badge-border)] bg-[var(--badge-bg)] px-3.5 py-1.5 text-xs font-semibold uppercase tracking-[0.04em] text-[var(--badge-fg)]">{t("footer.open_tools")}</span>
+                    <h2>{t("pages:index.tools_title")}</h2>
+                    <p class="text-[1.06rem] text-[var(--text-muted)]">{t("pages:index.tools_desc")}</p>
+                </div>
+                <div class="grid grid-cols-3 gap-5 max-[1200px]:grid-cols-1">
+                    {
+                        toolLinks.map((item) => (
+                            <a class="rounded-[22px] border border-[rgba(148,163,184,0.18)] bg-[linear-gradient(180deg,#ffffff_0%,#f8fbff_100%)] p-[1.45rem] text-[var(--text-strong)] no-underline shadow-[0_14px_28px_rgba(15,23,42,0.06)] transition duration-200 ease-out hover:-translate-y-0.5 hover:border-[rgba(37,99,235,0.24)] hover:shadow-[0_18px_36px_rgba(37,99,235,0.18)] min-h-[13rem]" href={translatePath(item.href)}>
+                                <strong class="block text-base">{t(item.label)}</strong>
+                                <span class="mt-8 block text-[0.9rem] font-semibold text-[var(--primary)]">{t("cta.title")}</span>
+                            </a>
+                        ))
+                    }
+                </div>
+            </div>
+        </Shell>
+    </section>
+
+    <section class="bg-[var(--surface-band-footer-main)]">
+        <Shell>
+            <div class="grid gap-7 border-t border-[rgba(148,163,184,0.16)] py-8 [grid-template-columns:minmax(240px,1.2fr)_repeat(4,minmax(0,1fr))] max-[1200px]:grid-cols-2 max-[1080px]:grid-cols-1">
+                <section class="grid content-start gap-4">
+                    <a class="grid grid-cols-[auto_minmax(0,1fr)] items-center gap-3.5 text-[var(--text-strong)] no-underline" href={translatePath("/") }>
+                        <span class="h-[2.2rem] w-[2.2rem] shrink-0 rounded-[14px] bg-[var(--brand-gradient)] shadow-[var(--brand-glow)]" aria-hidden="true"></span>
+                        <span class="block text-base font-bold tracking-[-0.03em]">{t("nav.brand")}</span>
+                    </a>
+                    <p class="max-w-[28ch] text-[var(--text-muted)]">{t("footer.description_short")}</p>
+                </section>
+
+                <section class="grid content-start gap-4">
+                    <span class="text-xs font-bold uppercase tracking-[0.08em] text-[var(--text-subtle)]">{t("footer.resources")}</span>
+                    <nav class="grid gap-3" aria-label={t("footer.resources")}>
+                        {resourceLinks.map((item) => <a class="w-fit text-base leading-[1.45] text-[var(--text-muted)] no-underline transition duration-150 ease-out hover:text-[var(--primary)]" href={translatePath(item.href)}>{t(item.label)}</a>)}
+                    </nav>
+                </section>
+
+                <section class="grid content-start gap-4">
+                    <span class="text-xs font-bold uppercase tracking-[0.08em] text-[var(--text-subtle)]">{t("footer.database")}</span>
+                    <div class="grid gap-3" aria-label={t("footer.database")}>
+                        {databaseItems.map((item) => <span class="w-fit text-base leading-[1.45] text-[var(--text-muted)]">{item}</span>)}
+                    </div>
+                </section>
+
+                <section class="grid content-start gap-4">
+                    <span class="text-xs font-bold uppercase tracking-[0.08em] text-[var(--text-subtle)]">{t("footer.ecosystem")}</span>
+                    <nav class="grid gap-3" aria-label={t("footer.ecosystem")}>
+                        {ecosystemLinks.map((item) => <a class="w-fit text-base leading-[1.45] text-[var(--text-muted)] no-underline transition duration-150 ease-out hover:text-[var(--primary)]" href={item.href}>{item.label}</a>)}
+                    </nav>
+                </section>
+
+                <section class="grid content-start gap-4">
+                    <span class="text-xs font-bold uppercase tracking-[0.08em] text-[var(--text-subtle)]">{t("footer.legal")}</span>
+                    <nav class="grid gap-3" aria-label={t("footer.legal")}>
+                        {legalLinks.map((item) => <a class="w-fit text-base leading-[1.45] text-[var(--text-muted)] no-underline transition duration-150 ease-out hover:text-[var(--primary)]" href={item.href}>{item.label}</a>)}
+                    </nav>
+                </section>
+            </div>
+
+            <div class="grid grid-cols-4 items-center gap-4 border-t border-[rgba(148,163,184,0.16)] py-[22px] text-[var(--text-muted)] max-[1200px]:grid-cols-2 max-[640px]:grid-cols-1">
+                <span>{t("footer.built_with")}</span>
+                <LanguagePicker label={t("footer.language")} class="min-w-40" />
+                <span>{t("footer.nano_project")}</span>
+                <span>{t("footer.company")} © {year}</span>
+            </div>
+        </Shell>
+    </section>
 </footer>

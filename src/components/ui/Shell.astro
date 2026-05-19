@@ -3,6 +3,6 @@ const { as = "div", class: className, ...rest } = Astro.props;
 const Tag = as;
 ---
 
-<Tag class:list={["ui-shell", className]} {...rest}>
+<Tag class:list={["mx-auto w-[min(1220px,calc(100%-40px))]", className]} {...rest}>
     <slot />
 </Tag>

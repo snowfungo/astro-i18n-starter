@@ -78,5 +78,7 @@
   "index.tool_couple_desc": "Genera arte romántico de parejas chibi",
   "index.recent_title": "Creaciones recientes",
   "index.recent_desc": "Mira lo que la comunidad está creando ahora",
-  "index.recent_empty": "Aún no hay creaciones. ¡Sé el primero!"
+  "index.recent_empty": "Aún no hay creaciones. ¡Sé el primero!",
+  "index_info.title": "Por qué los equipos empiezan aquí",
+  "index_info.description": "Una base más limpia con autenticación, pagos, enrutado multilingüe y flujos del generador ya conectados."
 }
