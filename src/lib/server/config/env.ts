@@ -20,6 +20,7 @@ export const serverEnv = {
     appUrl: env.APP_URL ?? env.PRODUCTION_DOMAIN ?? "http://localhost:4321",
     productionDomain: env.PRODUCTION_DOMAIN ?? "http://localhost:4321",
     secretKey: env.SECRET_KEY ?? "dev-secret-key-change-before-production",
+    databaseProvider: env.DATABASE_PROVIDER ?? (env.DATABASE_URL ? "postgres" : "postgres"),
     databaseUrl: env.DATABASE_URL ?? "",
     databaseSchema: env.DATABASE_SCHEMA ?? "public",
     databasePath: env.DATABASE_PATH ?? "./runtime/chibi-app.db",

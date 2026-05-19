@@ -22,19 +22,25 @@ export async function exportAccountData(userId: number) {
     `SELECT id, amount, provider, created_at FROM payment_logs WHERE user_id = ? ORDER BY created_at DESC`,
     [userId],
   );
+  const paymentOrders = await all(
+    `SELECT id, plan_id, provider, amount, currency, status, provider_reference_id, created_at, updated_at
+     FROM payment_orders WHERE user_id = ? ORDER BY created_at DESC`,
+    [userId],
+  );
   const credits = await all(
     `SELECT id, amount, balance_after, type, details, created_at
      FROM credit_transactions WHERE user_id = ? ORDER BY created_at DESC`,
     [userId],
   );
 
-  return { profile, subscription, images, payments, credits };
+  return { profile, subscription, images, payments, paymentOrders, credits };
 }
 
 export async function deleteAccountData(userId: number) {
   await transaction(async () => {
     await run(`DELETE FROM credit_transactions WHERE user_id = ?`, [userId]);
     await run(`DELETE FROM user_credits WHERE user_id = ?`, [userId]);
+    await run(`DELETE FROM payment_orders WHERE user_id = ?`, [userId]);
     await run(`DELETE FROM payment_logs WHERE user_id = ?`, [userId]);
     await run(`DELETE FROM image_generations WHERE user_id = ?`, [userId]);
     await run(`DELETE FROM subscriptions WHERE user_id = ?`, [userId]);

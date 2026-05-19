@@ -1,13 +1,19 @@
 ---
 import Base from "@/layouts/Base.astro";
 import GeneratorPanel from "@/components/GeneratorPanel.astro";
+import Button from "@/components/ui/Button.astro";
+import Card from "@/components/ui/Card.astro";
+import EmptyState from "@/components/ui/EmptyState.astro";
+import SectionHeading from "@/components/ui/SectionHeading.astro";
+import Shell from "@/components/ui/Shell.astro";
+import StatCard from "@/components/ui/StatCard.astro";
 import { routes } from "@/i18n/routes";
 import { useTranslatedPath, useTranslations } from "@/i18n/utils";
 import { exampleGroups, getBlogPost, getBlogPosts } from "@/lib/site/content";
-import { getStats } from "@/lib/server/generation/service";
-import { ensureAppReady } from "@/lib/server/startup";
 import { pricingCards } from "@/lib/site/plans";
 import { getPathForRoute, getRoutedPage } from "@/lib/site/router";
+import { getStats } from "@/lib/server/generation/service";
+import { ensureAppReady } from "@/lib/server/startup";
 
 await ensureAppReady();
 
@@ -158,100 +164,101 @@ const metaDescription = render404
     {
         render404 ? (
             <section class="section">
-                <div class="shell empty-card">
-                    <span class="eyebrow">404</span>
-                    <h1>{String(t("error_404_title"))}</h1>
-                    <p>{String(t("error_404_desc"))}</p>
-                    <div class="action-row">
-                        <a class="primary-button" href={getPathForRoute(lang, "home")}>{String(t("error_back_home"))}</a>
-                    </div>
-                </div>
+                <Shell>
+                    <EmptyState title={String(t("error_404_title"))} description={String(t("error_404_desc"))}>
+                        <div class="action-row">
+                            <Button href={getPathForRoute(lang, "home")}>{String(t("error_back_home"))}</Button>
+                        </div>
+                    </EmptyState>
+                </Shell>
             </section>
         ) : page.routeKey === "home" ? (
             <>
                 <section class="hero">
-                    <div class="shell hero-grid">
+                    <Shell class="hero-grid">
                         <div class="hero-copy">
                             <span class="eyebrow">{t("pages:index.hero_badge")}</span>
                             <h1>{t("pages:index.hero_title")}</h1>
                             <p>{t("pages:index.hero_subtitle")}</p>
                             <div class="action-row">
-                                <a class="primary-button" href="#route-generator">{uiText.ctaGenerate}</a>
-                                <a class="ghost-button" href={translatePath("/pricing")}>{t("nav.pricing")}</a>
+                                <Button href="#route-generator">{uiText.ctaGenerate}</Button>
+                                <Button href={translatePath("/pricing")} variant="ghost">{t("nav.pricing")}</Button>
                             </div>
                         </div>
-                        <div class="hero-panel">
-                            <h2>{t("pages:index.recent_title")}</h2>
-                            <p>{t("pages:index.recent_desc")}</p>
+                        <Card class="hero-panel" tone="highlight">
+                            <SectionHeading title={t("pages:index.recent_title")} description={t("pages:index.recent_desc")} />
                             <div class="stat-grid" style="margin-top:18px;">
-                                <article class="stat-card"><strong>{stats.total}</strong><p>{uiText.statTotalGenerated}</p></article>
-                                <article class="stat-card"><strong>{stats.today}</strong><p>{uiText.statTodayGenerated}</p></article>
-                                <article class="stat-card"><strong>{Object.keys(stats.styles).length}</strong><p>{uiText.statStyles}</p></article>
+                                <StatCard value={stats.total} meta={uiText.statTotalGenerated} />
+                                <StatCard value={stats.today} meta={uiText.statTodayGenerated} />
+                                <StatCard value={Object.keys(stats.styles).length} meta={uiText.statStyles} />
                             </div>
-                        </div>
-                    </div>
+                        </Card>
+                    </Shell>
                 </section>
-                <div class="shell" id="route-generator">
+                <Shell id="route-generator">
                     <GeneratorPanel formId={`generator-${lang}`} labels={{ prompt: String(t("pages:index.label_prompt")), promptPlaceholder: String(t("pages:index.prompt_placeholder")), photo: String(t("pages:index.label_photo")), photoHelp: String(t("pages:index.photo_help")), style: String(t("pages:index.label_style")), styleHelp: String(t("pages:index.style_help")), submit: String(t("cta.title")), generating: String(t("common.generating")), resultTitle: String(t("pages:index.result_title")), resultDesc: String(t("pages:index.result_desc")), download: String(t("common.download")), tryAgain: String(t("common.try_again")) }} lang={lang} examples={exampleGroups.home} />
-                </div>
-                <section class="section"><div class="shell card-grid">{infoCards.map((card) => <article class="card"><h3>{card.title}</h3><p>{card.body}</p></article>)}</div></section>
-                <section class="section"><div class="shell"><h2>{t("pages:index.index_styles.title")}</h2><p class="muted">{t("pages:index.index_styles.description")}</p><div class="card-grid" style="margin-top:18px;">{styleCards.map((card) => <article class="card"><h3>{card.title}</h3><p>{card.body}</p></article>)}</div></div></section>
-                <section class="section"><div class="shell"><h2>{t("pages:index.index_tips.title")}</h2><p class="muted">{t("pages:index.index_tips.description")}</p><div class="card-grid" style="margin-top:18px;">{tipCards.map((card) => <article class="card"><h3>{card.title}</h3><p>{card.body}</p></article>)}</div></div></section>
-                <section class="section"><div class="shell faq-card"><h2>{t("pages:index.faq_title")}</h2><div class="list-grid" style="margin-top:18px;">{faqItems("pages:index.faq_items").map((item) => <article class="card"><h3>{item.q}</h3><p>{item.a}</p></article>)}</div></div></section>
+                </Shell>
+                <section class="section"><Shell class="card-grid">{infoCards.map((card) => <Card><h3>{card.title}</h3><p>{card.body}</p></Card>)}</Shell></section>
+                <section class="section"><Shell><SectionHeading title={t("pages:index.index_styles.title")} description={t("pages:index.index_styles.description")} /><div class="card-grid" style="margin-top:18px;">{styleCards.map((card) => <Card><h3>{card.title}</h3><p>{card.body}</p></Card>)}</div></Shell></section>
+                <section class="section"><Shell><SectionHeading title={t("pages:index.index_tips.title")} description={t("pages:index.index_tips.description")} /><div class="card-grid" style="margin-top:18px;">{tipCards.map((card) => <Card><h3>{card.title}</h3><p>{card.body}</p></Card>)}</div></Shell></section>
+                <section class="section"><Shell><Card class="faq-card" tone="soft"><SectionHeading title={t("pages:index.faq_title")} /><div class="list-grid" style="margin-top:18px;">{faqItems("pages:index.faq_items").map((item) => <Card><h3>{item.q}</h3><p>{item.a}</p></Card>)}</div></Card></Shell></section>
             </>
         ) : page.routeKey === "photo-to-chibi" ? (
             <>
-                <section class="hero"><div class="shell hero-grid"><div class="hero-copy"><span class="eyebrow">{t("pages:photo-to-chibi.hero_badge")}</span><h1>{t("pages:photo-to-chibi.title")}</h1><p>{t("pages:photo-to-chibi.hero_subtitle")}</p></div><div class="hero-panel"><h2>{t("pages:photo-to-chibi.how_it_works_title")}</h2><div class="list-grid">{photoSteps.map((step) => <article class="card"><h3>{step.title}</h3><p>{step.body}</p></article>)}</div></div></div></section>
-                <div class="shell"><GeneratorPanel formId={`photo-generator-${lang}`} labels={{ prompt: String(t("pages:photo-to-chibi.label_notes")), promptPlaceholder: String(t("pages:photo-to-chibi.notes_placeholder")), photo: String(t("pages:photo-to-chibi.label_photo")), photoHelp: String(t("pages:photo-to-chibi.photo_help")), style: String(t("pages:index.label_style")), styleHelp: String(t("pages:photo-to-chibi.style_help")), submit: String(t("pages:photo-to-chibi.generate_btn")), generating: String(t("common.generating")), resultTitle: String(t("pages:photo-to-chibi.result_title")), resultDesc: String(t("pages:index.result_desc")), download: String(t("common.download")), tryAgain: String(t("common.try_again")) }} defaults={{ style: "avatar" }} lang={lang} examples={exampleGroups.photo} /></div>
-                <section class="section"><div class="shell"><h2>{t("pages:photo-to-chibi.tips_title")}</h2><div class="card-grid">{photoTips.map((tip) => <article class="card"><h3>{tip.title}</h3><p>{tip.body}</p></article>)}</div></div></section>
-                <section class="section"><div class="shell faq-card"><h2>{t("pages:photo-to-chibi.photo_faq_title")}</h2><div class="list-grid">{faqItems("pages:photo-to-chibi.photo_faq_items").map((item) => <article class="card"><h3>{item.q}</h3><p>{item.a}</p></article>)}</div></div></section>
+                <section class="hero"><Shell class="hero-grid"><div class="hero-copy"><span class="eyebrow">{t("pages:photo-to-chibi.hero_badge")}</span><h1>{t("pages:photo-to-chibi.title")}</h1><p>{t("pages:photo-to-chibi.hero_subtitle")}</p></div><Card class="hero-panel" tone="highlight"><SectionHeading title={t("pages:photo-to-chibi.how_it_works_title")} /><div class="list-grid">{photoSteps.map((step) => <Card><h3>{step.title}</h3><p>{step.body}</p></Card>)}</div></Card></Shell></section>
+                <Shell><GeneratorPanel formId={`photo-generator-${lang}`} labels={{ prompt: String(t("pages:photo-to-chibi.label_notes")), promptPlaceholder: String(t("pages:photo-to-chibi.notes_placeholder")), photo: String(t("pages:photo-to-chibi.label_photo")), photoHelp: String(t("pages:photo-to-chibi.photo_help")), style: String(t("pages:index.label_style")), styleHelp: String(t("pages:photo-to-chibi.style_help")), submit: String(t("pages:photo-to-chibi.generate_btn")), generating: String(t("common.generating")), resultTitle: String(t("pages:photo-to-chibi.result_title")), resultDesc: String(t("pages:index.result_desc")), download: String(t("common.download")), tryAgain: String(t("common.try_again")) }} defaults={{ style: "avatar" }} lang={lang} examples={exampleGroups.photo} /></Shell>
+                <section class="section"><Shell><SectionHeading title={t("pages:photo-to-chibi.tips_title")} /><div class="card-grid">{photoTips.map((tip) => <Card><h3>{tip.title}</h3><p>{tip.body}</p></Card>)}</div></Shell></section>
+                <section class="section"><Shell><Card class="faq-card" tone="soft"><SectionHeading title={t("pages:photo-to-chibi.photo_faq_title")} /><div class="list-grid">{faqItems("pages:photo-to-chibi.photo_faq_items").map((item) => <Card><h3>{item.q}</h3><p>{item.a}</p></Card>)}</div></Card></Shell></section>
             </>
         ) : page.routeKey === "chibi-avatar-maker" ? (
             <>
-                <section class="hero"><div class="shell hero-grid"><div class="hero-copy"><span class="eyebrow">{t("pages:chibi-avatar-maker.hero_badge")}</span><h1>{t("pages:chibi-avatar-maker.title")}</h1><p>{t("pages:chibi-avatar-maker.hero_subtitle")}</p></div><div class="hero-panel"><h2>{t("pages:chibi-avatar-maker.avatar_perfect_for.title")}</h2><div class="list-grid">{avatarPerfectFor.map((item) => <article class="card"><h3>{item.title}</h3><p>{item.body}</p></article>)}</div></div></div></section>
-                <div class="shell"><GeneratorPanel formId={`avatar-generator-${lang}`} labels={{ prompt: String(t("pages:chibi-avatar-maker.label_prompt")), promptPlaceholder: String(t("pages:chibi-avatar-maker.prompt_placeholder")), photo: String(t("pages:index.label_photo")), photoHelp: String(t("pages:chibi-avatar-maker.photo_help")), style: String(t("pages:index.label_style")), styleHelp: String(t("pages:chibi-avatar-maker.style_help")), submit: String(t("pages:chibi-avatar-maker.generate_btn")), generating: String(t("pages:chibi-avatar-maker.generating")), resultTitle: String(t("pages:chibi-avatar-maker.result_title")), resultDesc: String(t("pages:chibi-avatar-maker.result_desc")), download: String(t("common.download")), tryAgain: String(t("common.try_again")) }} defaults={{ prompt: String(t("pages:chibi-avatar-maker.prompt_default")), style: "kawaii" }} lang={lang} examples={exampleGroups.avatar} /></div>
-                <section class="section"><div class="shell"><h2>{t("pages:chibi-avatar-maker.how_title")}</h2><div class="card-grid">{avatarSteps.map((item) => <article class="card"><h3>{item.title}</h3><p>{item.body}</p></article>)}</div></div></section>
-                <section class="section"><div class="shell"><h2>{t("pages:chibi-avatar-maker.avatar_ideas.title")}</h2><p class="muted">{t("pages:chibi-avatar-maker.avatar_ideas.description")}</p><div class="card-grid">{avatarIdeas.map((item) => <article class="card"><h3>{item.title}</h3><p>{item.body}</p></article>)}</div></div></section>
-                <section class="section"><div class="shell faq-card"><h2>{t("pages:chibi-avatar-maker.avatar_faq_title")}</h2><div class="list-grid">{faqItems("pages:chibi-avatar-maker.avatar_faq_items").map((item) => <article class="card"><h3>{item.q}</h3><p>{item.a}</p></article>)}</div></div></section>
+                <section class="hero"><Shell class="hero-grid"><div class="hero-copy"><span class="eyebrow">{t("pages:chibi-avatar-maker.hero_badge")}</span><h1>{t("pages:chibi-avatar-maker.title")}</h1><p>{t("pages:chibi-avatar-maker.hero_subtitle")}</p></div><Card class="hero-panel" tone="highlight"><SectionHeading title={t("pages:chibi-avatar-maker.avatar_perfect_for.title")} /><div class="list-grid">{avatarPerfectFor.map((item) => <Card><h3>{item.title}</h3><p>{item.body}</p></Card>)}</div></Card></Shell></section>
+                <Shell><GeneratorPanel formId={`avatar-generator-${lang}`} labels={{ prompt: String(t("pages:chibi-avatar-maker.label_prompt")), promptPlaceholder: String(t("pages:chibi-avatar-maker.prompt_placeholder")), photo: String(t("pages:index.label_photo")), photoHelp: String(t("pages:chibi-avatar-maker.photo_help")), style: String(t("pages:index.label_style")), styleHelp: String(t("pages:chibi-avatar-maker.style_help")), submit: String(t("pages:chibi-avatar-maker.generate_btn")), generating: String(t("pages:chibi-avatar-maker.generating")), resultTitle: String(t("pages:chibi-avatar-maker.result_title")), resultDesc: String(t("pages:chibi-avatar-maker.result_desc")), download: String(t("common.download")), tryAgain: String(t("common.try_again")) }} defaults={{ prompt: String(t("pages:chibi-avatar-maker.prompt_default")), style: "kawaii" }} lang={lang} examples={exampleGroups.avatar} /></Shell>
+                <section class="section"><Shell><SectionHeading title={t("pages:chibi-avatar-maker.how_title")} /><div class="card-grid">{avatarSteps.map((item) => <Card><h3>{item.title}</h3><p>{item.body}</p></Card>)}</div></Shell></section>
+                <section class="section"><Shell><SectionHeading title={t("pages:chibi-avatar-maker.avatar_ideas.title")} description={t("pages:chibi-avatar-maker.avatar_ideas.description")} /><div class="card-grid">{avatarIdeas.map((item) => <Card><h3>{item.title}</h3><p>{item.body}</p></Card>)}</div></Shell></section>
+                <section class="section"><Shell><Card class="faq-card" tone="soft"><SectionHeading title={t("pages:chibi-avatar-maker.avatar_faq_title")} /><div class="list-grid">{faqItems("pages:chibi-avatar-maker.avatar_faq_items").map((item) => <Card><h3>{item.q}</h3><p>{item.a}</p></Card>)}</div></Card></Shell></section>
             </>
         ) : page.routeKey === "chibi-couple-generator" ? (
             <>
-                <section class="hero"><div class="shell hero-grid"><div class="hero-copy"><span class="eyebrow">{t("pages:chibi-couple-generator.hero_badge")}</span><h1>{t("pages:chibi-couple-generator.title")}</h1><p>{t("pages:chibi-couple-generator.hero_subtitle")}</p></div><div class="hero-panel"><h2>{t("pages:chibi-couple-generator.how_title")}</h2><div class="list-grid">{coupleSteps.map((item) => <article class="card"><h3>{item.title}</h3><p>{item.body}</p></article>)}</div></div></div></section>
-                <div class="shell"><GeneratorPanel formId={`couple-generator-${lang}`} labels={{ prompt: String(t("pages:chibi-couple-generator.label_prompt")), promptPlaceholder: String(t("pages:chibi-couple-generator.prompt_placeholder")), photo: String(t("pages:chibi-couple-generator.label_photo")), photoHelp: String(t("pages:chibi-couple-generator.photo_help")), style: String(t("pages:index.label_style")), styleHelp: String(t("pages:chibi-couple-generator.style_help")), submit: String(t("pages:chibi-couple-generator.generate_btn")), generating: String(t("pages:chibi-couple-generator.generating")), resultTitle: String(t("pages:chibi-couple-generator.result_title")), resultDesc: String(t("pages:chibi-couple-generator.result_desc")), download: String(t("common.download")), tryAgain: String(t("common.try_again")) }} defaults={{ prompt: String(t("pages:chibi-couple-generator.prompt_default")), style: "kawaii" }} lang={lang} examples={exampleGroups.couple} /></div>
-                <section class="section"><div class="shell"><h2>{t("pages:chibi-couple-generator.tips_title")}</h2><div class="card-grid">{coupleTips.map((item) => <article class="card"><h3>{item.title}</h3><p>{item.body}</p></article>)}</div></div></section>
-                <section class="section"><div class="shell faq-card"><h2>{t("pages:chibi-couple-generator.couple_faq_title")}</h2><div class="list-grid">{faqItems("pages:chibi-couple-generator.couple_faq_items").map((item) => <article class="card"><h3>{item.q}</h3><p>{item.a}</p></article>)}</div></div></section>
+                <section class="hero"><Shell class="hero-grid"><div class="hero-copy"><span class="eyebrow">{t("pages:chibi-couple-generator.hero_badge")}</span><h1>{t("pages:chibi-couple-generator.title")}</h1><p>{t("pages:chibi-couple-generator.hero_subtitle")}</p></div><Card class="hero-panel" tone="highlight"><SectionHeading title={t("pages:chibi-couple-generator.how_title")} /><div class="list-grid">{coupleSteps.map((item) => <Card><h3>{item.title}</h3><p>{item.body}</p></Card>)}</div></Card></Shell></section>
+                <Shell><GeneratorPanel formId={`couple-generator-${lang}`} labels={{ prompt: String(t("pages:chibi-couple-generator.label_prompt")), promptPlaceholder: String(t("pages:chibi-couple-generator.prompt_placeholder")), photo: String(t("pages:chibi-couple-generator.label_photo")), photoHelp: String(t("pages:chibi-couple-generator.photo_help")), style: String(t("pages:index.label_style")), styleHelp: String(t("pages:chibi-couple-generator.style_help")), submit: String(t("pages:chibi-couple-generator.generate_btn")), generating: String(t("pages:chibi-couple-generator.generating")), resultTitle: String(t("pages:chibi-couple-generator.result_title")), resultDesc: String(t("pages:chibi-couple-generator.result_desc")), download: String(t("common.download")), tryAgain: String(t("common.try_again")) }} defaults={{ prompt: String(t("pages:chibi-couple-generator.prompt_default")), style: "kawaii" }} lang={lang} examples={exampleGroups.couple} /></Shell>
+                <section class="section"><Shell><SectionHeading title={t("pages:chibi-couple-generator.tips_title")} /><div class="card-grid">{coupleTips.map((item) => <Card><h3>{item.title}</h3><p>{item.body}</p></Card>)}</div></Shell></section>
+                <section class="section"><Shell><Card class="faq-card" tone="soft"><SectionHeading title={t("pages:chibi-couple-generator.couple_faq_title")} /><div class="list-grid">{faqItems("pages:chibi-couple-generator.couple_faq_items").map((item) => <Card><h3>{item.q}</h3><p>{item.a}</p></Card>)}</div></Card></Shell></section>
             </>
         ) : page.routeKey === "pricing" ? (
-            <section class="section"><div class="shell"><div class="hero-copy"><span class="eyebrow">{t("pages:pricing.label")}</span><h1>{t("pages:pricing.title")}</h1><p>{t("pages:pricing.subtitle")}</p></div><div class="pricing-grid" style="margin-top:24px;">{pricingCards.map((card) => <article class="pricing-card"><p class="eyebrow">{card.featured ? t("pages:pricing.popular") : t(`plan.${card.id}`)}</p><h3>{t(`pages:pricing.${card.id}_title`)}</h3><p>{t(`pages:pricing.${card.id}_desc`)}</p><strong class="metric">{card.priceLabel}</strong><p>{card.creditLabel ?? t(`pages:pricing.${card.id}_credit`)}</p>{card.featureKeys && <ul>{card.featureKeys.map((key) => <li>{t(key)}</li>)}</ul>}<div class="action-row" style="margin-top:16px;">{card.paid ? <button class="primary-button" data-checkout-plan={card.id}>{t(card.ctaKey)}</button> : <a class="ghost-button" href={getPathForRoute(lang, "home")}>{t(card.ctaKey)}</a>}</div></article>)}</div><div class="notice" data-payment-message hidden></div></div></section>
+            <section class="section"><Shell><SectionHeading badge={t("pages:pricing.label")} title={t("pages:pricing.title")} description={t("pages:pricing.subtitle")} /><div class="pricing-grid" style="margin-top:24px;">{pricingCards.map((card) => <Card class="pricing-card" tone={card.featured ? "highlight" : "default"}><span class="eyebrow">{card.featured ? t("pages:pricing.popular") : t(`plan.${card.id}`)}</span><h3>{t(`pages:pricing.${card.id}_title`)}</h3><p>{t(`pages:pricing.${card.id}_desc`)}</p><strong class="metric">{card.priceLabel}</strong><p>{card.creditLabel ?? t(`pages:pricing.${card.id}_credit`)}</p>{card.featureKeys && <ul>{card.featureKeys.map((key) => <li>{t(key)}</li>)}</ul>}<div class="action-row" style="margin-top:16px;">{card.paid ? <Button type="button" data-checkout-plan={card.id}>{t(card.ctaKey)}</Button> : <Button href={getPathForRoute(lang, "home")} variant="ghost">{t(card.ctaKey)}</Button>}</div></Card>)}</div><div class="notice" data-payment-message hidden></div></Shell></section>
         ) : page.routeKey === "features" ? (
-            <section class="section"><div class="shell"><div class="hero-copy"><span class="eyebrow">{t("pages:features.label")}</span><h1>{t("pages:features.title")}</h1><p>{t("pages:features.subtitle")}</p></div><div class="card-grid" style="margin-top:24px;">{featureBlocks.map((block) => <article class="card"><h3>{block.title}</h3><p>{block.body}</p></article>)}</div><div class="page-actions" style="margin-top:24px;"><a class="primary-button" href={getPathForRoute(lang, "home")}>{t("pages:features.cta")}</a></div></div></section>
+            <section class="section"><Shell><SectionHeading badge={t("pages:features.label")} title={t("pages:features.title")} description={t("pages:features.subtitle")} /><div class="card-grid" style="margin-top:24px;">{featureBlocks.map((block) => <Card><h3>{block.title}</h3><p>{block.body}</p></Card>)}</div><div class="page-actions" style="margin-top:24px;"><Button href={getPathForRoute(lang, "home")}>{t("pages:features.cta")}</Button></div></Shell></section>
         ) : page.routeKey === "about" ? (
-            <section class="section"><div class="shell"><div class="hero-copy"><span class="eyebrow">{t("pages:about.label")}</span><h1>{t("pages:about.title")}</h1><p>{t("pages:about.para1")}</p><p>{t("pages:about.para2")}</p></div><div class="card-grid" style="margin-top:24px;">{aboutValues.map((item) => <article class="card"><h3>{item.title}</h3><p>{item.body}</p></article>)}</div><div class="page-actions" style="margin-top:24px;"><a class="primary-button" href={getPathForRoute(lang, "home")}>{t("pages:about.cta")}</a></div></div></section>
+            <section class="section"><Shell><SectionHeading badge={t("pages:about.label")} title={t("pages:about.title")} description={t("pages:about.para1")} /><Card class="list-card" tone="soft"><p>{t("pages:about.para2")}</p></Card><div class="card-grid" style="margin-top:24px;">{aboutValues.map((item) => <Card><h3>{item.title}</h3><p>{item.body}</p></Card>)}</div><div class="page-actions" style="margin-top:24px;"><Button href={getPathForRoute(lang, "home")}>{t("pages:about.cta")}</Button></div></Shell></section>
         ) : page.routeKey === "blog" && blogPost ? (
-            <section class="section"><div class="shell article-card"><span class="eyebrow">{t("pages:blog.title")}</span><h1>{blogPost.title}</h1><p class="article-intro">{blogPost.excerpt}</p><div class="meta-row"><span>{blogPost.publishedAt}</span><span>{blogPost.readMinutes} {uiText.readMinutesUnit}</span></div><img src={blogPost.cover} alt={blogPost.title} /><div class="list-grid">{blogPost.body.map((paragraph) => <article class="card"><p>{paragraph}</p></article>)}</div><div class="page-actions" style="margin-top:24px;"><a class="ghost-button" href={getPathForRoute(lang, "blog")}>{t("pages:blog.back_to_list")}</a></div></div></section>
+            <section class="section"><Shell><Card class="article-card" tone="soft"><span class="eyebrow">{t("pages:blog.title")}</span><h1>{blogPost.title}</h1><p class="article-intro">{blogPost.excerpt}</p><div class="meta-row"><span>{blogPost.publishedAt}</span><span>{blogPost.readMinutes} {uiText.readMinutesUnit}</span></div><img src={blogPost.cover} alt={blogPost.title} /><div class="list-grid">{blogPost.body.map((paragraph) => <Card><p>{paragraph}</p></Card>)}</div><div class="page-actions" style="margin-top:24px;"><Button href={getPathForRoute(lang, "blog")} variant="ghost">{t("pages:blog.back_to_list")}</Button></div></Card></Shell></section>
         ) : page.routeKey === "blog" ? (
-            <section class="section"><div class="shell"><div class="hero-copy"><span class="eyebrow">{t("pages:blog.title")}</span><h1>{t("pages:blog.title")}</h1><p>{t("pages:blog.subtitle")}</p></div><div class="blog-grid" style="margin-top:24px;">{posts.map((post) => <article class="blog-card"><img src={post.cover} alt={post.title} /><div class="meta-row"><span>{post.publishedAt}</span><span>{post.readMinutes} {uiText.readMinutesUnit}</span></div><h3>{post.title}</h3><p>{post.excerpt}</p><a class="ghost-button" href={getPathForRoute(lang, "blog", [post.slug])}>{t("pages:blog.back_to_list")}</a></article>)}</div></div></section>
+            <section class="section"><Shell><SectionHeading badge={t("pages:blog.title")} title={t("pages:blog.title")} description={t("pages:blog.subtitle")} /><div class="blog-grid" style="margin-top:24px;">{posts.map((post) => <Card class="blog-card"><img src={post.cover} alt={post.title} /><div class="meta-row"><span>{post.publishedAt}</span><span>{post.readMinutes} {uiText.readMinutesUnit}</span></div><h3>{post.title}</h3><p>{post.excerpt}</p><Button href={getPathForRoute(lang, "blog", [post.slug])} variant="ghost">{t("pages:blog.back_to_list")}</Button></Card>)}</div></Shell></section>
         ) : page.routeKey === "dashboard" ? (
-            <section class="section"><div class="shell"><div class="hero-copy"><span class="eyebrow">{t("pages:dashboard.label")}</span><h1>{t("pages:dashboard.title")}</h1><p>{t("pages:dashboard.subtitle")}</p></div><div class="dashboard-grid" style="margin-top:24px;"><article class="dashboard-card"><h3>{t("pages:dashboard.current_plan")}</h3><strong class="metric" data-plan-value>{t("common.loading")}</strong><p data-status-value>{t("common.loading")}</p></article><article class="dashboard-card"><h3>{t("pages:dashboard.monthly_usage")}</h3><strong class="metric" data-credit-value>0</strong><p data-expiry-value>{t("common.loading")}</p></article><article class="dashboard-card"><h3>{t("nav.login")}</h3><div class="action-row"><button class="primary-button" data-checkout-plan="starter">{t("pages:dashboard.upgrade")}</button><button class="ghost-button" data-open-portal>{t("pages:dashboard.manage")}</button></div></article></div><div class="dashboard-card" style="margin-top:24px;"><div class="toolbar"><h2 style="margin-bottom:0;">{t("pages:dashboard.recent_title")}</h2><button class="ghost-button" data-dashboard-refresh>{t("pages:dashboard.refresh")}</button></div><p class="muted">{t("pages:dashboard.recent_desc")}</p><div class="examples-grid" data-history-grid></div><div class="empty-card" data-login-callout style="margin-top:18px;" hidden><h3>{t("pages:dashboard.login_title")}</h3><p>{t("pages:dashboard.login_desc")}</p><a class="primary-button" href="/api/auth/google">{t("nav.login")}</a></div></div></div></section>
+            <section class="section"><Shell><SectionHeading badge={t("pages:dashboard.label")} title={t("pages:dashboard.title")} description={t("pages:dashboard.subtitle")} /><div class="dashboard-grid" style="margin-top:24px;"><StatCard class="dashboard-card" title={t("pages:dashboard.current_plan")} value={t("common.loading")} meta={t("common.loading")} data-plan-card><span class="sr-only" data-plan-value>{t("common.loading")}</span><span class="sr-only" data-status-value>{t("common.loading")}</span></StatCard><StatCard class="dashboard-card" title={t("pages:dashboard.monthly_usage")} value="0" meta={t("common.loading")} data-credits-card><span class="sr-only" data-credit-value>0</span><span class="sr-only" data-expiry-value>{t("common.loading")}</span></StatCard><Card class="dashboard-card" tone="highlight"><h3>{t("nav.login")}</h3><div class="action-row"><Button type="button" data-checkout-plan="starter">{t("pages:dashboard.upgrade")}</Button><Button type="button" variant="ghost" data-open-portal>{t("pages:dashboard.manage")}</Button></div></Card></div><Card class="dashboard-card" style="margin-top:24px;"><div class="toolbar"><h2 style="margin-bottom:0;">{t("pages:dashboard.recent_title")}</h2><Button type="button" variant="ghost" data-dashboard-refresh>{t("pages:dashboard.refresh")}</Button></div><p class="muted">{t("pages:dashboard.recent_desc")}</p><div class="examples-grid" data-history-grid></div><EmptyState title={t("pages:dashboard.login_title")} description={t("pages:dashboard.login_desc")} data-login-callout style="margin-top:18px;" hidden><Button href="/api/auth/google">{t("nav.login")}</Button></EmptyState></Card></Shell></section>
             <script is:inline>
                 (() => {
                     const historyGrid = document.querySelector("[data-history-grid]");
-                    const planValue = document.querySelector("[data-plan-value]");
-                    const statusValue = document.querySelector("[data-status-value]");
-                    const creditValue = document.querySelector("[data-credit-value]");
-                    const expiryValue = document.querySelector("[data-expiry-value]");
+                    const planCard = document.querySelector("[data-plan-card]");
+                    const creditsCard = document.querySelector("[data-credits-card]");
                     const loginCallout = document.querySelector("[data-login-callout]");
                     const refreshButton = document.querySelector("[data-dashboard-refresh]");
+                    const setCard = (card, value, meta) => {
+                        if (!card) return;
+                        const title = card.querySelector("h3")?.outerHTML || "";
+                        card.innerHTML = `${title}<strong class="ui-stat-card__value">${value}</strong><p>${meta}</p>`;
+                    };
                     const renderHistory = (items) => {
                         if (!historyGrid) return;
                         historyGrid.innerHTML = "";
                         if (!items.length) {
-                            historyGrid.innerHTML = `<article class=\"empty-card\"><p>${JSON.stringify(String(t("pages:dashboard.empty"))).slice(1, -1)}</p></article>`;
+                            historyGrid.innerHTML = `<article class="empty-card ui-card"><h3>${JSON.stringify(String(t("pages:dashboard.empty"))).slice(1, -1)}</h3></article>`;
                             return;
                         }
                         for (const item of items) {
                             const card = document.createElement("article");
-                            card.className = "example-card";
+                            card.className = "example-card ui-card";
                             card.innerHTML = `<img src="${item.output_url}" alt="${item.prompt || uiText.fallbackPrompt}" loading="lazy" /><figcaption>${item.prompt || item.style || uiText.fallbackName}</figcaption>`;
                             historyGrid.appendChild(card);
                         }
@@ -262,22 +269,20 @@ const metaDescription = render404
                             if (authResponse.status === 401) {
                                 loginCallout?.removeAttribute("hidden");
                                 renderHistory([]);
-                                if (planValue) planValue.textContent = uiText.anonymousPlan;
-                                if (statusValue) statusValue.textContent = uiText.dashboardAnonymous;
-                                if (creditValue) creditValue.textContent = "0";
-                                if (expiryValue) expiryValue.textContent = uiText.dashboardNoSession;
+                                setCard(planCard, uiText.anonymousPlan, uiText.dashboardAnonymous);
+                                setCard(creditsCard, "0", uiText.dashboardNoSession);
                                 return;
                             }
                             const auth = await authResponse.json();
                             loginCallout?.setAttribute("hidden", "hidden");
-                            if (planValue) planValue.textContent = auth.subscription?.plan ? (uiText[`plan${auth.subscription.plan.charAt(0).toUpperCase()}${auth.subscription.plan.slice(1)}`] || auth.subscription.plan) : uiText.defaultPlan;
-                            if (statusValue) statusValue.textContent = auth.subscription?.status ? (uiText[`status${auth.subscription.status.charAt(0).toUpperCase()}${auth.subscription.status.slice(1)}`] || auth.subscription.status) : uiText.defaultStatus;
-                            if (creditValue) creditValue.textContent = String(auth.credits?.available ?? 0);
-                            if (expiryValue) expiryValue.textContent = auth.credits?.expiring_at || uiText.dashboardNoExpiry;
+                            const plan = auth.subscription?.plan ? (uiText[`plan${auth.subscription.plan.charAt(0).toUpperCase()}${auth.subscription.plan.slice(1)}`] || auth.subscription.plan) : uiText.defaultPlan;
+                            const status = auth.subscription?.status ? (uiText[`status${auth.subscription.status.charAt(0).toUpperCase()}${auth.subscription.status.slice(1)}`] || auth.subscription.status) : uiText.defaultStatus;
+                            setCard(planCard, plan, status);
+                            setCard(creditsCard, String(auth.credits?.available ?? 0), auth.credits?.expiring_at || uiText.dashboardNoExpiry);
                             const history = await fetch("/api/images/history", { credentials: "include" }).then((res) => res.json());
                             renderHistory(history.items || []);
                         } catch {
-                            if (historyGrid) historyGrid.innerHTML = `<article class=\"empty-card\"><p>${JSON.stringify(uiText.dashboardHistoryError).slice(1, -1)}</p></article>`;
+                            if (historyGrid) historyGrid.innerHTML = `<article class="empty-card ui-card"><p>${JSON.stringify(uiText.dashboardHistoryError).slice(1, -1)}</p></article>`;
                         }
                     };
                     refreshButton?.addEventListener("click", load);
@@ -286,7 +291,7 @@ const metaDescription = render404
                 })();
             </script>
         ) : page.routeKey === "admin" ? (
-            <section class="section"><div class="shell"><div class="hero-copy"><span class="eyebrow">{t("pages:admin.label")}</span><h1>{t("pages:admin.title")}</h1><p>{t("pages:admin.subtitle")}</p></div><div class="admin-panel" style="margin-top:24px;"><div class="toolbar"><button class="ghost-button" data-admin-refresh>{t("pages:admin.refresh")}</button><span class="muted" data-admin-status>{t("pages:admin.loading")}</span></div><div class="table-wrap" style="margin-top:18px;"><table><thead><tr><th>{t("pages:admin.col_user")}</th><th>{t("pages:admin.col_plan")}</th><th>{t("pages:admin.col_usage")}</th><th>{t("pages:admin.col_registered")}</th><th>{t("pages:admin.col_actions")}</th></tr></thead><tbody data-admin-body></tbody></table></div></div></div></section>
+            <section class="section"><Shell><SectionHeading badge={t("pages:admin.label")} title={t("pages:admin.title")} description={t("pages:admin.subtitle")} /><Card class="admin-panel" tone="soft" style="margin-top:24px;"><div class="toolbar"><Button type="button" variant="ghost" data-admin-refresh>{t("pages:admin.refresh")}</Button><span class="muted" data-admin-status>{t("pages:admin.loading")}</span></div><div class="table-wrap" style="margin-top:18px;"><table><thead><tr><th>{t("pages:admin.col_user")}</th><th>{t("pages:admin.col_plan")}</th><th>{t("pages:admin.col_usage")}</th><th>{t("pages:admin.col_registered")}</th><th>{t("pages:admin.col_actions")}</th></tr></thead><tbody data-admin-body></tbody></table></div></Card></Shell></section>
             <script is:inline>
                 (() => {
                     const body = document.querySelector("[data-admin-body]");
@@ -296,12 +301,12 @@ const metaDescription = render404
                         if (!body) return;
                         body.innerHTML = "";
                         if (!items.length) {
-                            body.innerHTML = `<tr><td colspan=\"5\">${JSON.stringify(String(t("pages:admin.no_users"))).slice(1, -1)}</td></tr>`;
+                            body.innerHTML = `<tr><td colspan="5">${JSON.stringify(String(t("pages:admin.no_users"))).slice(1, -1)}</td></tr>`;
                             return;
                         }
                         for (const item of items) {
                             const tr = document.createElement("tr");
-                            tr.innerHTML = `<td>${item.name || item.email || uiText.adminUnnamed}</td><td><select data-plan-select><option value=\"free\" ${item.plan === "free" ? "selected" : ""}>${uiText.adminPlanFree}</option><option value=\"starter\" ${item.plan === "starter" ? "selected" : ""}>${uiText.adminPlanStarter}</option><option value=\"standard\" ${item.plan === "standard" ? "selected" : ""}>${uiText.adminPlanStandard}</option><option value=\"value\" ${item.plan === "value" ? "selected" : ""}>${uiText.adminPlanValue}</option></select></td><td>${item.credits} ${uiText.adminCreditsLabel} / ${item.total_images} ${uiText.adminImageUnit}</td><td>${item.created_at}</td><td><div class=\"action-row\"><input type=\"number\" value=\"10\" step=\"1\" style=\"max-width:100px;\" /><button class=\"ghost-button\" data-fill>${JSON.stringify(String(t("pages:admin.credits_btn"))).slice(1, -1)}</button><button class=\"primary-button\" data-set-plan>${JSON.stringify(String(t("pages:admin.plan_btn"))).slice(1, -1)}</button></div></td>`;
+                            tr.innerHTML = `<td>${item.name || item.email || uiText.adminUnnamed}</td><td><select class="ui-select" data-plan-select><option value="free" ${item.plan === "free" ? "selected" : ""}>${uiText.adminPlanFree}</option><option value="starter" ${item.plan === "starter" ? "selected" : ""}>${uiText.adminPlanStarter}</option><option value="standard" ${item.plan === "standard" ? "selected" : ""}>${uiText.adminPlanStandard}</option><option value="value" ${item.plan === "value" ? "selected" : ""}>${uiText.adminPlanValue}</option></select></td><td>${item.credits} ${uiText.adminCreditsLabel} / ${item.total_images} ${uiText.adminImageUnit}</td><td>${item.created_at}</td><td><div class="action-row"><input class="ui-input" type="number" value="10" step="1" style="max-width:100px;" /><button class="ui-button ui-button--ghost" data-fill>${JSON.stringify(String(t("pages:admin.credits_btn"))).slice(1, -1)}</button><button class="ui-button ui-button--primary" data-set-plan>${JSON.stringify(String(t("pages:admin.plan_btn"))).slice(1, -1)}</button></div></td>`;
                             const amountInput = tr.querySelector("input");
                             const planSelect = tr.querySelector("select");
                             tr.querySelector("[data-fill]")?.addEventListener("click", async () => {
@@ -316,10 +321,10 @@ const metaDescription = render404
                         }
                     };
                     const load = async () => {
-                        if (status) status.textContent = ${JSON.stringify(String(t("pages:admin.refreshing"))).slice(1, -1)};
+                        if (status) status.textContent = ${JSON.stringify(String(t("pages:admin.refreshing")))};
                         const response = await fetch("/api/admin/users", { credentials: "include" });
                         if (!response.ok) {
-                            if (status) status.textContent = response.status === 403 ? uiText.adminAccessRequired : ${JSON.stringify(String(t("pages:admin.load_failed"))).slice(1, -1)};
+                            if (status) status.textContent = response.status === 403 ? uiText.adminAccessRequired : ${JSON.stringify(String(t("pages:admin.load_failed")))};
                             render([]);
                             return;
                         }

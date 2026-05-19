@@ -135,6 +135,23 @@ export const paymentLogs = pgTable("payment_logs", {
   userIdx: index("idx_payment_logs_user_id").on(table.userId),
 }));
 
+export const paymentOrders = pgTable("payment_orders", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").notNull(),
+  planId: text("plan_id").notNull(),
+  provider: text("provider").notNull(),
+  amount: integer("amount").notNull(),
+  currency: text("currency").notNull(),
+  status: text("status").notNull().default("pending"),
+  providerReferenceId: text("provider_reference_id"),
+  metadataJson: text("metadata_json"),
+  createdAt: text("created_at").notNull().default("CURRENT_TIMESTAMP"),
+  updatedAt: text("updated_at").notNull().default("CURRENT_TIMESTAMP"),
+}, (table) => ({
+  userIdx: index("idx_payment_orders_user_id").on(table.userId),
+  providerReferenceIdx: index("idx_payment_orders_reference_id").on(table.providerReferenceId),
+}));
+
 export const processedWebhooks = pgTable("processed_webhooks", {
   eventId: text("event_id").primaryKey(),
   eventType: text("event_type"),
@@ -164,6 +181,7 @@ export const dbSchema = {
   userCredits,
   creditTransactions,
   paymentLogs,
+  paymentOrders,
   processedWebhooks,
   auditLogs,
 };

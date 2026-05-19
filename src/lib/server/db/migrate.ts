@@ -129,6 +129,27 @@ const MIGRATIONS: Array<{ version: number; description: string; statements: stri
       `CREATE INDEX IF NOT EXISTS idx_audit_logs_user_id ON audit_logs(user_id)`
     ],
   },
+  {
+    version: 2,
+    description: "add payment orders",
+    statements: [
+      `CREATE TABLE IF NOT EXISTS payment_orders (
+        id SERIAL PRIMARY KEY,
+        user_id INTEGER NOT NULL,
+        plan_id TEXT NOT NULL,
+        provider TEXT NOT NULL,
+        amount INTEGER NOT NULL,
+        currency TEXT NOT NULL,
+        status TEXT NOT NULL DEFAULT 'pending',
+        provider_reference_id TEXT,
+        metadata_json TEXT,
+        created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+      )`,
+      `CREATE INDEX IF NOT EXISTS idx_payment_orders_user_id ON payment_orders(user_id)`,
+      `CREATE INDEX IF NOT EXISTS idx_payment_orders_reference_id ON payment_orders(provider_reference_id)`
+    ],
+  },
 ];
 
 let migrated = false;
