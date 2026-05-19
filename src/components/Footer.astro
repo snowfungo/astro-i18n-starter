@@ -1,6 +1,7 @@
 ---
 import navigationData from "@/data/navigationData";
 import { getLangFromUrl, useTranslatedPath, useTranslations } from "@/i18n/utils";
+import Shell from "@/components/ui/Shell.astro";
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
@@ -9,7 +10,7 @@ const year = new Date().getFullYear();
 ---
 
 <footer class="site-footer">
-    <div class="shell footer-grid">
+    <Shell class="footer-grid">
         <div class="footer-copy">
             <strong>{t("nav.brand")}</strong>
             <p>{t("footer.tagline")}</p>
@@ -22,9 +23,9 @@ const year = new Date().getFullYear();
             }
             <a href={translatePath("/dashboard")}>{t("footer.dashboard")}</a>
         </nav>
-    </div>
-    <div class="shell footer-meta">
+    </Shell>
+    <Shell class="footer-meta">
         <span>{t("footer.company")} © {year}</span>
         <span>{t("footer.rights")}</span>
-    </div>
+    </Shell>
 </footer>

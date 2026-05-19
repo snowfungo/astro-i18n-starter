@@ -1,0 +1,14 @@
+---
+import Badge from "@/components/ui/Badge.astro";
+
+const { badge, title, description, class: className } = Astro.props;
+---
+
+<div class:list={["ui-section-heading", className]}>
+    {badge && <Badge>{badge}</Badge>}
+    {title && <h2>{title}</h2>}
+    {description && <p>{description}</p>}
+    <div class="ui-section-heading__actions">
+        <slot />
+    </div>
+</div>

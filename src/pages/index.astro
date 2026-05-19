@@ -5,6 +5,12 @@ import { exampleGroups } from "@/lib/site/content";
 import { getStats } from "@/lib/server/generation/service";
 import { ensureAppReady } from "@/lib/server/startup";
 import { useTranslations, useTranslatedPath } from "@/i18n/utils";
+import Card from "@/components/ui/Card.astro";
+import Shell from "@/components/ui/Shell.astro";
+import SectionHeading from "@/components/ui/SectionHeading.astro";
+import StatCard from "@/components/ui/StatCard.astro";
+import Button from "@/components/ui/Button.astro";
+import Badge from "@/components/ui/Badge.astro";
 
 await ensureAppReady();
 const lang = "en" as const;
@@ -34,52 +40,33 @@ const infoCards = [1, 2, 3].map((item) => ({
     }}
 >
     <section class="hero">
-        <div class="shell hero-grid">
+        <Shell class="hero-grid">
             <div class="hero-copy">
-                <span class="eyebrow">{t("pages:index.hero_badge")}</span>
+                <Badge>{t("pages:index.hero_badge")}</Badge>
                 <h1>{t("pages:index.hero_title")}</h1>
                 <p>{t("pages:index.hero_subtitle")}</p>
                 <div class="action-row">
-                    <a class="primary-button" href="#home-generator">{t("common.download")}</a>
-                    <a class="ghost-button" href={translatePath("/pricing")}>{t("nav.pricing")}</a>
+                    <Button href="#home-generator">{t("cta.title")}</Button>
+                    <Button href={translatePath("/pricing")} variant="ghost">{t("nav.pricing")}</Button>
                 </div>
                 <div class="stat-grid" style="margin-top:24px;">
-                    <article class="stat-card">
-                        <strong>{stats.total}</strong>
-                        <p>{t("pages:index.recent_title")}</p>
-                    </article>
-                    <article class="stat-card">
-                        <strong>{stats.today}</strong>
-                        <p>{t("metrics.generated_today")}</p>
-                    </article>
-                    <article class="stat-card">
-                        <strong>{Object.keys(stats.styles).length}</strong>
-                        <p>{t("metrics.style_count")}</p>
-                    </article>
+                    <StatCard value={stats.total} meta={t("pages:index.recent_title")} />
+                    <StatCard value={stats.today} meta={t("metrics.generated_today")} />
+                    <StatCard value={Object.keys(stats.styles).length} meta={t("metrics.style_count")} />
                 </div>
             </div>
-            <div class="hero-panel">
-                <h2>{t("pages:index.tools_title")}</h2>
-                <p>{t("pages:index.tools_desc")}</p>
+            <Card class="hero-panel" tone="highlight">
+                <SectionHeading title={t("pages:index.tools_title")} description={t("pages:index.tools_desc")} />
                 <div class="card-grid">
-                    <article class="card">
-                        <h3>{t("nav.photo")}</h3>
-                        <p>{t("pages:index.tool_photo_desc")}</p>
-                    </article>
-                    <article class="card">
-                        <h3>{t("nav.avatar")}</h3>
-                        <p>{t("pages:index.tool_avatar_desc")}</p>
-                    </article>
-                    <article class="card">
-                        <h3>{t("nav.couple")}</h3>
-                        <p>{t("pages:index.tool_couple_desc")}</p>
-                    </article>
+                    <Card><h3>{t("nav.photo")}</h3><p>{t("pages:index.tool_photo_desc")}</p></Card>
+                    <Card><h3>{t("nav.avatar")}</h3><p>{t("pages:index.tool_avatar_desc")}</p></Card>
+                    <Card><h3>{t("nav.couple")}</h3><p>{t("pages:index.tool_couple_desc")}</p></Card>
                 </div>
-            </div>
-        </div>
+            </Card>
+        </Shell>
     </section>
 
-    <div class="shell" id="home-generator">
+    <Shell id="home-generator">
         <GeneratorPanel
             formId="home-generator-form"
             labels={{
@@ -99,68 +86,68 @@ const infoCards = [1, 2, 3].map((item) => ({
             lang={lang}
             examples={exampleGroups.home}
         />
-    </div>
+    </Shell>
 
     <section class="section">
-        <div class="shell card-grid">
+        <Shell class="card-grid">
             {
                 infoCards.map((card) => (
-                    <article class="card">
+                    <Card>
                         <h3>{card.title}</h3>
                         <p>{card.body}</p>
-                    </article>
+                    </Card>
                 ))
             }
-        </div>
+        </Shell>
     </section>
 
     <section class="section">
-        <div class="shell">
-            <h2>{t("pages:index.index_styles.title")}</h2>
-            <p class="muted">{t("pages:index.index_styles.description")}</p>
+        <Shell>
+            <SectionHeading title={t("pages:index.index_styles.title")} description={t("pages:index.index_styles.description")} />
             <div class="card-grid" style="margin-top:18px;">
                 {
                     featureCards.map((card) => (
-                        <article class="card">
+                        <Card>
                             <h3>{card.title}</h3>
                             <p>{card.body}</p>
-                        </article>
+                        </Card>
                     ))
                 }
             </div>
-        </div>
+        </Shell>
     </section>
 
     <section class="section">
-        <div class="shell">
-            <h2>{t("pages:index.index_tips.title")}</h2>
-            <p class="muted">{t("pages:index.index_tips.description")}</p>
+        <Shell>
+            <SectionHeading title={t("pages:index.index_tips.title")} description={t("pages:index.index_tips.description")} />
             <div class="card-grid" style="margin-top:18px;">
                 {
                     tips.map((tip) => (
-                        <article class="card">
+                        <Card>
                             <h3>{tip.title}</h3>
                             <p>{tip.body}</p>
-                        </article>
+                        </Card>
                     ))
                 }
             </div>
-        </div>
+        </Shell>
     </section>
 
     <section class="section">
-        <div class="shell faq-card">
-            <h2>{t("pages:index.faq_title")}</h2>
-            <div class="list-grid" style="margin-top:18px;">
-                {
-                    faqItems.map((item) => (
-                        <article class="card">
-                            <h3>{item.q}</h3>
-                            <p>{item.a}</p>
-                        </article>
-                    ))
-                }
-            </div>
-        </div>
+        <Shell>
+            <Card class="faq-card" tone="soft">
+                <SectionHeading title={t("pages:index.faq_title")} />
+                <div class="list-grid" style="margin-top:18px;">
+                    {
+                        faqItems.map((item) => (
+                            <Card>
+                                <h3>{item.q}</h3>
+                                <p>{item.a}</p>
+                            </Card>
+                        ))
+                    }
+                </div>
+            </Card>
+        </Shell>
     </section>
 </Base>

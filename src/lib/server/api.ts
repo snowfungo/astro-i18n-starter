@@ -41,10 +41,7 @@ export async function withApi(
     } catch (error) {
         return json(
             {
-                error:
-                    error instanceof Error
-                        ? error.message
-                        : "Unexpected server error",
+                error: error instanceof Error ? error.message : "Unexpected server error",
             },
             { status: 500 },
         );
@@ -61,4 +58,27 @@ export function unauthorized(message = "Not authenticated") {
 
 export function forbidden(message = "Forbidden") {
     return json({ error: message }, { status: 403 });
+}
+
+export function parseJsonBody<T>(request: Request): Promise<T | null> {
+    return request.json().catch(() => null) as Promise<T | null>;
+}
+
+export async function requireSession(context: APIContext) {
+    const session = await getCurrentSession(context);
+    if (!session) {
+        return { session: null, response: unauthorized() };
+    }
+    return { session };
+}
+
+export async function requireAdminSession(context: APIContext) {
+    const result = await requireSession(context);
+    if (!result.session) {
+        return result;
+    }
+    if (result.session.role !== "admin") {
+        return { session: null, response: forbidden("Admin access required") };
+    }
+    return result;
 }

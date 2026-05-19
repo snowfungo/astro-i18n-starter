@@ -1,23 +1,20 @@
 import type { APIRoute } from "astro";
 
+import { parseJsonBody, requireAdminSession, badRequest } from "@/lib/server/api";
 import { fillCreditsAdmin } from "@/lib/server/billing/service";
-import { getCurrentSession } from "@/lib/server/auth/session";
 import { json } from "@/lib/server/http";
 import { ensureAppReady } from "@/lib/server/startup";
 
 export const POST: APIRoute = async (context) => {
     await ensureAppReady();
-    const session = await getCurrentSession(context);
-    if (!session) {
-        return json({ error: "Not authenticated" }, { status: 401 });
-    }
-    if (session.role !== "admin") {
-        return json({ error: "Admin access required" }, { status: 403 });
+    const auth = await requireAdminSession(context);
+    if (!auth.session) {
+        return auth.response!;
     }
 
-    const body = await context.request.json().catch(() => null) as { userId?: number; amount?: number } | null;
+    const body = await parseJsonBody<{ userId?: number; amount?: number }>(context.request);
     if (!body?.userId || typeof body.amount !== "number") {
-        return json({ error: "Invalid payload" }, { status: 400 });
+        return badRequest("Invalid payload");
     }
 
     try {

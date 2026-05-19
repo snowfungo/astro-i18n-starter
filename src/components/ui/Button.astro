@@ -1,0 +1,23 @@
+---
+const {
+    href,
+    variant = "primary",
+    size = "md",
+    type = "button",
+    class: className,
+    ...rest
+} = Astro.props;
+const classes = ["ui-button", `ui-button--${variant}`, size !== "md" ? `ui-button--${size}` : null, className];
+---
+
+{
+    href ? (
+        <a href={href} class:list={classes} {...rest}>
+            <slot />
+        </a>
+    ) : (
+        <button type={type} class:list={classes} {...rest}>
+            <slot />
+        </button>
+    )
+}

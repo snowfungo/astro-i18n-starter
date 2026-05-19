@@ -1,0 +1,12 @@
+---
+import Card from "@/components/ui/Card.astro";
+
+const { title, value, meta, class: className, tone = "default", ...rest } = Astro.props;
+---
+
+<Card class:list={["ui-stat-card", className]} tone={tone} {...rest}>
+    {title && <h3>{title}</h3>}
+    <strong class="ui-stat-card__value">{value}</strong>
+    {meta && <p>{meta}</p>}
+    <slot />
+</Card>

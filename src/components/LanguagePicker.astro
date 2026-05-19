@@ -1,6 +1,7 @@
 ---
 import { languages } from "@/i18n/ui";
 import { getLangFromUrl, switchLanguageUrl } from "@/i18n/utils";
+import Select from "@/components/ui/Select.astro";
 
 const currentLang = getLangFromUrl(Astro.url);
 const options = await Promise.all(
@@ -14,7 +15,7 @@ const options = await Promise.all(
 
 <label class="language-picker">
     <span class="sr-only">Language</span>
-    <select onchange="window.location.href=this.value">
+    <Select onchange="window.location.href=this.value">
         {
             options.map((option) => (
                 <option value={option.href} selected={option.lang === currentLang}>
@@ -22,5 +23,5 @@ const options = await Promise.all(
                 </option>
             ))
         }
-    </select>
+    </Select>
 </label>

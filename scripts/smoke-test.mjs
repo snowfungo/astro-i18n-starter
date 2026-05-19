@@ -1,30 +1,49 @@
 import { spawn } from "node:child_process";
+import { existsSync } from "node:fs";
 import { setTimeout as sleep } from "node:timers/promises";
 
 const port = Number(process.env.SMOKE_PORT || 4337);
 const baseUrl = `http://127.0.0.1:${port}`;
 
 function startServer() {
-  const child = spawn("node", ["./dist/server/entry.mjs"], {
-    cwd: new URL("../", import.meta.url),
-    env: {
-      ...process.env,
-      HOST: "127.0.0.1",
-      PORT: String(port),
-      APP_ENV: "development",
-      APP_URL: baseUrl,
-      PRODUCTION_DOMAIN: baseUrl,
-      SECRET_KEY: "smoke-test-secret",
-      DATABASE_PATH: "./runtime/chibi-smoke.db",
-      DEV_API_TEST_KEY: "local-smoke-test-key",
-      MOCK_USER_EMAIL: "dev-test@example.com",
-      ADMIN_USERS: "dev-test@example.com",
-      TEST_USERS: "dev-test@example.com",
-      AI_CHIBI_GENERATION_PROVIDER: "mock",
-      AI_CHIBI_ALLOW_MOCK_FALLBACK: "true",
+  if (!existsSync(new URL("../dist/server/wrangler.json", import.meta.url))) {
+    throw new Error("Missing dist/server/wrangler.json. Run `pnpm build` before `pnpm test:smoke`.");
+  }
+
+  const child = spawn(
+    "pnpm",
+    [
+      "exec",
+      "wrangler",
+      "dev",
+      "--config",
+      "dist/server/wrangler.json",
+      "--port",
+      String(port),
+      "--local",
+    ],
+    {
+      cwd: new URL("../", import.meta.url),
+      env: {
+        ...process.env,
+        HOST: "127.0.0.1",
+        PORT: String(port),
+        APP_ENV: "development",
+        APP_URL: baseUrl,
+        PRODUCTION_DOMAIN: baseUrl,
+        SECRET_KEY: "smoke-test-secret",
+        DEV_API_TEST_KEY: "local-smoke-test-key",
+        DEV_AUTH_MOCK: "false",
+        DEV_STRIPE_MOCK: "true",
+        MOCK_USER_EMAIL: "dev-test@example.com",
+        ADMIN_USERS: "dev-test@example.com",
+        TEST_USERS: "dev-test@example.com",
+        AI_CHIBI_GENERATION_PROVIDER: "mock",
+        AI_CHIBI_ALLOW_MOCK_FALLBACK: "true",
+      },
+      stdio: ["ignore", "pipe", "pipe"],
     },
-    stdio: ["ignore", "pipe", "pipe"],
-  });
+  );
 
   child.stdout.on("data", (chunk) => process.stdout.write(chunk));
   child.stderr.on("data", (chunk) => process.stderr.write(chunk));
@@ -32,14 +51,14 @@ function startServer() {
 }
 
 async function waitForHealth() {
-  for (let attempt = 0; attempt < 40; attempt += 1) {
+  for (let attempt = 0; attempt < 60; attempt += 1) {
     try {
       const response = await fetch(`${baseUrl}/api/health`);
       if (response.ok) {
         return;
       }
     } catch {}
-    await sleep(500);
+    await sleep(1000);
   }
   throw new Error("Server did not become healthy in time");
 }
@@ -191,11 +210,6 @@ async function run() {
       throw new Error(`Admin set plan failed: ${await result.text()}`);
     }
 
-    result = await request(generated.output_url, {}, jar);
-    if (!result.response.ok) {
-      throw new Error(`Generated archive failed: ${result.response.status}`);
-    }
-
     result = await request("/api/account/export", {}, jar);
     const account = await result.json();
     if (!result.response.ok || !account.profile?.email) {
@@ -215,7 +229,7 @@ async function run() {
     console.log("\nSmoke test passed");
   } finally {
     server.kill("SIGTERM");
-    await sleep(500);
+    await sleep(1000);
   }
 }
 

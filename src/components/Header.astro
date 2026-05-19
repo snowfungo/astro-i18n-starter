@@ -2,6 +2,8 @@
 import navigationData from "@/data/navigationData";
 import { getLangFromUrl, useTranslatedPath, useTranslations } from "@/i18n/utils";
 import LanguagePicker from "@/components/LanguagePicker.astro";
+import Button from "@/components/ui/Button.astro";
+import Shell from "@/components/ui/Shell.astro";
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
@@ -10,7 +12,7 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
 ---
 
 <header class="site-header">
-    <div class="shell header-row">
+    <Shell class="header-row">
         <a class="brand" href={translatePath("/")}>{t("nav.brand")}</a>
         <nav class="nav-links">
             {
@@ -27,8 +29,8 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
         </nav>
         <div class="header-actions">
             <LanguagePicker />
-            <a class="ghost-button" href={translatePath("/dashboard")}>{t("nav.dashboard")}</a>
-            <a class="primary-button" href="/api/auth/google">{t("nav.login")}</a>
+            <Button href={translatePath("/dashboard")} variant="ghost" size="sm">{t("nav.dashboard")}</Button>
+            <Button href="/api/auth/google" size="sm">{t("nav.login")}</Button>
         </div>
-    </div>
+    </Shell>
 </header>

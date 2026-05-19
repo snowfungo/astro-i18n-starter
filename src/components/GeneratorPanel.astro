@@ -1,6 +1,13 @@
 ---
 import type { ChibiStyle } from "@/lib/server/config/app";
 import { useTranslations } from "@/i18n/utils";
+import Button from "@/components/ui/Button.astro";
+import Card from "@/components/ui/Card.astro";
+import Field from "@/components/ui/Field.astro";
+import Input from "@/components/ui/Input.astro";
+import Select from "@/components/ui/Select.astro";
+import Textarea from "@/components/ui/Textarea.astro";
+import Badge from "@/components/ui/Badge.astro";
 
 type LocalizedText = string | Record<string, string>;
 
@@ -53,21 +60,17 @@ const clientText = {
 ---
 
 <section class="generator-shell" data-generator-panel>
-    <div class="generator-card">
+    <Card class="generator-card" tone="soft">
         <form id={formId} class="generator-form">
-            <label>
-                <span>{labels.prompt}</span>
-                <textarea name="prompt" rows="5" placeholder={labels.promptPlaceholder}>{defaults?.prompt ?? ""}</textarea>
-            </label>
+            <Field label={labels.prompt}>
+                <Textarea name="prompt" rows="5" placeholder={labels.promptPlaceholder} value={defaults?.prompt ?? ""} />
+            </Field>
             <div class="generator-grid">
-                <label>
-                    <span>{labels.photo}</span>
-                    <input type="file" name="image" accept="image/*" />
-                    <small>{labels.photoHelp}</small>
-                </label>
-                <label>
-                    <span>{labels.style}</span>
-                    <select name="style">
+                <Field label={labels.photo} hint={labels.photoHelp}>
+                    <Input type="file" name="image" accept="image/*" />
+                </Field>
+                <Field label={labels.style} hint={labels.styleHelp}>
+                    <Select name="style">
                         {
                             styles.map((style) => (
                                 <option value={style.value} selected={style.value === (defaults?.style ?? "classic")}>
@@ -75,31 +78,30 @@ const clientText = {
                                 </option>
                             ))
                         }
-                    </select>
-                    <small>{labels.styleHelp}</small>
-                </label>
+                    </Select>
+                </Field>
             </div>
-            <button class="primary-button" type="submit">{labels.submit}</button>
+            <Button type="submit">{labels.submit}</Button>
         </form>
-    </div>
-    <div class="result-card" data-result-card>
-        <p class="eyebrow">{labels.resultTitle}</p>
+    </Card>
+    <Card class="result-card" tone="highlight" data-result-card>
+        <Badge>{labels.resultTitle}</Badge>
         <h3>{labels.resultDesc}</h3>
         <p class="result-status" data-result-status>{labels.generating}</p>
         <div class="result-preview" data-result-preview>
             <span>1024 × 1024</span>
         </div>
         <div class="result-actions" data-result-actions hidden>
-            <a class="primary-button" data-download-link href="#">{labels.download}</a>
-            <button class="ghost-button" type="button" data-reset-button>{labels.tryAgain}</button>
+            <Button href="#" data-download-link>{labels.download}</Button>
+            <Button type="button" variant="ghost" data-reset-button>{labels.tryAgain}</Button>
         </div>
-    </div>
+    </Card>
     {
         examples.length > 0 && (
             <div class="examples-grid">
                 {
                     examples.map((example) => (
-                        <figure class="example-card">
+                        <figure class="example-card ui-card">
                             <img src={example.image} alt={typeof example.alt === "string" ? example.alt : example.alt[lang] ?? example.alt.en} loading="lazy" />
                             <figcaption>{typeof example.title === "string" ? example.title : example.title[lang] ?? example.title.en}</figcaption>
                         </figure>

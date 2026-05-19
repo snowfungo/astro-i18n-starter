@@ -1,0 +1,9 @@
+---
+const { label, hint, class: className, for: htmlFor } = Astro.props;
+---
+
+<label class:list={["ui-field", className]} for={htmlFor}>
+    {label && <span class="ui-field__label">{label}</span>}
+    <slot />
+    {hint && <small class="ui-field__hint">{hint}</small>}
+</label>

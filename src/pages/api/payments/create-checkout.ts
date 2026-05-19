@@ -1,23 +1,23 @@
 import type { APIRoute } from "astro";
 
-import { createCheckoutSession } from "@/lib/server/billing/service";
-import { getCurrentSession } from "@/lib/server/auth/session";
+import { parseJsonBody, requireSession, badRequest } from "@/lib/server/api";
+import { createCheckoutSession, getSupportedCheckoutPlans } from "@/lib/server/billing/service";
 import { json } from "@/lib/server/http";
 import { ensureAppReady } from "@/lib/server/startup";
 
 export const POST: APIRoute = async (context) => {
     await ensureAppReady();
-    const session = await getCurrentSession(context);
-    if (!session) {
-        return json({ error: "Not authenticated" }, { status: 401 });
+    const auth = await requireSession(context);
+    if (!auth.session) {
+        return auth.response!;
     }
 
-    const body = await context.request.json().catch(() => null) as { plan?: string } | null;
-    const plan = body?.plan;
-    if (!plan || !["starter", "standard", "value"].includes(plan)) {
-        return json({ error: "Invalid plan" }, { status: 400 });
+    const body = await parseJsonBody<{ plan?: string }>(context.request);
+    const supportedPlans = new Set(getSupportedCheckoutPlans());
+    if (!body?.plan || !supportedPlans.has(body.plan as any)) {
+        return badRequest("Invalid plan");
     }
 
-    const result = await createCheckoutSession(Number(session.sub), plan as any);
+    const result = await createCheckoutSession(Number(auth.session.sub), body.plan as any);
     return json(result);
 };
