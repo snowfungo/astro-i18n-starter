@@ -4,7 +4,7 @@ import mdx from "@astrojs/mdx";
 import tailwindcss from "@tailwindcss/vite";
 import sitemap from "@astrojs/sitemap";
 import svelte from "@astrojs/svelte";
-import node from "@astrojs/node";
+import cloudflare from "@astrojs/cloudflare";
 
 // https://astro.build/config
 export default defineConfig({
@@ -35,7 +35,5 @@ export default defineConfig({
   },
 
   output: "server",
-  adapter: node({
-      mode: "standalone",
-  }),
+  adapter: cloudflare(),
 });
